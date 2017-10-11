@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="XWPhotoCell" reuseIdentifier="YYPhotoCell" id="tbI-Hf-HyP" customClass="YYPhotoCell">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B5X-MF-eE3">
+                        <rect key="frame" x="5" y="5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="60" id="hDP-Jh-3P0"/>
+                            <constraint firstAttribute="width" constant="60" id="v0k-Yx-7DS"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="v0k-Yx-7DS"/>
+                                <exclude reference="hDP-Jh-3P0"/>
+                            </mask>
+                        </variation>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SSH-uX-AgL">
+                        <rect key="frame" x="50" y="0.0" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="iPu-yG-a0w"/>
+                            <constraint firstAttribute="height" constant="20" id="ov5-z1-zuR"/>
+                        </constraints>
+                        <state key="normal" image="close">
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+            </view>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="B5X-MF-eE3" firstAttribute="leading" secondItem="tbI-Hf-HyP" secondAttribute="leading" constant="5" id="3X7-W4-XX5"/>
+                <constraint firstAttribute="bottom" secondItem="B5X-MF-eE3" secondAttribute="bottom" constant="5" id="9jO-L4-wcW"/>
+                <constraint firstItem="SSH-uX-AgL" firstAttribute="top" secondItem="tbI-Hf-HyP" secondAttribute="top" id="MBk-Di-gx1"/>
+                <constraint firstAttribute="trailing" secondItem="SSH-uX-AgL" secondAttribute="trailing" id="gdz-ba-8SF"/>
+                <constraint firstItem="B5X-MF-eE3" firstAttribute="top" secondItem="tbI-Hf-HyP" secondAttribute="top" constant="5" id="uMy-o2-ddH"/>
+                <constraint firstAttribute="trailing" secondItem="B5X-MF-eE3" secondAttribute="trailing" constant="5" id="ySJ-Th-8JX"/>
+            </constraints>
+            <connections>
+                <outlet property="closeButton" destination="SSH-uX-AgL" id="4Jp-Yi-wdp"/>
+                <outlet property="profilePhoto" destination="B5X-MF-eE3" id="PGm-Ty-U28"/>
+            </connections>
+            <point key="canvasLocation" x="142" y="124"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="close" width="20" height="20"/>
+    </resources>
+</document>

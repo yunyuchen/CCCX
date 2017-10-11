@@ -1,0 +1,6 @@
+framework module Pods_BikeRental {
+  umbrella header "Pods-BikeRental-umbrella.h"
+
+  export *
+  module * { export * }
+}

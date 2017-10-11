@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="En7-sA-55r">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading图标" translatesAutoresizingMaskIntoConstraints="NO" id="WTS-gT-TOm">
+                                        <rect key="frame" x="138" y="256" width="99" height="155"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="WTS-gT-TOm" firstAttribute="centerX" secondItem="En7-sA-55r" secondAttribute="centerX" id="9Au-rb-Hll"/>
+                                    <constraint firstItem="WTS-gT-TOm" firstAttribute="centerY" secondItem="En7-sA-55r" secondAttribute="centerY" id="Aey-SA-tV5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="En7-sA-55r" secondAttribute="trailing" id="1jF-tq-Sif"/>
+                            <constraint firstItem="En7-sA-55r" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="BhY-ve-Jwv"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="En7-sA-55r" secondAttribute="bottom" id="tC5-c9-TDK"/>
+                            <constraint firstItem="En7-sA-55r" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="vO6-nE-67z"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-647.20000000000005" y="397.15142428785612"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="loading图标" width="99" height="155"/>
+    </resources>
+</document>
