@@ -100,4 +100,6 @@ UIKIT_EXTERN NSString *const kVipListAPI;
 UIKIT_EXTERN NSString *const kCreatePayVip;
 //配置信息
 UIKIT_EXTERN NSString *const kAppconfigAPI;
+//学生认证
+UIKIT_EXTERN NSString *const kcollegeAuthAPI;
 @end

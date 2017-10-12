@@ -99,4 +99,6 @@ NSString *const kVipListAPI = @"open/get?module=UserService.vipList";
 NSString *const kCreatePayVip = @"get?module=PayService.createPayVip";
 
 NSString *const kAppconfigAPI = @"open/get?module=UserService.appconfig";
+
+NSString *const kcollegeAuthAPI = @"get?module=UserService.collegeAuth";
 @end

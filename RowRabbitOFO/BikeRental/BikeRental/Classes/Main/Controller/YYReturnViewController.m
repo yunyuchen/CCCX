@@ -206,7 +206,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             }
             
             if (self.annotations.count > 0) {
-                [self.mapView selectAnnotation:self.annotations[0] animated:YES];
+                 self.selectedId = 0;
+                //self.selectedId = [self.annotations[0].annotation.title integerValue];
+                //[self.mapView selectAnnotation:self.annotations[0] animated:NO];
             }
             if (weak_self.models.count > 0 && weak_self.firstLoad) {
                 YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
@@ -237,7 +239,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                     }else{
                         if (self.models.count > 0) {
                             //1.将两个经纬度点转成投影点
-                            MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[0].latitude,weak_self.models[0].longitude));
+                            MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[self.selectedId].latitude,weak_self.models[self.selectedId].longitude));
                             MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
                             //2.计算距离
                             CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
@@ -368,7 +370,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         
         [self showRoute];
         
-          self.tipsView.hidden = YES;
+      self.tipsView.hidden = YES;
         
         [self.addressView setInfoByCurrentModelIndex:self.selectedId];
         if (self.flag) {
@@ -527,7 +529,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         }else{
             if (self.models.count > 0) {
                 //1.将两个经纬度点转成投影点
-                MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[0].latitude,weak_self.models[0].longitude));
+                MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[self.selectedId].latitude,weak_self.models[weak_self.selectedId].longitude));
                 MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
                 //2.计算距离
                 CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
@@ -593,7 +595,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 if ([message isEqualToString:@"车辆不在站点, 请到指定站点还车"]) {
                     if (self.models.count > 0) {
                         //1.将两个经纬度点转成投影点
-                        MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[0].latitude,weak_self.models[0].longitude));
+                        MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[weak_self.selectedId].latitude,weak_self.models[weak_self.selectedId].longitude));
                         MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
                         //2.计算距离
                         CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
@@ -644,7 +646,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     orderInfoView.delegate = self;
     orderInfoView.siteName = self.models[self.selectedId].name;
     //1.将两个经纬度点转成投影点
-    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(self.models[0].latitude,self.models[0].longitude));
+    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(self.models[self.selectedId].latitude,self.models[self.selectedId].longitude));
     MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(self.mapView.userLocation.coordinate.latitude,self.mapView.userLocation.coordinate.longitude));
     //2.计算距离
     CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);

@@ -42,6 +42,8 @@
 		0B2909231EE652510027DA83 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091B1EE652510027DA83 /* WXApiRequestHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0B2909241EE652510027DA83 /* WXApiResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091D1EE652510027DA83 /* WXApiResponseHandler.m */; };
 		0B2909251EE652510027DA83 /* WXMediaMessage+messageConstruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091F1EE652510027DA83 /* WXMediaMessage+messageConstruct.m */; };
+		0B3063D21F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3063D01F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m */; };
+		0B3063D51F8DB7330075372A /* YYCollegeAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3063D41F8DB7330075372A /* YYCollegeAuthRequest.m */; };
 		0B36142B1F0DD78900E4DCCA /* YYGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B36142A1F0DD78900E4DCCA /* YYGuideView.m */; };
 		0B3614451F0E021800E4DCCA /* NSString+XHLaunchAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B36142E1F0E021800E4DCCA /* NSString+XHLaunchAd.m */; };
 		0B3614461F0E021800E4DCCA /* UIImageView+XHLaunchAdCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3614301F0E021800E4DCCA /* UIImageView+XHLaunchAdCache.m */; };
@@ -377,6 +379,10 @@
 		0B29091D1EE652510027DA83 /* WXApiResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiResponseHandler.m; sourceTree = "<group>"; };
 		0B29091E1EE652510027DA83 /* WXMediaMessage+messageConstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WXMediaMessage+messageConstruct.h"; sourceTree = "<group>"; };
 		0B29091F1EE652510027DA83 /* WXMediaMessage+messageConstruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WXMediaMessage+messageConstruct.m"; sourceTree = "<group>"; };
+		0B3063D01F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QDSingleImagePickerPreviewViewController.m; sourceTree = "<group>"; };
+		0B3063D11F8DAF980075372A /* QDSingleImagePickerPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QDSingleImagePickerPreviewViewController.h; sourceTree = "<group>"; };
+		0B3063D31F8DB7330075372A /* YYCollegeAuthRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCollegeAuthRequest.h; sourceTree = "<group>"; };
+		0B3063D41F8DB7330075372A /* YYCollegeAuthRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYCollegeAuthRequest.m; sourceTree = "<group>"; };
 		0B33E6901EF0C4F600CE4E9C /* DINCond-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DINCond-Regular.otf"; sourceTree = "<group>"; };
 		0B3614291F0DD78900E4DCCA /* YYGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYGuideView.h; sourceTree = "<group>"; };
 		0B36142A1F0DD78900E4DCCA /* YYGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYGuideView.m; sourceTree = "<group>"; };
@@ -913,6 +919,8 @@
 				0B445A391F61177000DC4B03 /* YYOrderPriceNoCheckRequest.m */,
 				0B12D5A41F72680D001EC43F /* YYCreateVipRequest.h */,
 				0B12D5A51F72680D001EC43F /* YYCreateVipRequest.m */,
+				0B3063D31F8DB7330075372A /* YYCollegeAuthRequest.h */,
+				0B3063D41F8DB7330075372A /* YYCollegeAuthRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1408,6 +1416,8 @@
 		0B6728451EC6997500056F01 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0B3063D11F8DAF980075372A /* QDSingleImagePickerPreviewViewController.h */,
+				0B3063D01F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m */,
 				0B3614601F0E036500E4DCCA /* MBProgressHUD.h */,
 				0B3614611F0E036500E4DCCA /* MBProgressHUD.m */,
 				0B3614621F0E036500E4DCCA /* UIView+MBProgressHUD.h */,
@@ -2292,6 +2302,7 @@
 				0B4B401F1EFB920C004E1638 /* MFlowLayOut.m in Sources */,
 				0BE8CABF1ED28554008DBF2C /* YYSiteModel.m in Sources */,
 				0B67282B1EC6993F00056F01 /* NSDictionary+Safe.m in Sources */,
+				0B3063D21F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m in Sources */,
 				0B6728371EC6993F00056F01 /* NSURL+Parameters.m in Sources */,
 				0BF505D41EC9415F003F24E2 /* YYVerticalDashView.m in Sources */,
 				0B2263861ECD2ED4008BEEB1 /* YYCertificationViewController.m in Sources */,
@@ -2300,6 +2311,7 @@
 				0B67283B1EC6993F00056F01 /* UIImage+Color.m in Sources */,
 				0B4B402C1EFB920C004E1638 /* MShowAllGroup.m in Sources */,
 				0B3E61AE1ED81B79008B28B6 /* CommonUtility.m in Sources */,
+				0B3063D51F8DB7330075372A /* YYCollegeAuthRequest.m in Sources */,
 				0BCB7CF91ED6B05F000DA476 /* XWFilterAnimator+XWSwipe.m in Sources */,
 				0BCB7CEE1ED6B05F000DA476 /* XWCoolAnimator+XWScanning.m in Sources */,
 				0B67282F1EC6993F00056F01 /* NSString+Base64.m in Sources */,

@@ -150,6 +150,7 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 
+@property(nonatomic, strong) JDFTooltipView *tooltipView;
 
 @end
 
@@ -253,7 +254,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             }
             
             //未交押金
-            if (weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
+            if (weak_self.userModel.authtype == 0 &&  weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
                 //payDeposit
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
@@ -393,8 +394,17 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 return;
             }
             
+            //学生证认证(认证中)
+            if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 0) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
+                certificationViewController.preState = YES;
+                [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                return;
+            }
+            
             //未交押金
-            if (weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
+            if (weak_self.userModel.authtype == 0 && weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
                 //payDeposit
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
@@ -553,12 +563,20 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
             [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
-            //[self.navigationController pushViewController:certificationViewController animated:YES];
+            return NO;
+        }
+        
+        //学生证认证(认证中)
+        if (self.userModel.authtype == 1 && self.userModel.xstate == 0) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
+            certificationViewController.preState = YES;
+            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
             return NO;
         }
         
         //未交押金
-        if (self.userModel.zmstate == 0 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
+        if (self.userModel.authtype == 0 && self.userModel.zmstate == 0 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
             //payDeposit
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
@@ -573,8 +591,8 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             contentView.minimumSize = CGSizeMake(200, 100);
             [tips showInfo:@"您的余额不足，请充值" hideAfterDelay:2];
             YYChargeViewController *chargeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"charge"];
-            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:chargeViewController] animated:YES completion:nil];
-            //[self.navigationController pushViewController:chargeViewController animated:YES];
+            //[self presentViewController:[[YYNavigationController alloc] initWithRootViewController:chargeViewController] animated:YES completion:nil];
+            [self.navigationController pushViewController:chargeViewController animated:YES];
             return NO;
         }
         
@@ -611,7 +629,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [self initAnnotations];
 
     self.noticeView.layer.cornerRadius = self.noticeView.height * 0.4;
-    self.noticeLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"chargerule"];
+    if ([YYFileCacheManager readUserDataForKey:@"config"][@"chargerule"] != nil) {
+          self.noticeLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"chargerule"];
+    }
+  
     
     YYNavScrollView *addressView = [[YYNavScrollView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 130, kScreenWidth, 120)];
     addressView.delegate = self;
@@ -637,9 +658,13 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 {
     [super viewDidAppear:animated];
  
+    if ([YYFileCacheManager readUserDataForKey:kLocationTipsKey] == nil) {
+        JDFTooltipView *tooltip = [[JDFTooltipView alloc] initWithTargetView:self.gpsButton hostView:self.view tooltipText:@"点击这里，可以重新定位" arrowDirection:JDFTooltipViewArrowDirectionDown width:200.0f];
+        [tooltip show];
+        self.tooltipView = tooltip;
+        [YYFileCacheManager saveUserData:@"1" forKey:kLocationTipsKey];
+    }
 
-    JDFTooltipView *tooltip = [[JDFTooltipView alloc] initWithTargetView:self.gpsButton hostView:self.view tooltipText:@"点击这里，可以重新定位" arrowDirection:JDFTooltipViewArrowDirectionDown width:200.0f];
-    [tooltip show];
     
 }
 
@@ -650,6 +675,8 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 
 - (IBAction)locationButtonClick:(id)sender {
+    [self.tooltipView hideAnimated:YES];
+    
     [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:YES];
 }
 
@@ -1056,58 +1083,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [self performSegueWithIdentifier:@"desSegue" sender:nil];
 }
 
-- (IBAction)oneKeyRentalButtonClick:(UIButton *)sender {
-    if (self.models.count <= 0) {
-        QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-        contentView.minimumSize = CGSizeMake(200, 100);
-        [tips showInfo:@"附近没有可用站点" hideAfterDelay:2];
-        return;
-    }
-    YYGetBikeRequest1 *request = [[YYGetBikeRequest1 alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetYBikeBysidAPI];
-    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
-    //request.sid = self.models[0].ID;
-    request.lat = coordinate.latitude;
-    request.lon = coordinate.longitude;
-    WEAK_REF(self);
-    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-        if (success) {
-            YYYSiteModel *model = [YYYSiteModel modelWithDictionary:response];
-            for (YYSiteModel *m in weak_self.models) {
-                if (model.sid == m.ID) {
-                    model.name = m.name;
-                    NSLog(@"%lu",(unsigned long)[weak_self.models indexOfObject:m]);
-                    [weak_self.mapView selectAnnotation:weak_self.annotations[[weak_self.models indexOfObject:m]] animated:YES];
-                    break;
-                }
-            }
-            
-           
-            if (weak_self.listView) {
-                [weak_self.listView removeFromSuperview];
-                weak_self.listView = nil;
-            }
-            YYRecomendListView *listView = [[YYRecomendListView alloc] initWithFrame:self.view.bounds];
-            listView.top = 100;
-            listView.width = kScreenWidth - 40;
-            listView.delegate = self;
-            listView.centerX = kScreenWidth * 0.5;
-            listView.height = 130;
-            [weak_self.view addSubview:listView];
-            [weak_self.view bringSubviewToFront:listView];
-            weak_self.listView = listView;
-            weak_self.listView.siteModel = model;
-        }else{
-            QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-            QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-            contentView.minimumSize = CGSizeMake(300, 100);
-            [tips showWithText:message hideAfterDelay:2];
-        }
-    } error:^(NSError *error) {
-        
-    }];
-}
 
 
 

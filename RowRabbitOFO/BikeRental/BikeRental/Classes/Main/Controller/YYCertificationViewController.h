@@ -10,4 +10,6 @@
 
 @interface YYCertificationViewController : UIViewController
 
+@property(nonatomic, assign) BOOL preState;
+
 @end

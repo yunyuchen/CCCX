@@ -38,6 +38,10 @@
 
 @property(nonatomic, copy) NSString *outtime;
 
+@property(nonatomic, assign) NSInteger authtype;
+
+@property(nonatomic, assign) NSInteger xstate;
+
 @property(nonatomic, assign) BOOL vipstate;
 
 @end

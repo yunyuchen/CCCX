@@ -55,8 +55,8 @@
     self.topView.layer.cornerRadius = 5;
     self.topView.layer.masksToBounds = YES;
     NSLog(@"%.1f",self.model.money);
-    self.depositLabel.text = [NSString stringWithFormat:@"%.1f",self.model.money];
-    self.ylabel.text =  [NSString stringWithFormat:@"押金%.0f元",self.model.deposit];
+    self.depositLabel.text = [NSString stringWithFormat:@"%.2f",self.model.money];
+    self.ylabel.text =  [NSString stringWithFormat:@"押金%.2f元",self.model.deposit];
     // Do any additional setup after loading the view.
     //[self requestRecord];
 }
@@ -98,8 +98,8 @@
                 [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"成功通过芝麻信用（≥%@分）",zmscore] forState:UIControlStateNormal];
                 [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
             }
-            weak_self.depositLabel.text = [NSString stringWithFormat:@"%.1f",self.model.money];
-            weak_self.ylabel.text =  [NSString stringWithFormat:@"押金%.0f元",self.model.deposit];
+            weak_self.depositLabel.text = [NSString stringWithFormat:@"%.2f",self.model.money];
+            weak_self.ylabel.text =  [NSString stringWithFormat:@"押金%.2f元",self.model.deposit];
             switch (weak_self.model.dstate) {
                 case 0:
                     [weak_self.moneyStateLabel setTitle:@"未缴押金" forState:UIControlStateNormal];

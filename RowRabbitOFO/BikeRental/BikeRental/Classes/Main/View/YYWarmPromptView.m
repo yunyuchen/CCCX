@@ -23,7 +23,10 @@
     self = [super init];
     if (self) {
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
-        self.tipsLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"tipmsg"];
+        if ([YYFileCacheManager readUserDataForKey:@"config"][@"tipmsg"] != nil) {
+              self.tipsLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"tipmsg"];
+        }
+
     }
     return self;
 }

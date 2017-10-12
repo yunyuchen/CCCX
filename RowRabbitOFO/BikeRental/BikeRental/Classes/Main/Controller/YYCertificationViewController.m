@@ -9,9 +9,14 @@
 #import "YYCertificationViewController.h"
 #import "YYUserAuthRequest.h"
 #import "Helper.h"
+#import "QDSingleImagePickerPreviewViewController.h"
+#import "YYNavigationController.h"
+#import "UIImage+YYExtension.h"
+#import "YYCollegeAuthRequest.h"
 #import <QMUIKit/QMUIKit.h>
 
-@interface YYCertificationViewController ()
+@interface YYCertificationViewController ()<QDSingleImagePickerPreviewViewControllerDelegate,QMUIAlbumViewControllerDelegate,QMUIImagePickerViewControllerDelegate,UINavigationControllerDelegate,
+UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *topView;
 
@@ -30,8 +35,23 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sesameLeadingCons;
 
+@property (weak, nonatomic) IBOutlet QMUITextField *realNameTextField;
+
+@property (weak, nonatomic) IBOutlet QMUITextField *idCardTextField1;
+
+@property (weak, nonatomic) IBOutlet QMUITextField *schoolNameTextField;
+
+@property (weak, nonatomic) IBOutlet QMUITextField *studentNoTextField;
+
+@property (weak, nonatomic) IBOutlet UIButton *avatarButton;
+
+@property(nonatomic, copy) NSString *url;
+
+@property (weak, nonatomic) IBOutlet UIView *successView;
 
 @end
+
+static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
 
 @implementation YYCertificationViewController
 
@@ -45,6 +65,9 @@
     self.studentCardButton.imagePosition = QMUIButtonImagePositionTop;
     self.studentCardButton.spacingBetweenImageAndTitle = 10;
     // Do any additional setup after loading the view.
+    if (self.preState) {
+        self.successView.hidden = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -194,33 +217,89 @@
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
-- (IBAction)okButtonClick:(id)sender {
-    if (![Helper justIdentityCard:self.idcardTextField.text]) {
-        QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-        contentView.minimumSize = CGSizeMake(100, 100);
-        [tips showError:@"请输入正确的身份证号" hideAfterDelay:2];
-        return;
-    }
-    YYUserAuthRequest *request = [[YYUserAuthRequest alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserAuthAPI];
-    request.idcard = self.idcardTextField.text;
-    request.name = self.nameTextField.text;
-    WEAK_REF(self);
-    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-        if (success) {
-            if ([response[@"zmstate"] integerValue] == 1) {
-                  [weak_self performSegueWithIdentifier:@"finish" sender:self];
-            }else{
-                [weak_self performSegueWithIdentifier:@"charge" sender:self];
-            }
-        }else{
-            [SVProgressHUD showErrorWithStatus:message];
-        }
-    } error:^(NSError *error) {
-        
+- (IBAction)telButtonClick:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"0596-2671066" message:[NSString stringWithFormat:@"%@",@""] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",@"0596-2671066"]]];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
+
+- (IBAction)okButtonClick:(id)sender {
+    //芝麻信用认证
+    if (self.sesameButton.selected) {
+        if (![Helper justIdentityCard:self.idcardTextField.text]) {
+            [QMUITips showWithText:@"请输入正确的身份证号" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        YYUserAuthRequest *request = [[YYUserAuthRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserAuthAPI];
+        request.idcard = self.idcardTextField.text;
+        request.name = self.nameTextField.text;
+        WEAK_REF(self);
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            if (success) {
+                if ([response[@"zmstate"] integerValue] == 1) {
+                    [weak_self performSegueWithIdentifier:@"finish" sender:self];
+                }else{
+                    [weak_self performSegueWithIdentifier:@"charge" sender:self];
+                }
+            }else{
+                [SVProgressHUD showErrorWithStatus:message];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }else{
+        if (self.realNameTextField.text.qmui_trim.length <= 0) {
+            [QMUITips showWithText:@"请输入您的真实姓名" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        if (self.idCardTextField1.text.qmui_trim.length <= 0) {
+            [QMUITips showWithText:@"请输入身份证号" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        if (self.schoolNameTextField.text.qmui_trim.length <= 0) {
+            [QMUITips showWithText:@"请输入学校名称" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        if (self.studentNoTextField.text.qmui_trim.length <= 0) {
+            [QMUITips showWithText:@"请输入学号" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        if (self.url.length <= 0) {
+           [QMUITips showWithText:@"请上传证件照" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        
+        if (![Helper justIdentityCard:self.idCardTextField1.text]) {
+            QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+            QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+            contentView.minimumSize = CGSizeMake(100, 100);
+            [QMUITips showWithText:@"请输入正确的身份证号" inView:self.view hideAfterDelay:2];
+            return;
+        }
+        
+        YYCollegeAuthRequest *request = [[YYCollegeAuthRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kcollegeAuthAPI];
+        request.name = self.realNameTextField.text;
+        request.idcard = self.idCardTextField1.text;
+        request.college = self.schoolNameTextField.text;
+        request.colnum = self.studentNoTextField.text;
+        request.img = self.url;
+       [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            if (success) {
+                self.successView.hidden = NO;
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (IBAction)cancelButtonClick:(id)sender {
@@ -243,15 +322,136 @@
     }
 }
 
+- (IBAction)selectPhotoButtonClick:(id)sender {
+    QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+    }];
+    QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"拍照" style:QMUIAlertActionStyleDefault handler:^(QMUIAlertAction *action) {
+        UIImagePickerController *imagePickerCtr = [[UIImagePickerController alloc] init];
+        imagePickerCtr.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePickerCtr.allowsEditing = YES;
+        [self presentViewController:imagePickerCtr animated:YES completion:^{
+            imagePickerCtr.delegate = self;
+        }];
+    }];
+    QMUIAlertAction *action3 = [QMUIAlertAction actionWithTitle:@"相册" style:QMUIAlertActionStyleDefault handler:^(QMUIAlertAction *action) {
+        [self authorizationPresentAlbumViewControllerWithTitle:@"选择图片"];
+    }];
+    QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"请上传您的头像" message:@"" preferredStyle:QMUIAlertControllerStyleActionSheet];
+    [alertController addAction:action1];
+    [alertController addAction:action2];
+    [alertController addAction:action3];
+    [alertController showWithAnimated:YES];
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
+
+
+
+- (void)authorizationPresentAlbumViewControllerWithTitle:(NSString *)title {
+    // 请求访问照片库的权限，在 iOS 8 或以上版本中可以利用这个方法弹出 Alert 询问用户是否授权
+    if ([QMUIAssetsManager authorizationStatus] == QMUIAssetAuthorizationStatusNotDetermined) {
+        [QMUIAssetsManager requestAuthorization:^(QMUIAssetAuthorizationStatus status) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentAlbumViewControllerWithTitle:title];
+            });
+        }];
+    } else {
+        [self presentAlbumViewControllerWithTitle:title];
+    }
+}
+
+- (void)presentAlbumViewControllerWithTitle:(NSString *)title {
+    
+    // 创建一个 QMUIAlbumViewController 实例用于呈现相簿列表
+    QMUIAlbumViewController *albumViewController = [[QMUIAlbumViewController alloc] init];
+    albumViewController.albumViewControllerDelegate = self;
+    albumViewController.contentType = kAlbumContentType;
+    albumViewController.title = title;
+    YYNavigationController *navigationController = [[YYNavigationController alloc] initWithRootViewController:albumViewController];
+    
+    // 获取最近发送图片时使用过的相簿，如果有则直接进入该相簿
+    QMUIAssetsGroup *assetsGroup = [QMUIImagePickerHelper assetsGroupOfLastestPickerAlbumWithUserIdentify:nil];
+    if (assetsGroup) {
+        QMUIImagePickerViewController *imagePickerViewController = [self imagePickerViewControllerForAlbumViewController:albumViewController];
+        
+        [imagePickerViewController refreshWithAssetsGroup:assetsGroup];
+        imagePickerViewController.title = [assetsGroup name];
+        [navigationController pushViewController:imagePickerViewController animated:NO];
+    }
+    
+    [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
+#pragma mark - <QMUIAlbumViewControllerDelegate>
+- (QMUIImagePickerViewController *)imagePickerViewControllerForAlbumViewController:(QMUIAlbumViewController *)albumViewController {
+    QMUIImagePickerViewController *imagePickerViewController = [[QMUIImagePickerViewController alloc] init];
+    imagePickerViewController.imagePickerViewControllerDelegate = self;
+    imagePickerViewController.maximumSelectImageCount = 1;
+    imagePickerViewController.view.tag = albumViewController.view.tag;
+    imagePickerViewController.allowsMultipleSelection = NO;
+    return imagePickerViewController;
+}
+
+- (QMUIImagePickerPreviewViewController *)imagePickerPreviewViewControllerForImagePickerViewController:(QMUIImagePickerViewController *)imagePickerViewController {
+    QDSingleImagePickerPreviewViewController *imagePickerPreviewViewController = [[QDSingleImagePickerPreviewViewController alloc] init];
+    imagePickerPreviewViewController.delegate = self;
+    imagePickerPreviewViewController.assetsGroup = imagePickerViewController.assetsGroup;
+    imagePickerPreviewViewController.view.tag = imagePickerViewController.view.tag;
+    return imagePickerPreviewViewController;
+}
+
+#pragma mark - <QMUIImagePickerViewControllerDelegate>
+
+- (void)imagePickerViewController:(QMUIImagePickerViewController *)imagePickerViewController didFinishPickingImageWithImagesAssetArray:(NSMutableArray<QMUIAsset *> *)imagesAssetArray {
+    // 储存最近选择了图片的相册，方便下次直接进入该相册
+    [QMUIImagePickerHelper updateLastestAlbumWithAssetsGroup:imagePickerViewController.assetsGroup ablumContentType:kAlbumContentType userIdentify:nil];
+    
+}
+
+#pragma mark --QDSingleImagePickerPreviewViewControllerDelegate
+- (void)imagePickerPreviewViewController:(QDSingleImagePickerPreviewViewController *)imagePickerPreviewViewController didSelectImageWithImagesAsset:(QMUIAsset *)imageAsset {
+    // 储存最近选择了图片的相册，方便下次直接进入该相册
+    [QMUIImagePickerHelper updateLastestAlbumWithAssetsGroup:imagePickerPreviewViewController.assetsGroup ablumContentType:kAlbumContentType userIdentify:nil];
+    [self.avatarButton setImage:[imageAsset previewImage] forState:UIControlStateNormal];
+    YYBaseRequest *uploadRequest = [[YYBaseRequest alloc] init];
+    uploadRequest.nh_url = [NSString stringWithFormat:@"%@%@?folder=icon",kBaseURL,kUploadPhotoAPI];
+    uploadRequest.nh_isPost = YES;
+    uploadRequest.nh_imageArray = @[[[imageAsset previewImage] scaleFromImage:[imageAsset previewImage] toSize:CGSizeMake(200, 200)]];
+    __weak __typeof(self)weakSelf = self;
+    [uploadRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.url = response;
+        }
+   
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+//当用户选择头像完成后的代理方法回调
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:^{
+        UIImage *pickImg = info[UIImagePickerControllerOriginalImage];
+        pickImg = [pickImg scaleFromImage:pickImg toSize:CGSizeMake(400, 400)];
+        [self.avatarButton setImage:pickImg forState:UIControlStateNormal];
+        
+        YYBaseRequest *uploadRequest = [[YYBaseRequest alloc] init];
+        
+        uploadRequest.nh_url = [NSString stringWithFormat:@"%@%@?folder=icon",kBaseURL,kUploadPhotoAPI];
+        uploadRequest.nh_isPost = YES;
+        uploadRequest.nh_imageArray = @[[pickImg scaleFromImage:pickImg toSize:CGSizeMake(400, 400)]];
+        __weak __typeof(self)weakSelf = self;
+        [uploadRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            
+            if (success) {
+                weakSelf.url = response;
+            }
+            DLog(@"%@",response);
+        } error:^(NSError *error) {
+            
+        }];
+    }];
+}
+
 
 @end

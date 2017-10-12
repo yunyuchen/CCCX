@@ -57,9 +57,9 @@
 
     self.totalTimeLabel.text = [NSString stringWithFormat:@"%ld时%ld分钟",hour,minute];
     
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.0f",self.resultModel.price];
+    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price];
     
-    self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.0f",self.userModel.money - self.resultModel.price];
+    self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.userModel.money - self.resultModel.price];
     
     self.siteNameLabel.text = [NSString stringWithFormat:@"%@",self.self.siteName];
     

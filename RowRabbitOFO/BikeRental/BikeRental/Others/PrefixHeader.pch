@@ -91,6 +91,7 @@ __weak typeof(obj) weak_##obj = obj; \
 #define kUserInfoKey             @"UserInfoKey"          //用户基本信息
 #define KBLEIDKey                @"bleIdKey"
 #define kFirstLoadKey            @"firstloadKey"         //首次加载的Key
+#define kLocationTipsKey         @"LocationTipsKey"
 #define kReadMessageKey          @"ReadMessageKey"
 #define kBikeStateKey            @"BikeStateKey"
 
