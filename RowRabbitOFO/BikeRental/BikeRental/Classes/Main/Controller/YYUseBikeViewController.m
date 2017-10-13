@@ -18,6 +18,7 @@
 #import "YYReturnResultModel.h"
 #import "YYRemoteReturnViewController.h"
 #import "YYOrderInfoView.h"
+#import <JDFTooltips/JDFTooltips.h>
 #import <DateTools/DateTools.h>
 #import <QMUIKit/QMUIKit.h>
 #import <AMapLocationKit/AMapLocationKit.h>
@@ -76,8 +77,9 @@
 
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
 
-
 @property (nonatomic,strong) YYReturnResultModel *returnResultModel;
+
+@property (nonatomic,strong) JDFTooltipView *toolTipView;
 
 @end
 
@@ -92,7 +94,6 @@
     self.batteryLabel.text = [NSString stringWithFormat:@"%.0f",self.rentalModel.last_percent * 100];
     self.mileageLabel.text = [NSString stringWithFormat:@"%.0f",self.rentalModel.last_mileage];
     
-
     [self setUpAnimation];
 
 }
@@ -169,6 +170,10 @@
         self.returnButton = returnButton;
     }
 
+    JDFTooltipView *tooltip = [[JDFTooltipView alloc] initWithTargetView:self.startButton hostView:self.view tooltipText:@"再次点击可临时停车" arrowDirection:JDFTooltipViewArrowDirectionUp width:200.0f];
+    [tooltip show];
+    self.toolTipView = tooltip;
+    
     [self getUserInfoRequest];
 }
 

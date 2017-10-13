@@ -273,6 +273,15 @@
 		0BE253A71F04E9BB00CCD752 /* YYGetBikeRequest1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE253A61F04E9BB00CCD752 /* YYGetBikeRequest1.m */; };
 		0BE8CABF1ED28554008DBF2C /* YYSiteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE8CABE1ED28554008DBF2C /* YYSiteModel.m */; };
 		0BE8CAC21ED2DA79008DBF2C /* YYGetBikeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BE8CAC11ED2DA79008DBF2C /* YYGetBikeRequest.m */; };
+		0BEF132F1F8F420100B3BA0B /* XSPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF132E1F8F420100B3BA0B /* XSPopoverView.m */; };
+		0BEF133A1F8F47E500B3BA0B /* KKPopTooltip.h in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13311F8F467400B3BA0B /* KKPopTooltip.h */; };
+		0BEF133B1F8F47E500B3BA0B /* KKPopTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13321F8F467400B3BA0B /* KKPopTooltip.m */; };
+		0BEF133F1F8F49E500B3BA0B /* UIView+Size.h in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13341F8F467400B3BA0B /* UIView+Size.h */; };
+		0BEF13401F8F49E500B3BA0B /* NSString+Category.h in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13351F8F467400B3BA0B /* NSString+Category.h */; };
+		0BEF13411F8F49E500B3BA0B /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13361F8F467400B3BA0B /* UIColor+Additions.m */; };
+		0BEF13421F8F49E500B3BA0B /* NSString+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13371F8F467400B3BA0B /* NSString+Category.m */; };
+		0BEF13431F8F49E500B3BA0B /* UIView+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13381F8F467400B3BA0B /* UIView+Size.m */; };
+		0BEF13441F8F49E500B3BA0B /* UIColor+Additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13391F8F467400B3BA0B /* UIColor+Additions.h */; };
 		0BEF22CE1F10AF1900F5F36E /* YYMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */; };
 		0BEF22D11F10B2D100F5F36E /* YYMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF22D01F10B2D100F5F36E /* YYMessageViewCell.m */; };
 		0BEF22E21F10BFC500F5F36E /* jcore-ios-1.1.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BEF22DF1F10BFC500F5F36E /* jcore-ios-1.1.5.a */; };
@@ -797,6 +806,16 @@
 		0BE8CABE1ED28554008DBF2C /* YYSiteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSiteModel.m; sourceTree = "<group>"; };
 		0BE8CAC01ED2DA79008DBF2C /* YYGetBikeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYGetBikeRequest.h; sourceTree = "<group>"; };
 		0BE8CAC11ED2DA79008DBF2C /* YYGetBikeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYGetBikeRequest.m; sourceTree = "<group>"; };
+		0BEF132D1F8F420100B3BA0B /* XSPopoverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XSPopoverView.h; sourceTree = "<group>"; };
+		0BEF132E1F8F420100B3BA0B /* XSPopoverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XSPopoverView.m; sourceTree = "<group>"; };
+		0BEF13311F8F467400B3BA0B /* KKPopTooltip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKPopTooltip.h; sourceTree = "<group>"; };
+		0BEF13321F8F467400B3BA0B /* KKPopTooltip.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKPopTooltip.m; sourceTree = "<group>"; };
+		0BEF13341F8F467400B3BA0B /* UIView+Size.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Size.h"; sourceTree = "<group>"; };
+		0BEF13351F8F467400B3BA0B /* NSString+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Category.h"; sourceTree = "<group>"; };
+		0BEF13361F8F467400B3BA0B /* UIColor+Additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		0BEF13371F8F467400B3BA0B /* NSString+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Category.m"; sourceTree = "<group>"; };
+		0BEF13381F8F467400B3BA0B /* UIView+Size.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Size.m"; sourceTree = "<group>"; };
+		0BEF13391F8F467400B3BA0B /* UIColor+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0BEF22CC1F10AF1900F5F36E /* YYMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMessageViewController.h; sourceTree = "<group>"; };
 		0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMessageViewController.m; sourceTree = "<group>"; };
 		0BEF22CF1F10B2D100F5F36E /* YYMessageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMessageViewCell.h; sourceTree = "<group>"; };
@@ -1053,6 +1072,7 @@
 		0B4137D01ECFCE480086D569 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				0BEF13301F8F467400B3BA0B /* KKPopTooltip */,
 				0BEF22D91F10BEEE00F5F36E /* JPush */,
 				0B36142C1F0E021800E4DCCA /* XHLaunchAd */,
 				0B4B3FF21EFB920C004E1638 /* XWImagePicker */,
@@ -1436,6 +1456,8 @@
 				0B3E61AD1ED81B79008B28B6 /* CommonUtility.m */,
 				0B6728461EC6997F00056F01 /* YYFileCacheManager.h */,
 				0B6728471EC6997F00056F01 /* YYFileCacheManager.m */,
+				0BEF132D1F8F420100B3BA0B /* XSPopoverView.h */,
+				0BEF132E1F8F420100B3BA0B /* XSPopoverView.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1907,6 +1929,29 @@
 			path = BikeRentalUITests;
 			sourceTree = "<group>";
 		};
+		0BEF13301F8F467400B3BA0B /* KKPopTooltip */ = {
+			isa = PBXGroup;
+			children = (
+				0BEF13311F8F467400B3BA0B /* KKPopTooltip.h */,
+				0BEF13321F8F467400B3BA0B /* KKPopTooltip.m */,
+				0BEF13331F8F467400B3BA0B /* Tool */,
+			);
+			path = KKPopTooltip;
+			sourceTree = "<group>";
+		};
+		0BEF13331F8F467400B3BA0B /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				0BEF13341F8F467400B3BA0B /* UIView+Size.h */,
+				0BEF13351F8F467400B3BA0B /* NSString+Category.h */,
+				0BEF13361F8F467400B3BA0B /* UIColor+Additions.m */,
+				0BEF13371F8F467400B3BA0B /* NSString+Category.m */,
+				0BEF13381F8F467400B3BA0B /* UIView+Size.m */,
+				0BEF13391F8F467400B3BA0B /* UIColor+Additions.h */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
 		0BEF22D91F10BEEE00F5F36E /* JPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -2178,6 +2223,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BEF133F1F8F49E500B3BA0B /* UIView+Size.h in Sources */,
+				0BEF13401F8F49E500B3BA0B /* NSString+Category.h in Sources */,
+				0BEF13411F8F49E500B3BA0B /* UIColor+Additions.m in Sources */,
+				0BEF13421F8F49E500B3BA0B /* NSString+Category.m in Sources */,
+				0BEF13431F8F49E500B3BA0B /* UIView+Size.m in Sources */,
+				0BEF13441F8F49E500B3BA0B /* UIColor+Additions.h in Sources */,
+				0BEF133A1F8F47E500B3BA0B /* KKPopTooltip.h in Sources */,
+				0BEF133B1F8F47E500B3BA0B /* KKPopTooltip.m in Sources */,
 				0B12D5A21F7263BA001EC43F /* UILabel+UILabel_ChangeLineSpaceAndWordSpace_h.h in Sources */,
 				0B12D5A31F7263BA001EC43F /* UILabel+UILabel_ChangeLineSpaceAndWordSpace_h.m in Sources */,
 				0BCB7C951ED67C3F000DA476 /* YYReturnResultModel.m in Sources */,
@@ -2219,6 +2272,7 @@
 				0BCB7CE81ED6B05F000DA476 /* XWCoolAnimator+XWExplode.m in Sources */,
 				0B1B7F061F7235AA00EE28D7 /* YYCardViewCell.m in Sources */,
 				0BCB7CF61ED6B05F000DA476 /* XWFilterAnimator+XWMod.m in Sources */,
+				0BEF132F1F8F420100B3BA0B /* XSPopoverView.m in Sources */,
 				0B493E8C1ED403C700C5C913 /* YYUserManager.m in Sources */,
 				0B36144A1F0E021800E4DCCA /* XHLaunchAdConfiguration.m in Sources */,
 				0BCB7D0E1ED6D0F8000DA476 /* YYOrderInfoRequest.m in Sources */,

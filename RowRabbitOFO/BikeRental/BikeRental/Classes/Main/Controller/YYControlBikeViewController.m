@@ -19,6 +19,8 @@
 #import "YYNavigationController.h"
 #import "YYReturnViewController.h"
 #import "YYRentalModel.h"
+#import "XSPopoverView.h"
+#import "KKPopTooltip.h"
 #import <DateTools/DateTools.h>
 #import <QMUIKit/QMUIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -63,8 +65,11 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *bikeNameLabel;
 
+@property (nonatomic,strong) XSPopoverView *popView;
 
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
+
+@property (nonatomic,strong) KKPopTooltip *tooltipView;
 
 @end
 
@@ -122,6 +127,16 @@
     
     //添加通知(处理从后台进来后的情况)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveBackgroundNoti) name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, 480) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+
+    
 }
 
 -(void) buttonClickAction:(NSNotification *)noti
@@ -256,7 +271,8 @@
 //启动按钮点击
 - (IBAction)startButtonClick:(UIButton *)sender {
     if (sender.selected) {
-        
+        [self.tooltipView removeFromSuperview];
+        self.tooltipView = [KKPopTooltip showPointing:CGPointMake(self.view.width/2, 480) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
         if (self.bluetoothButton.selected) {
             if (self.currPeripheral == nil || self.currCharacteristic == nil) {
                 return;
@@ -274,16 +290,10 @@
         }
         
     }else{
+        [self.tooltipView removeFromSuperview];
+        self.tooltipView = [KKPopTooltip showPointing:CGPointMake(self.view.width/2, 480) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
         if (!self.bluetoothButton.selected) {
             [self operateBike:OPENOP];
-            //            YYNetStartView *netStartView = [[YYNetStartView alloc] init];
-            //            netStartView.delegate = self;
-            //            QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-            //            modalViewController.contentView = netStartView;
-            //            modalViewController.maximumContentViewWidth = kScreenWidth;
-            //            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-            //            [modalViewController showWithAnimated:YES completion:nil];
-            //            self.modalPrentViewController = modalViewController;
             return;
         }
         

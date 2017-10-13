@@ -144,8 +144,41 @@
             //跳转支付宝钱包进行支付，处理支付结果
             [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
                 NSLog(@"result = %@",resultDic);
+                NSString *message = @"";
+                switch([[resultDic objectForKey:@"resultStatus"] integerValue])
+                {
+                    case 9000:
+                    {
+                        message = @"订单支付成功";
+                        
+                        [NSNotificationCenter postNotification:kPayDesSuccessNotification];
+                        QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+                        
+                        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+                        contentView.minimumSize = CGSizeMake(300, 100);
+                        [tips showSucceed:message hideAfterDelay:3];
+                        return;
+                    }
+                    case 8000:
+                    {
+                        message = @"正在处理中";
+                        break;
+                    }
+                    case 4000:message = @"订单支付失败";break;
+                    case 6001:message = @"取消了支付";break;
+                    case 6002:message = @"网络连接错误";break;
+                    default:message = @"未知错误";
+                }
+                
+                
+                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+                
+                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+                contentView.minimumSize = CGSizeMake(300, 100);
+                [tips showInfo:message hideAfterDelay:3];
             }];
         }
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
         return YES;
     }
     return result;

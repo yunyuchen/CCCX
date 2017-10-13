@@ -439,7 +439,7 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
         
         uploadRequest.nh_url = [NSString stringWithFormat:@"%@%@?folder=icon",kBaseURL,kUploadPhotoAPI];
         uploadRequest.nh_isPost = YES;
-        uploadRequest.nh_imageArray = @[[pickImg scaleFromImage:pickImg toSize:CGSizeMake(400, 400)]];
+        uploadRequest.nh_imageArray = @[pickImg];
         __weak __typeof(self)weakSelf = self;
         [uploadRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             

@@ -219,7 +219,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void) loginSuccessAction:(NSNotification *)noti
 {
-    [self checkAccount];
+    //[self checkAccount];
 }
 
 -(void) checkAccount
@@ -245,11 +245,26 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             
             //未认证身份
             if ([weak_self.userModel.idcard isEqualToString:@""]) {
-                //Certification
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
-                
-               [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                return;
+            }
+            
+            //学生证认证(认证中)
+            if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 0) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
+                certificationViewController.preState = YES;
+                [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                return;
+            }
+            
+            //学生证认证(审核失败)
+            if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 2) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
                 return;
             }
             
@@ -274,6 +289,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 [self.navigationController pushViewController:chargeViewController animated:YES];
                 return;
             }
+            
             //用户有订单的情况
             if ([weak_self.userModel.hasorder isEqualToString:@"1"]) {
                 QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
@@ -312,7 +328,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [modalViewController showWithAnimated:YES completion:nil];
     self.modalPrentViewController = modalViewController;
 }
-
 
 -(void) checkUpdate
 {
@@ -400,6 +415,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
                 certificationViewController.preState = YES;
                 [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                return;
+            }
+            
+            //学生证认证(审核失败)
+            if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 2  && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
                 return;
             }
             
@@ -492,7 +515,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         [self getUserInfoRequest];
     }
     
-    
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
@@ -563,6 +585,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
             [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+            return NO;
+        }
+        
+        //学生证认证(审核失败)
+        if (self.userModel.authtype == 1 && self.userModel.xstate == 2 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
             return NO;
         }
         
@@ -667,7 +697,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
     
 }
-
 
 - (IBAction)nearestButtonClick:(id)sender {
     [self.mapView selectAnnotation:self.annotations[0] animated:YES];

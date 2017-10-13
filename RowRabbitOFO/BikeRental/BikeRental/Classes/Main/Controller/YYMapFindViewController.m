@@ -108,6 +108,22 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     self.flag = NO;
     self.soundButton.imagePosition = QMUIButtonImagePositionTop;
+    
+    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)) {
+    }else if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied) {
+        QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+        }];
+        QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+        QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"温馨提示" message:@"请您设置允许APP访问您的定位->设置->隐私->定位" preferredStyle:QMUIAlertControllerStyleAlert];
+        [alertController addAction:action1];
+        [alertController addAction:action2];
+        [alertController showWithAnimated:YES];
+    }
     // Do any additional setup after loading the view.
 }
 

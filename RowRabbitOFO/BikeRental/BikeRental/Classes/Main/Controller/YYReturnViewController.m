@@ -111,6 +111,22 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     tips1View.hidden = YES;
     self.tipsView = tips1View;
     [self.view addSubview:self.tipsView];
+    
+    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)) {
+    }else if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied) {
+        QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+        }];
+        QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+        QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"温馨提示" message:@"请您设置允许APP访问您的定位->设置->隐私->定位" preferredStyle:QMUIAlertControllerStyleAlert];
+        [alertController addAction:action1];
+        [alertController addAction:action2];
+        [alertController showWithAnimated:YES];
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -273,20 +289,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 -(void) showRoute
 {
     AMapWalkingRouteSearchRequest *navi = [[AMapWalkingRouteSearchRequest alloc] init];
-    
-    //navi.requireExtension = YES;
-    //navi.strategy = 5;
-    
     /* 出发点. */
     navi.origin = [AMapGeoPoint locationWithLatitude:self.mapView.userLocation.coordinate.latitude
                                            longitude:self.mapView.userLocation.coordinate.longitude];
-    
-    NSLog(@"11111   %f,%f",self.mapView.userLocation.coordinate.latitude,self.mapView.userLocation.coordinate.longitude);
     /* 目的地. */
     navi.destination = [AMapGeoPoint locationWithLatitude:self.destinationCoordinate.latitude
                                                 longitude:self.destinationCoordinate.longitude];
-    
-    NSLog(@"22222   %f,%f",self.destinationCoordinate.latitude,self.destinationCoordinate.longitude);
     [self.search AMapWalkingRouteSearch:navi];
 
 }
