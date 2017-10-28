@@ -284,8 +284,6 @@
 		0BEF13441F8F49E500B3BA0B /* UIColor+Additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF13391F8F467400B3BA0B /* UIColor+Additions.h */; };
 		0BEF22CE1F10AF1900F5F36E /* YYMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */; };
 		0BEF22D11F10B2D100F5F36E /* YYMessageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF22D01F10B2D100F5F36E /* YYMessageViewCell.m */; };
-		0BEF22E21F10BFC500F5F36E /* jcore-ios-1.1.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BEF22DF1F10BFC500F5F36E /* jcore-ios-1.1.5.a */; };
-		0BEF22E31F10BFC500F5F36E /* jpush-ios-3.0.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BEF22E01F10BFC500F5F36E /* jpush-ios-3.0.6.a */; };
 		0BEF22E51F10C02D00F5F36E /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BEF22E41F10C02D00F5F36E /* libresolv.tbd */; };
 		0BEF22E81F10CC0600F5F36E /* YYMsgModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BEF22E71F10CC0600F5F36E /* YYMsgModel.m */; };
 		0BF0549F1F1C5DEA00638074 /* YYActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0549E1F1C5DEA00638074 /* YYActivityViewController.m */; };
@@ -711,6 +709,7 @@
 		0BB090D01F05EEFF007049D3 /* YYShareHBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYShareHBView.h; sourceTree = "<group>"; };
 		0BB090D11F05EEFF007049D3 /* YYShareHBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYShareHBView.m; sourceTree = "<group>"; };
 		0BB090D31F05EF81007049D3 /* YYShareHBView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYShareHBView.xib; sourceTree = "<group>"; };
+		0BB32AEC1F9ED64300ADF79F /* BikeRental.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BikeRental.entitlements; sourceTree = "<group>"; };
 		0BCB7C931ED67C3F000DA476 /* YYReturnResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYReturnResultModel.h; sourceTree = "<group>"; };
 		0BCB7C941ED67C3F000DA476 /* YYReturnResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYReturnResultModel.m; sourceTree = "<group>"; };
 		0BCB7C961ED6802A000DA476 /* YYPayOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPayOrderRequest.h; sourceTree = "<group>"; };
@@ -820,10 +819,6 @@
 		0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMessageViewController.m; sourceTree = "<group>"; };
 		0BEF22CF1F10B2D100F5F36E /* YYMessageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMessageViewCell.h; sourceTree = "<group>"; };
 		0BEF22D01F10B2D100F5F36E /* YYMessageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMessageViewCell.m; sourceTree = "<group>"; };
-		0BEF22D21F10BB0900F5F36E /* BikeRental.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BikeRental.entitlements; sourceTree = "<group>"; };
-		0BEF22DF1F10BFC500F5F36E /* jcore-ios-1.1.5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jcore-ios-1.1.5.a"; sourceTree = "<group>"; };
-		0BEF22E01F10BFC500F5F36E /* jpush-ios-3.0.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-3.0.6.a"; sourceTree = "<group>"; };
-		0BEF22E11F10BFC500F5F36E /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
 		0BEF22E41F10C02D00F5F36E /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		0BEF22E61F10CC0600F5F36E /* YYMsgModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMsgModel.h; sourceTree = "<group>"; };
 		0BEF22E71F10CC0600F5F36E /* YYMsgModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMsgModel.m; sourceTree = "<group>"; };
@@ -859,11 +854,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BEF22E51F10C02D00F5F36E /* libresolv.tbd in Frameworks */,
-				0BEF22E31F10BFC500F5F36E /* jpush-ios-3.0.6.a in Frameworks */,
 				0B4137F01ECFE5090086D569 /* CoreMotion.framework in Frameworks */,
 				0B4137EE1ECFE5020086D569 /* CFNetwork.framework in Frameworks */,
 				0B4137EC1ECFE4FB0086D569 /* Foundation.framework in Frameworks */,
-				0BEF22E21F10BFC500F5F36E /* jcore-ios-1.1.5.a in Frameworks */,
 				0B4137EA1ECFE4F40086D569 /* UIKit.framework in Frameworks */,
 				0B4137E81ECFE4EE0086D569 /* CoreGraphics.framework in Frameworks */,
 				0B4137E61ECFE4E60086D569 /* CoreText.framework in Frameworks */,
@@ -1073,7 +1066,6 @@
 			isa = PBXGroup;
 			children = (
 				0BEF13301F8F467400B3BA0B /* KKPopTooltip */,
-				0BEF22D91F10BEEE00F5F36E /* JPush */,
 				0B36142C1F0E021800E4DCCA /* XHLaunchAd */,
 				0B4B3FF21EFB920C004E1638 /* XWImagePicker */,
 				0B2909121EE652510027DA83 /* WXHelper */,
@@ -1887,7 +1879,7 @@
 		0BCF1AC41EC19CF2001550DC /* BikeRental */ = {
 			isa = PBXGroup;
 			children = (
-				0BEF22D21F10BB0900F5F36E /* BikeRental.entitlements */,
+				0BB32AEC1F9ED64300ADF79F /* BikeRental.entitlements */,
 				0B3614661F0E068E00E4DCCA /* Source */,
 				0B4137D01ECFCE480086D569 /* Libs */,
 				0B2263991ECD7C4A008BEEB1 /* Controls */,
@@ -1950,16 +1942,6 @@
 				0BEF13391F8F467400B3BA0B /* UIColor+Additions.h */,
 			);
 			path = Tool;
-			sourceTree = "<group>";
-		};
-		0BEF22D91F10BEEE00F5F36E /* JPush */ = {
-			isa = PBXGroup;
-			children = (
-				0BEF22DF1F10BFC500F5F36E /* jcore-ios-1.1.5.a */,
-				0BEF22E01F10BFC500F5F36E /* jpush-ios-3.0.6.a */,
-				0BEF22E11F10BFC500F5F36E /* JPUSHService.h */,
-			);
-			path = JPush;
 			sourceTree = "<group>";
 		};
 		4A1960413DDC114EE4470884 /* Frameworks */ = {

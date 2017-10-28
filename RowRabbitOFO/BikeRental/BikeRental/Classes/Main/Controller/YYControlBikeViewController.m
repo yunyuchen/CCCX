@@ -99,10 +99,14 @@
         self.startButton.selected = YES;
         self.tipsLabel.text = @"已开启";
         self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
+        
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
     }else{
         self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
         self.startButton.selected = NO;
         self.tipsLabel.text = @"已上锁";
+        
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
     }
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -128,7 +132,6 @@
     //添加通知(处理从后台进来后的情况)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveBackgroundNoti) name:UIApplicationWillEnterForegroundNotification object:nil];
 
-    self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, 480) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -272,7 +275,8 @@
 - (IBAction)startButtonClick:(UIButton *)sender {
     if (sender.selected) {
         [self.tooltipView removeFromSuperview];
-        self.tooltipView = [KKPopTooltip showPointing:CGPointMake(self.view.width/2, 480) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
+        self.tooltipView = nil;
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
         if (self.bluetoothButton.selected) {
             if (self.currPeripheral == nil || self.currCharacteristic == nil) {
                 return;
@@ -291,7 +295,8 @@
         
     }else{
         [self.tooltipView removeFromSuperview];
-        self.tooltipView = [KKPopTooltip showPointing:CGPointMake(self.view.width/2, 480) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
+        self.tooltipView = nil;
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
         if (!self.bluetoothButton.selected) {
             [self operateBike:OPENOP];
             return;
