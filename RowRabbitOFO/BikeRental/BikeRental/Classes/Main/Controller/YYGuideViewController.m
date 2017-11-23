@@ -26,7 +26,7 @@
     [self.view addSubview:topView];
     
     UIWebView *webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.cccx.ltd/htm/userguide.htm"]]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.cccx.ltd/htm/userguide.htm?random=%u",arc4random()]]]];
     [self.view addSubview:webView];
     webView.scalesPageToFit = YES;
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {

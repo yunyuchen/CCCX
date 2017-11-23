@@ -47,7 +47,11 @@
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    _mianScrollView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight);
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    _mianScrollView.frame = CGRectMake(0, StatusRect.size.height + NavRect.size.height, kScreenWidth, kScreenHeight);
     [_mianScrollView setDelegate:self];
     self.showInView = _mianScrollView;
     

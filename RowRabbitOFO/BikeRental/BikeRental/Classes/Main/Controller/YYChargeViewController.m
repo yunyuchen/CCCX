@@ -9,74 +9,137 @@
 #import "YYChargeViewController.h"
 #import "UIImage+Color.h"
 #import "YYCreateBlanceRequest.h"
+#import "YYChargeItemViewCell.h"
 #import "NSNotificationCenter+Addition.h"
+#import "YYBaseRequest.h"
+#import "YYChargeItemModel.h"
+#import <BEMCheckBox/BEMCheckBox.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import <WXApi.h>
 #import <QMUIKit/QMUIKit.h>
 
-@interface YYChargeViewController ()
 
-@property (weak, nonatomic) IBOutlet UIButton *value100Button;
+#define ButtonHeight 75
 
-@property (weak, nonatomic) IBOutlet UIButton *value50Button;
+@interface YYChargeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,ChargeItemDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *value20Button;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-@property (weak, nonatomic) IBOutlet UIButton *value10Button;
+@property(nonatomic, strong) NSMutableArray<YYChargeItemModel *> *models;
 
-@property (weak, nonatomic) IBOutlet UIButton *payButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionViewHeightCons;
 
-@property (weak, nonatomic) IBOutlet UIView *outerView;
+@property (weak, nonatomic) IBOutlet BEMCheckBox *wechatCheckBox;
 
-@property (weak, nonatomic) IBOutlet UIView *wechatPayView;
+@property (weak, nonatomic) IBOutlet BEMCheckBox *aliCheckBox;
 
-@property (weak, nonatomic) IBOutlet UIView *aliPayView;
+@property (nonatomic,strong) BEMCheckBox *currentCheckBox;
 
-@property (weak, nonatomic) IBOutlet UIImageView *wechatImageView;
-
-@property (weak, nonatomic) IBOutlet UIButton *wechatSelectButton;
-
-@property (weak, nonatomic) IBOutlet UIImageView *alipayImageView;
-
-@property (weak, nonatomic) IBOutlet UIButton *alipaySelectButton;
-
-@property (nonatomic,strong) UIButton *selectedButton;
+@property (weak, nonatomic) IBOutlet UILabel *chargeValueLabel;
 
 @end
 
 @implementation YYChargeViewController
 
+-(NSMutableArray<YYChargeItemModel *> *)models
+{
+    if (_models == nil) {
+        _models = [NSMutableArray array];
+    }
+    return _models;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"充值";
-    
-    [self.value10Button setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"#00B734"]] forState:UIControlStateSelected];
-    [self.value50Button setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"#00B734"]] forState:UIControlStateSelected];
-    [self.value20Button setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"#00B734"]] forState:UIControlStateSelected];
-    [self.value100Button setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"#00B734"]] forState:UIControlStateSelected];
-    
-    self.value10Button.layer.cornerRadius = 8;
-    self.value10Button.layer.masksToBounds = YES;
-    
-    self.value20Button.layer.cornerRadius = 8;
-    self.value20Button.layer.masksToBounds = YES;
-    
-    self.value50Button.layer.cornerRadius = 8;
-    self.value50Button.layer.masksToBounds = YES;
-    
-    self.value100Button.layer.cornerRadius = 8;
-    self.value100Button.layer.masksToBounds = YES;
-    
-    self.selectedButton = self.value100Button;
-    
+    self.currentCheckBox = self.wechatCheckBox;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake((kScreenWidth - 44) * 0.5  - 10, 65);
+    self.collectionView.collectionViewLayout = layout;
+    self.title = @"充值";
     [NSNotificationCenter addObserver:self action:@selector(paySuccessAction:) name:kPayDesSuccessNotification];
     
     [NSNotificationCenter addObserver:self action:@selector(wechatPaySuccessAction:) name:kWeChatPayNotifacation];
     
     [WXApi registerApp:@"wx535feea77188fcab"];
 
+    [self requestChargeValue];
 }
+
+- (void) requestChargeValue
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kPayParamsAPI];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYChargeItemModel modelArrayWithDictArray:response];
+            if (weakSelf.models.count % 2 == 0) {
+                weakSelf.collectionViewHeightCons.constant = ButtonHeight * weakSelf.models.count / 2;
+            }else{
+                 weakSelf.collectionViewHeightCons.constant = ButtonHeight *(weakSelf.models.count / 2 + 1);
+            }
+            if (weakSelf.models.count > 0) {
+                weakSelf.models[0].selected = YES;
+                weakSelf.chargeValueLabel.text = [NSString stringWithFormat:@"%.0f元",weakSelf.models[0].price];
+            }
+            [weakSelf.collectionView reloadData];
+            QMUILog(@"%@",response);
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+}
+
+- (IBAction)selectButtonClick:(BEMCheckBox *)sender {
+    [self.currentCheckBox setOn:NO animated:NO];
+    [sender setOn:YES animated:YES];
+    self.currentCheckBox = sender;
+}
+
+-(void)YYChargeItemViewCell:(YYChargeItemViewCell *)cell didClickCurrentButton:(UIButton *)sender
+{
+    for (YYChargeItemModel *model in self.models) {
+        if (model.index != cell.model.index) {
+            model.selected = NO;
+        }else{
+            model.selected = YES;
+            self.chargeValueLabel.text = [NSString stringWithFormat:@"%.0f元",self.models[cell.model.index].price];
+        }
+    }
+    [self.collectionView reloadData];
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.models.count;
+}
+
+//设置每个item水平间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+  return 10;
+}
+
+
+//设置每个item垂直间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 10;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    YYChargeItemViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"charge" forIndexPath:indexPath];
+    cell.delegate = self;
+    YYChargeItemModel *model = self.models[indexPath.row];
+    model.index = indexPath.row;
+    cell.model = model;
+    return cell;
+}
+
 
 -(void) paySuccessAction:(NSNotification *)noti
 {
@@ -115,73 +178,25 @@
     [tips showInfo:strMsg hideAfterDelay:3];
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    CAShapeLayer *border1 = [CAShapeLayer layer];
-    border1.strokeColor = [UIColor colorWithHexString:@"#00842A"].CGColor;
-    border1.fillColor = nil;
-    border1.path = [UIBezierPath bezierPathWithRoundedRect:self.aliPayView.layer.bounds cornerRadius:5].CGPath;
-    border1.frame = self.aliPayView.bounds;
-    border1.lineWidth = 1.f;
-    border1.lineJoin = @"round";
-    border1.lineCap = @"round";
-    border1.lineDashPattern = @[@4, @2];
-    [self.aliPayView.layer addSublayer:border1];
-    
-    
-    CAShapeLayer *border2 = [CAShapeLayer layer];
-    border2.strokeColor = [UIColor colorWithHexString:@"#00842A"].CGColor;
-    border2.fillColor = nil;
-    border2.path = [UIBezierPath bezierPathWithRoundedRect:self.wechatPayView.layer.bounds cornerRadius:5].CGPath;
-    border2.frame = self.wechatPayView.bounds;
-    border2.lineWidth = 1.f;
-    border2.lineCap = @"round";
-    border2.lineJoin = @"round";
-    border2.lineDashPattern = @[@4, @2];
-    [self.wechatPayView.layer addSublayer:border2];
-    
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 
-- (IBAction)valueButtonClick:(UIButton *)sender {
-    if (sender.selected) {
-        return;
-    }
-    self.selectedButton.selected = NO;
-    sender.selected = YES;
-    self.selectedButton = sender;
-}
-
-- (IBAction)wechatPayButtonClick:(id)sender {
-    self.alipayImageView.image = [UIImage imageNamed:@"26支付01"];
-    self.wechatImageView.image = [UIImage imageNamed:@"27微信02"];
-    self.alipaySelectButton.selected = NO;
-    self.wechatSelectButton.selected = YES;
-}
-
-
-- (IBAction)alipayButtonClick:(id)sender {
-    self.alipayImageView.image = [UIImage imageNamed:@"26支付02"];
-    self.wechatImageView.image = [UIImage imageNamed:@"27微信01"];
-    self.alipaySelectButton.selected = YES;
-    self.wechatSelectButton.selected = NO;
-}
-
 
 
 - (IBAction)chargeButtonClick:(id)sender {
     YYCreateBlanceRequest *request = [[YYCreateBlanceRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,KCreatePayBalanceAPI];
-    request.price = [self.selectedButton.currentTitle floatValue];
-    //request.price = 1;
-    if (self.alipaySelectButton.selected) {
+    CGFloat price = 0;
+    for (YYChargeItemModel *model in self.models) {
+        if (model.selected) {
+            price = model.price;
+        }
+    }
+    request.price = price;
+    if (self.aliCheckBox.on) {
         request.ptype = 0;
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {

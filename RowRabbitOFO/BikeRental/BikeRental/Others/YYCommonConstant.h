@@ -102,4 +102,6 @@ UIKIT_EXTERN NSString *const kCreatePayVip;
 UIKIT_EXTERN NSString *const kAppconfigAPI;
 //学生认证
 UIKIT_EXTERN NSString *const kcollegeAuthAPI;
+//充值金额
+UIKIT_EXTERN NSString *const kPayParamsAPI;
 @end

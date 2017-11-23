@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QMUIKit/QMUIKit.h>
 
-@interface YYPCenterViewController : UIViewController
+@interface YYPCenterViewController : QMUICommonViewController
 
 @property (nonatomic,assign) BOOL used;
 

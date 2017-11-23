@@ -35,6 +35,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *vipLabel;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
 
 @end
 
@@ -57,8 +58,11 @@
     NSLog(@"%.1f",self.model.money);
     self.depositLabel.text = [NSString stringWithFormat:@"%.2f",self.model.money];
     self.ylabel.text =  [NSString stringWithFormat:@"押金%.2f元",self.model.deposit];
-    // Do any additional setup after loading the view.
-    //[self requestRecord];
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
 }
 
 
@@ -88,16 +92,29 @@
                     vipType = @"年卡";
                     break;
             }
-
-            [weak_self.vipLabel setTitle:[NSString stringWithFormat:@"  %@ %@到期",vipType, [[NSDate dateWithString:weak_self.model.outtime formatString:@"yyyy-MM-dd hh:mm:ss"] formattedDateWithStyle:NSDateFormatterShortStyle]] forState:UIControlStateNormal];
             NSString *zmscore = [YYFileCacheManager readUserDataForKey:@"config"][@"zmscore"];
-            if (weak_self.model.zmstate == 0) {
-                [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"未通过芝麻信用（＜%@分)",zmscore] forState:UIControlStateNormal];
+            if ([weak_self.model.name isEqualToString:@""]) {
+                [weak_self.sesameStateLabel setTitle:@"未通过身份认证" forState:UIControlStateNormal];
                 [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
+            }else if (weak_self.model.authtype == 0){
+                if (weak_self.model.zmstate == 1) {
+                    [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"成功通过芝麻信用（≥%@分）",zmscore] forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
+                }else{
+                    [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"未通过芝麻信用（＜%@分)",zmscore] forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
+                }
             }else{
-                [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"成功通过芝麻信用（≥%@分）",zmscore] forState:UIControlStateNormal];
-                [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
+                if (weak_self.model.xstate == 1) {
+                    [weak_self.sesameStateLabel setTitle:@"成功通过学生认证" forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
+                }else{
+                    [weak_self.sesameStateLabel setTitle:@"未通过学生认证" forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
+                }
             }
+            [weak_self.vipLabel setTitle:[NSString stringWithFormat:@"  %@ %@到期",vipType, [[NSDate dateWithString:weak_self.model.outtime formatString:@"yyyy-MM-dd hh:mm:ss"] formattedDateWithStyle:NSDateFormatterShortStyle]] forState:UIControlStateNormal];
+         
             weak_self.depositLabel.text = [NSString stringWithFormat:@"%.2f",self.model.money];
             weak_self.ylabel.text =  [NSString stringWithFormat:@"押金%.2f元",self.model.deposit];
             switch (weak_self.model.dstate) {

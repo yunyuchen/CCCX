@@ -9,29 +9,22 @@
 #import "YYNaviViewController.h"
 #import "YYAroundSiteRequest.h"
 #import "YYSiteModel.h"
-#import "YYMainViewController.h"
-#import "YYPersonalViewController.h"
 #import "YYUserManager.h"
 #import "YYLoginViewController.h"
 #import "YYUserModel.h"
 #import "POP.h"
-#import "YYUseBikeViewController.h"
 #import "YYReturnBikeViewController.h"
 #import "CommonUtility.h"
 #import "MANaviRoute.h"
 #import "YYNavigationController.h"
 #import "NSNotificationCenter+Addition.h"
-#import "YYWalkDetailView.h"
-#import "POP.h"
 #import "YYControlBikeViewController.h"
-#import "YYBikeListView.h"
 #import "YYYSiteModel.h"
 #import "YYGetYBikeRequest.h"
 #import "YYPayDepositViewController.h"
 #import "YYCertificationViewController.h"
 #import "YYChargeViewController.h"
 #import "YYCreateOrderReuquest.h"
-#import "YYBikeInfoViewCell.h"
 #import "YYFileCacheManager.h"
 #import "YYRecomendListView.h"
 #import "YYGetBikeRequest1.h"
@@ -42,6 +35,8 @@
 #import "YYMessageViewController.h"
 #import "YYInviteViewController.h"
 #import "YYWarmPromptView.h"
+#import "YYGuideViewController.h"
+#import "YYReAuthViewController.h"
 #import <JDFTooltips/JDFTooltips.h>
 #import <WZLBadge/WZLBadgeImport.h>
 #import <UMSocialCore/UMSocialCore.h>
@@ -61,7 +56,7 @@ typedef enum {
     MoreOperationTagShareWeibo,
 } MoreOperationTag;
 
-@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,YYWalkDetailViewDelegate,BikeListViewDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,NavScrollViewDelegate>
+@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,NavScrollViewDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -124,8 +119,6 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet QMUIFillButton *rentalButton;
 
-@property (nonatomic,strong) YYWalkDetailView *detailView;
-
 @property (nonatomic,strong) YYRecomendListView *listView;
 
 @property (nonatomic,strong) YYNavScrollView *navScrollView;
@@ -151,6 +144,9 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UILabel *noticeLabel;
 
 @property(nonatomic, strong) JDFTooltipView *tooltipView;
+
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
 
 @end
 
@@ -181,32 +177,11 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [NSNotificationCenter addObserver:self action:@selector(dirctAction:) name:kDirectNotifaction];
     [NSNotificationCenter addObserver:self action:@selector(returnSuccessAction:) name:kReturnSuccessNotification];
     [NSNotificationCenter addObserver:self action:@selector(loginSuccessAction:) name:kLoginSuccessNotification];
-    
-    YYWarmPromptView *contentView = [[YYWarmPromptView alloc] init];
-    contentView.layer.cornerRadius = 4;
-    contentView.layer.masksToBounds = YES;
-    
-    QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-    modalViewController.contentView = contentView;
-    modalViewController.maximumContentViewWidth = kScreenWidth - 100;
-    modalViewController.animationStyle = QMUIModalPresentationAnimationStylePopup;
-    [modalViewController showWithAnimated:YES completion:nil];
-    
-    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)) {
-    }else if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied) {
-        QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
-        }];
-        QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
-            NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-            if ([[UIApplication sharedApplication] canOpenURL:url]) {
-                [[UIApplication sharedApplication] openURL:url];
-            }
-        }];
-        QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"温馨提示" message:@"请您设置允许APP访问您的定位->设置->隐私->定位" preferredStyle:QMUIAlertControllerStyleAlert];
-        [alertController addAction:action1];
-        [alertController addAction:action2];
-        [alertController showWithAnimated:YES];
-    }
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
 }
 
 -(void) dirctAction:(NSNotification *)noti
@@ -215,6 +190,23 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     self.destinationCoordinate = CLLocationCoordinate2DMake(model.latitude, model.longitude);
     [self.mapView setCenterCoordinate:self.destinationCoordinate];
     [self ddd:nil];
+}
+
+- (IBAction)kefuButtonClick:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"0596-2671066" message:[NSString stringWithFormat:@"%@",@""] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",@"0596-2671066"]]];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (IBAction)guideButtonClick:(id)sender {
+    YYGuideViewController *guideViewController = [[YYGuideViewController alloc] init];
+    [self.navigationController pushViewController:guideViewController animated:YES];
 }
 
 -(void) loginSuccessAction:(NSNotification *)noti
@@ -228,7 +220,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         return;
     }
     
-    
+
     YYBaseRequest *request = [[YYBaseRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserstateAPI];
     
@@ -263,7 +255,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             //学生证认证(审核失败)
             if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 2) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                YYReAuthViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"reAuth"];
                 [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
                 return;
             }
@@ -421,7 +413,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             //学生证认证(审核失败)
             if (weak_self.userModel.authtype == 1 && weak_self.userModel.xstate == 2  && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                YYReAuthViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"reAuth"];
                 [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
                 return;
             }
@@ -558,11 +550,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.destinationViewController isKindOfClass:[YYMainViewController class]]) {
-        [segue.destinationViewController setValue:@(self.models[self.selectedId].ID) forKey:@"sid"];
-        [segue.destinationViewController setValue:self.models[self.selectedId].name forKey:@"name"];
-        [segue.destinationViewController setValue:self.city forKey:@"city"];
-    }
     if ([segue.destinationViewController isKindOfClass:[YYInviteViewController class]]) {
         [segue.destinationViewController setValue:@(self.userModel.ID) forKey:@"userId"];
     }
@@ -579,6 +566,11 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             return NO;
         }
         
+        if (self.userModel == nil) {
+            [QMUITips showWithText:@"网络不给力" inView:self.view hideAfterDelay:2];
+            return NO;
+        }
+      
         //未认证身份
         if ([self.userModel.idcard isEqualToString:@""]) {
             //Certification
@@ -591,7 +583,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         //学生证认证(审核失败)
         if (self.userModel.authtype == 1 && self.userModel.xstate == 2 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+            YYReAuthViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"reAuth"];
             [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
             return NO;
         }
@@ -645,17 +637,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     _mapView.showsCompass                = NO;
     _mapView.showsScale                  = NO;
     _mapView.rotateEnabled               = NO;
-    [_mapView setZoomLevel:18.5 animated:YES];
-    [self.view addSubview:_mapView];
-    
-    [self.view bringSubviewToFront:self.gpsButton];
-    [self.view bringSubviewToFront:self.directView];
-    [self.view bringSubviewToFront:self.topView];
-    [self.view bringSubviewToFront:self.rentalButton];
-    [self.view bringSubviewToFront:self.activityButton];
-    [self.view bringSubviewToFront:self.nearestView];
-    [self.view bringSubviewToFront:self.noticeView];
-    
+    [_mapView setZoomLevel:16.5 animated:YES];
+    [self.view insertSubview:_mapView atIndex:0];
+
     [self initAnnotations];
 
     self.noticeView.layer.cornerRadius = self.noticeView.height * 0.4;
@@ -734,7 +718,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     request.lng = coordinate.longitude;
     
     WEAK_REF(self);
+    [QMUITips showLoadingInView:self.view];
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [QMUITips hideAllToastInView:weak_self.view animated:YES];
         if (success) {
             
             weak_self.lastPostion = coordinate;
@@ -760,7 +746,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
           
         }
     } error:^(NSError *error) {
-        
+        [QMUITips hideAllToastInView:weak_self.view animated:YES];
     }];
     
 }
@@ -996,14 +982,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         polylineRenderer.lineWidth   = 8;
         polylineRenderer.lineDash = YES;
         polylineRenderer.strokeColor = [UIColor redColor];
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         return polylineRenderer;
     }
     if ([overlay isKindOfClass:[MANaviPolyline class]])
     {
         MANaviPolyline *naviPolyline = (MANaviPolyline *)overlay;
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:naviPolyline.polyline];
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         polylineRenderer.lineWidth = 8;
         
         if (naviPolyline.type == MANaviAnnotationTypeWalking)
@@ -1024,7 +1010,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     if ([overlay isKindOfClass:[MAMultiPolyline class]])
     {
         MAMultiColoredPolylineRenderer * polylineRenderer = [[MAMultiColoredPolylineRenderer alloc] initWithMultiPolyline:overlay];
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         polylineRenderer.lineWidth = 10;
         polylineRenderer.strokeColors = [self.naviRoute.multiPolylineColors copy];
         polylineRenderer.gradient = YES;
@@ -1115,262 +1101,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 
 
--(void)YYWalkDetailView:(YYWalkDetailView *)walkDetailView didClickRentalButton:(UIButton *)rentalButton
-{
-    if (![YYUserManager isHaveLogin]) {
-        UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
-         [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:loginViewController] animated:YES completion:nil];
-        return;
-    }
-    
-    
-    YYBaseRequest *request = [[YYBaseRequest alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserstateAPI];
-    
-    WEAK_REF(self);
-    QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-    contentView.minimumSize = CGSizeMake(100, 100);
-    [tips showLoading];
-    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-        [tips hideAnimated:YES];
-        if (success) {
-            weak_self.userModel = [YYUserModel modelWithDictionary:response];
-            
-            //未交押金
-            if (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3) {
-                //payDeposit
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
-                
-                [weak_self.navigationController pushViewController:payDepositViewController animated:YES];
-                return;
-            }
-            //未认证身份
-            if ([weak_self.userModel.idcard isEqualToString:@""]) {
-                //Certification
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
-                
-                [weak_self.navigationController pushViewController:certificationViewController animated:YES];
-                return;
-            }
-            
-            if (weak_self.userModel.money <= 0) {
-                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(200, 100);
-                [tips showInfo:@"您的余额不足，请充值" hideAfterDelay:2];
-                
-                
-                YYChargeViewController *chargeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"charge"];
-                [self.navigationController pushViewController:chargeViewController animated:YES];
-                return;
-            }
-            //用户有订单的情况
-            if ([weak_self.userModel.hasorder isEqualToString:@"1"]) {
-                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(100, 100);
-                [tips showError:@"上次借车还未付款, 请先付款" hideAfterDelay:2];
-                YYBaseRequest *orderRequest = [[YYBaseRequest alloc] init];
-                orderRequest.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderInfoAPI];
-                [orderRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                    weak_self.rentalModel = [YYRentalModel modelWithDictionary:response];
-                    
-                    YYReturnBikeViewController *returnBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"returnBike"];
-                    returnBikeViewController.price = weak_self.rentalModel.price;
-                    returnBikeViewController.extprice = 0;
-                    returnBikeViewController.keep = weak_self.rentalModel.keep;
-                    [weak_self.navigationController pushViewController:returnBikeViewController animated:YES];
-                } error:^(NSError *error) {
-                    
-                }];
-                
-            }else{
-                YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
-                request.sid = self.detailView.model.sid;
-                request.bid = self.detailView.model.ID;
-                request.deviceid = self.detailView.model.deviceid;
-                request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreateOrderAPI];
-                WEAK_REF(self);
-                QMUITips *tips = [QMUITips createTipsToView:self.view];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(100, 100);
-                [tips showLoading];
-                
-                [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                    [tips hideAnimated:YES];
-                    if (success) {
-                        POPBasicAnimation *anBasic = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerPositionY];
-                        anBasic.toValue = @(weak_self.detailView.center.y - 184);
-                        anBasic.beginTime = CACurrentMediaTime();
-                        [anBasic setCompletionBlock:^(POPAnimation *ani,BOOL finish){
-                            [weak_self.detailView removeFromSuperview];
-                            weak_self.detailView = nil;
-                        }];
-                        [weak_self.detailView pop_addAnimation:anBasic forKey:@"position"];
-                        YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
-                        controlBikeViewController.last_mileage = weak_self.detailView.model.last_mileage;
-                        controlBikeViewController.deviceid = weak_self.detailView.model.deviceid;
-                        controlBikeViewController.ID = weak_self.detailView.model.ID;
-                        controlBikeViewController.name = weak_self.detailView.model.name;
-                        [YYFileCacheManager saveUserData:weak_self.detailView.model.bleid forKey:KBLEIDKey];
-                        [weak_self.navigationController pushViewController:controlBikeViewController animated:YES];
-                       
-                    }else{
-                        QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
-                        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                        contentView.minimumSize = CGSizeMake(100, 100);
-                        [tips showError:message hideAfterDelay:2];
-                    }
-                } error:^(NSError *error) {
-                    [tips hideAnimated:YES];
-                }];
-            }
-            //用户无订单
-            
-        }
-    } error:^(NSError *error) {
-        [tips hideAnimated:YES];
-    }];
-}
-
-
--(void)walkDetail:(YYWalkDetailView *)walkDetailView didClickAddressButton:(UIButton *)addressButton
-{
-    YYBikeListView *bikeListView = [[YYBikeListView alloc] init];
-    bikeListView.sid = walkDetailView.model.sid;
-    bikeListView.distance = walkDetailView.model.distance;
-    bikeListView.siteName = walkDetailView.model.name;
-    bikeListView.delegate = self;
-    QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-    modalViewController.contentView = bikeListView;
-    modalViewController.maximumContentViewWidth = kScreenWidth;
-    modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-    [modalViewController showWithAnimated:YES completion:nil];
-    self.modalPrentViewController = modalViewController;
-}
-
--(void) BikeListView:(YYBikeListView *)bikeListView didClickCloseButton:(UIButton *)closeButton
-{
-    [self.modalPrentViewController hideWithAnimated:YES completion:nil];
-}
-
--(void)BikeListView:(YYBikeListView *)bikeListView didClickUseButtonCell:(YYBikeInfoViewCell *)useButtonCell
-{
-    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-        if (![YYUserManager isHaveLogin]) {
-            UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
-            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:loginViewController] animated:YES completion:nil];
-            return;
-        }
-        
-        
-        YYBaseRequest *request = [[YYBaseRequest alloc] init];
-        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserstateAPI];
-        
-        WEAK_REF(self);
-        QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-        contentView.minimumSize = CGSizeMake(100, 100);
-        [tips showLoading];
-        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-            [tips hideAnimated:YES];
-            if (success) {
-                weak_self.userModel = [YYUserModel modelWithDictionary:response];
-              
-                //未交押金
-                if (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3) {
-                    //payDeposit
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
-                    
-                    [weak_self.navigationController pushViewController:payDepositViewController animated:YES];
-                    return;
-                }
-                //未认证身份
-                if ([weak_self.userModel.idcard isEqualToString:@""]) {
-                    //Certification
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    YYCertificationViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"Certification"];
-                    
-                    [weak_self.navigationController pushViewController:certificationViewController animated:YES];
-                    return;
-                }
-                
-                if (weak_self.userModel.money <= 0) {
-                    QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                    contentView.minimumSize = CGSizeMake(200, 100);
-                    [tips showInfo:@"您的余额不足，请充值" hideAfterDelay:2];
-                    
-                    YYChargeViewController *chargeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"charge"];
-                    [self.navigationController pushViewController:chargeViewController animated:YES];
-                    return;
-                }
-                //用户有订单的情况
-                if ([weak_self.userModel.hasorder isEqualToString:@"1"]) {
-                    QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                    contentView.minimumSize = CGSizeMake(100, 100);
-                    [tips showError:@"上次借车还未付款, 请先付款" hideAfterDelay:2];
-                    YYBaseRequest *orderRequest = [[YYBaseRequest alloc] init];
-                    orderRequest.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderInfoAPI];
-                    [orderRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                        weak_self.rentalModel = [YYRentalModel modelWithDictionary:response];
-                        
-                        YYReturnBikeViewController *returnBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"returnBike"];
-                        returnBikeViewController.price = weak_self.rentalModel.price;
-                        returnBikeViewController.extprice = 0;
-                        returnBikeViewController.keep = weak_self.rentalModel.keep;
-                        [weak_self.navigationController pushViewController:returnBikeViewController animated:YES];
-                    } error:^(NSError *error) {
-                        
-                    }];
-                    
-                }else{
-                    YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
-                    request.sid = useButtonCell.model.sid;
-                    request.bid = useButtonCell.model.ID;
-                    request.deviceid = useButtonCell.model.deviceid;
-                    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreateOrderAPI];
-                    WEAK_REF(self);
-                    QMUITips *tips = [QMUITips createTipsToView:self.view];
-                    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                    contentView.minimumSize = CGSizeMake(100, 100);
-                    [tips showLoading];
-                    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                        [tips hideAnimated:YES];
-                        if (success) {
-                            YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
-                            controlBikeViewController.last_mileage = useButtonCell.model.last_mileage;
-                            controlBikeViewController.deviceid = useButtonCell.model.deviceid;
-                            controlBikeViewController.ctime = useButtonCell.model.ctime;
-                            controlBikeViewController.ID = useButtonCell.model.ID;
-                            controlBikeViewController.name = useButtonCell.model.name;
-                            [YYFileCacheManager saveUserData:useButtonCell.model.bleid forKey:KBLEIDKey];
-                            [self.navigationController pushViewController:controlBikeViewController animated:YES];
-                        }else{
-                            QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
-                            QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                            contentView.minimumSize = CGSizeMake(100, 100);
-                            [tips showError:message hideAfterDelay:2];
-                        }
-                    } error:^(NSError *error) {
-                        [tips hideAnimated:YES];
-                    }];
-                }
-                //用户无订单
-                
-            }
-        } error:^(NSError *error) {
-            [tips hideAnimated:YES];
-        }];
-    }];
-}
 
 -(void) YYRecomendListView:(YYRecomendListView *)recomendListView didClickCloseButton:(UIButton *)closeButton
 {

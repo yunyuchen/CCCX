@@ -33,34 +33,6 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
-    //是否需要显示版本新特性
-    BOOL canShow = [YYCoreNewFeatureViewController canShowNewFeature];
-    if (NO) {
-        //设置启动图片
-        self.window.rootViewController = [YYCoreNewFeatureViewController newFeatureVCWithImageNames:@[@"01",@"02",@"03"] enterBlock:^{
-          
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            YYNavigationController *navi = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
-            self.window.rootViewController = navi;
-            //设置转场动画
-            [self.window.layer transitionWithAnimType:TransitionAnimTypeRippleEffect subType:TransitionSubtypesFromRamdom curve:TransitionCurveRamdom duration:2.0f];
-        } configuration:^(UIButton *enterButton) { // 配置进入按钮
-            //设置进入按钮的样式
-            [enterButton setTitle:@"立即使用" forState:UIControlStateNormal];
-            [enterButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            enterButton.bounds = CGRectMake(10, 0, KScreenW - 20, 44);
-            enterButton.center = CGPointMake(KScreenW * 0.5, KScreenH* 0.92);
-            enterButton.layer.cornerRadius = 22;
-            enterButton.layer.borderWidth = 1;
-            enterButton.layer.borderColor =  [UIColor colorWithHexString:@"404040"].CGColor;
-         
-            
-        }];
-    }
-    
-    [self configGlobalHUDStyle];
-    
     [self configKeyboardManager];
     
     //[Bugly startWithAppId:@"c7c40aadc8"];
@@ -95,17 +67,6 @@
     manager.enableAutoToolbar = NO;
 }
 
-
-//设置SVProgress全局Style
--(void) configGlobalHUDStyle
-{
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleCustom];
-    [SVProgressHUD setBackgroundColor:[UIColor blackColor]];
-    [SVProgressHUD setMinimumSize:CGSizeMake(200, 100)];
-    [SVProgressHUD setMinimumDismissTimeInterval:2];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
-}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

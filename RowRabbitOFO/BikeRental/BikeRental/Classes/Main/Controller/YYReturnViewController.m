@@ -72,6 +72,8 @@
 
 @property (nonatomic,weak) YYTips1View *tipsView;
 
+@property (nonatomic,assign) CLLocationCoordinate2D lastPostion;
+
 @end
 
 @implementation YYReturnViewController
@@ -194,15 +196,27 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     request.lng = coordinate.longitude;
     
     WEAK_REF(self);
+    [QMUITips showLoadingInView:self.view];
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [QMUITips hideAllToastInView:self.view animated:YES];
         if (success) {
+             weak_self.lastPostion = coordinate;
             weak_self.models = [YYSiteModel modelArrayWithDictArray:response];
-            weak_self.addressView.models = weak_self.models;
+           
             if (weak_self.models.count > 0) {
                 weak_self.addressView.hidden = NO;
             }else{
                 weak_self.addressView.hidden = YES;
             }
+            for (YYSiteModel *model in weak_self.models) {
+                //1.将两个经纬度点转成投影点
+                MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(model.latitude,model.longitude));
+                MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
+                //2.计算距离
+                CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+                model.distance = distance;
+            }
+             weak_self.addressView.models = weak_self.models;
             [weak_self.mapView removeAnnotations:weak_self.annotations];
             weak_self.annotations = [NSMutableArray array];
             
@@ -216,15 +230,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 
             }
             if (weak_self.annotations.count > 0) {
-                
                 [weak_self.mapView addAnnotations:weak_self.annotations];
     
             }
             
             if (self.annotations.count > 0) {
                  self.selectedId = 0;
-                //self.selectedId = [self.annotations[0].annotation.title integerValue];
-                //[self.mapView selectAnnotation:self.annotations[0] animated:NO];
             }
             if (weak_self.models.count > 0 && weak_self.firstLoad) {
                 YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
@@ -274,7 +285,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             
         }
     } error:^(NSError *error) {
-        
+          [QMUITips hideAllToastInView:self.view animated:YES];
     }];
     
 }
@@ -393,8 +404,17 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction
 {
+    self.tipsView.hidden = YES;
+ 
     CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
-    
+    //1.将两个经纬度点转成投影点
+    MAMapPoint point1 = MAMapPointForCoordinate(self.lastPostion);
+    MAMapPoint point2 = MAMapPointForCoordinate(coordinate);
+    //2.计算距离
+    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+    if (distance < 2000) {
+        return;
+    }
     CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.y"];
     CGFloat currentTx = self.pickImageView.transform.ty;
     animation.duration = 0.6;
@@ -428,14 +448,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         polylineRenderer.lineWidth   = 8;
         polylineRenderer.lineDash = YES;
         polylineRenderer.strokeColor = [UIColor redColor];
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         return polylineRenderer;
     }
     if ([overlay isKindOfClass:[MANaviPolyline class]])
     {
         MANaviPolyline *naviPolyline = (MANaviPolyline *)overlay;
         MAPolylineRenderer *polylineRenderer = [[MAPolylineRenderer alloc] initWithPolyline:naviPolyline.polyline];
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         polylineRenderer.lineWidth = 8;
         
         if (naviPolyline.type == MANaviAnnotationTypeWalking)
@@ -460,7 +480,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         polylineRenderer.lineWidth = 10;
         polylineRenderer.strokeColors = [self.naviRoute.multiPolylineColors copy];
         polylineRenderer.gradient = YES;
-        
+        polylineRenderer.strokeImage = [UIImage imageNamed:@"arrowTexture"];
         return polylineRenderer;
     }
     

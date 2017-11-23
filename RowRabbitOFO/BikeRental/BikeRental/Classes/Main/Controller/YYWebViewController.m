@@ -28,12 +28,15 @@
         make.left.right.top.bottom.mas_equalTo(self.view);
     }];
     self.webView = webView;
-    
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, StatusRect.size.height + NavRect.size.height)];
     [self.view addSubview:topView];
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(64);
+        make.height.mas_equalTo(StatusRect.size.height + NavRect.size.height);
     }];
     topView.backgroundColor = [UIColor whiteColor];
   

@@ -1,80 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="YYWarmPromptView">
-            <rect key="frame" x="0.0" y="0.0" width="371" height="366"/>
+            <rect key="frame" x="0.0" y="0.0" width="453" height="497"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUa-dT-cA5">
-                    <rect key="frame" x="0.0" y="0.0" width="371" height="203.5"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="温馨提示图" translatesAutoresizingMaskIntoConstraints="NO" id="ekF-O5-OOY">
-                    <rect key="frame" x="0.0" y="203.5" width="371" height="60"/>
-                </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨提示" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZb-uI-cQD">
-                    <rect key="frame" x="148.5" y="21.5" width="73.5" height="21"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ptb-tX-xbk">
-                    <rect key="frame" x="170.5" y="301" width="30" height="30"/>
+                    <rect key="frame" x="196.5" y="432" width="60" height="60"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="Y5L-NH-GW0"/>
-                        <constraint firstAttribute="height" constant="30" id="z7U-Xa-zJf"/>
+                        <constraint firstAttribute="width" constant="60" id="Y5L-NH-GW0"/>
+                        <constraint firstAttribute="height" constant="60" id="z7U-Xa-zJf"/>
                     </constraints>
                     <state key="normal" image="关闭1"/>
                     <connections>
                         <action selector="closeButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="gtr-bF-Y6i"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7o-Xi-daP">
-                    <rect key="frame" x="20" y="69.5" width="331" height="50.5"/>
-                    <string key="text">1、请遵守当地交通规则，非注册人不允许骑车；
-2、严禁骑车带人，严禁未成年用车；
-3、允许在非站点临时停车，还车时一定要在指定站点。</string>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="提示" translatesAutoresizingMaskIntoConstraints="NO" id="ZtY-My-8Zv">
+                    <rect key="frame" x="0.0" y="0.0" width="453" height="412"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="P7o-Xi-daP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="6mg-EQ-TVI"/>
-                <constraint firstItem="JZb-uI-cQD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7nL-Ef-QEG"/>
-                <constraint firstItem="DUa-dT-cA5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="9wz-dY-ojz"/>
-                <constraint firstItem="Ptb-tX-xbk" firstAttribute="top" secondItem="ekF-O5-OOY" secondAttribute="bottom" constant="37.5" id="R2u-v2-MJ4"/>
-                <constraint firstAttribute="trailing" secondItem="ekF-O5-OOY" secondAttribute="trailing" id="TIl-p6-iIR"/>
-                <constraint firstItem="JZb-uI-cQD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="21.5" id="VGx-UP-avt"/>
-                <constraint firstItem="P7o-Xi-daP" firstAttribute="top" secondItem="JZb-uI-cQD" secondAttribute="bottom" constant="27" id="Wpl-QP-9SO"/>
-                <constraint firstItem="ekF-O5-OOY" firstAttribute="top" secondItem="DUa-dT-cA5" secondAttribute="bottom" id="XmG-Db-RM0"/>
-                <constraint firstItem="ekF-O5-OOY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YjN-yX-VYO"/>
-                <constraint firstAttribute="trailing" secondItem="P7o-Xi-daP" secondAttribute="trailing" constant="20" id="dak-z7-D2s"/>
-                <constraint firstAttribute="trailing" secondItem="DUa-dT-cA5" secondAttribute="trailing" id="fv1-nx-8ae"/>
-                <constraint firstItem="ekF-O5-OOY" firstAttribute="top" secondItem="JZb-uI-cQD" secondAttribute="bottom" constant="161" id="hBn-Fe-igd"/>
-                <constraint firstItem="DUa-dT-cA5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mTU-PI-sAo"/>
+                <constraint firstItem="Ptb-tX-xbk" firstAttribute="top" secondItem="ZtY-My-8Zv" secondAttribute="bottom" constant="20" id="9St-JX-f6t"/>
+                <constraint firstAttribute="trailing" secondItem="ZtY-My-8Zv" secondAttribute="trailing" id="AsU-nI-KX0"/>
+                <constraint firstAttribute="bottom" secondItem="Ptb-tX-xbk" secondAttribute="bottom" constant="5" id="MeJ-aJ-a72"/>
+                <constraint firstItem="ZtY-My-8Zv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UnG-M1-pvb"/>
+                <constraint firstItem="ZtY-My-8Zv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WWe-m5-nli"/>
                 <constraint firstItem="Ptb-tX-xbk" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="vie-al-vvl"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="tipsLabel" destination="P7o-Xi-daP" id="plu-E6-b1G"/>
+                <outlet property="tipsLabel" destination="ZtY-My-8Zv" id="OtY-Md-63I"/>
             </connections>
-            <point key="canvasLocation" x="-311" y="-75"/>
+            <point key="canvasLocation" x="-386.5" y="-31.5"/>
         </view>
     </objects>
     <resources>
         <image name="关闭1" width="30" height="30"/>
-        <image name="温馨提示图" width="280" height="60"/>
+        <image name="提示" width="540" height="540"/>
     </resources>
 </document>

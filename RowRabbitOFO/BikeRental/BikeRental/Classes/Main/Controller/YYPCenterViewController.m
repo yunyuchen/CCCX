@@ -14,6 +14,7 @@
 #import "YYGuideViewController.h"
 #import "YYInviteViewController.h"
 #import "YYSettingViewController.h"
+#import "UINavigationController+FDFullscreenPopGesture.h"
 #import <QMUIKit/QMUIKit.h>
 
 
@@ -36,7 +37,7 @@
     [super viewDidLoad];
     
     self.logoutButton.imagePosition = QMUIButtonImagePositionRight;
-    
+    self.fd_prefersNavigationBarHidden = YES;
     [self getUserInfoRequest];
     
     if (self.used) {
@@ -50,8 +51,6 @@
     }else{
         self.dotView.hidden = YES;
     }
- 
-    // Do any additional setup after loading the view.
 }
 
 -(void) getUserInfoRequest
@@ -71,10 +70,17 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (BOOL)shouldCustomNavigationBarTransitionIfBarHiddenable
+{
+    return YES;
 }
+
+-(BOOL) preferredNavigationBarHidden
+{
+    return YES;
+}
+
 
 - (IBAction)dismissAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -126,14 +132,5 @@
 }
 
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

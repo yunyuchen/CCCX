@@ -20,6 +20,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _instance = [AFHTTPSessionManager manager];
+        _instance.requestSerializer.timeoutInterval = 10;
         _instance.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/plain", @"text/json", @"text/javascript", @"text/html", nil];
     });
     return _instance;

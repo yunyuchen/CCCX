@@ -11,6 +11,7 @@
 #import "YYPayDepositRequest.h"
 #import "YYUserModel.h"
 #import "YYFileCacheManager.h"
+#import <BEMCheckBox/BEMCheckBox.h>
 #import <WXApi.h>
 #import <QMUIKit/QMUIKit.h>
 #import <AlipaySDK/AlipaySDK.h>
@@ -23,22 +24,6 @@
 
 @property (nonatomic,strong) UIImageView *tranformImageView;
 
-@property (weak, nonatomic) IBOutlet UIView *dotView;
-
-@property (weak, nonatomic) IBOutlet UIView *dotView1;
-
-@property (weak, nonatomic) IBOutlet UIView *wechatPayView;
-
-@property (weak, nonatomic) IBOutlet UIView *aliPayView;
-
-@property (weak, nonatomic) IBOutlet UIImageView *wechatImageView;
-
-@property (weak, nonatomic) IBOutlet UIButton *wechatSelectButton;
-
-@property (weak, nonatomic) IBOutlet UIImageView *alipayImageView;
-
-@property (weak, nonatomic) IBOutlet UIButton *alipaySelectButton;
-
 @property (weak, nonatomic) IBOutlet UILabel *despiteLabel;
 
 @property (nonatomic,strong) YYUserModel *userModel;
@@ -47,6 +32,11 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
 
+@property (weak, nonatomic) IBOutlet BEMCheckBox *wechatCheckBox;
+
+@property (weak, nonatomic) IBOutlet BEMCheckBox *aliCheckBox;
+
+@property (nonatomic,strong) BEMCheckBox *currentCheckBox;
 
 @end
 
@@ -58,6 +48,8 @@
     [self setUpTopView];
     
     [self getUserInfoRequest];
+    
+    self.currentCheckBox = self.wechatCheckBox;
     
     [NSNotificationCenter addObserver:self action:@selector(paySuccessAction:) name:kPayDesSuccessNotification];
     
@@ -86,6 +78,12 @@
     } error:^(NSError *error) {
         
     }];
+}
+
+- (IBAction)selectButtonClick:(BEMCheckBox *)sender {
+    [self.currentCheckBox setOn:NO animated:NO];
+    [sender setOn:YES animated:YES];
+    self.currentCheckBox = sender;
 }
 
 -(void) paySuccessAction:(NSNotification *)noti
@@ -242,35 +240,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-
-    CAShapeLayer *border1 = [CAShapeLayer layer];
-    border1.strokeColor = [UIColor colorWithHexString:@"#ED1847"].CGColor;
-    border1.fillColor = nil;
-    border1.path = [UIBezierPath bezierPathWithRoundedRect:self.aliPayView.layer.bounds cornerRadius:5].CGPath;
-    border1.frame = self.aliPayView.bounds;
-    border1.lineWidth = 1.f;
-    border1.lineJoin = @"round";
-    border1.lineCap = @"round";
-    border1.lineDashPattern = @[@4, @2];
-    [self.aliPayView.layer addSublayer:border1];
-    
-    
-    CAShapeLayer *border2 = [CAShapeLayer layer];
-    border2.strokeColor = [UIColor colorWithHexString:@"#ED1847"].CGColor;
-    border2.fillColor = nil;
-    border2.path = [UIBezierPath bezierPathWithRoundedRect:self.wechatPayView.layer.bounds cornerRadius:5].CGPath;
-    border2.frame = self.wechatPayView.bounds;
-    border2.lineWidth = 1.f;
-    border2.lineCap = @"round";
-    border2.lineJoin = @"round";
-    border2.lineDashPattern = @[@4, @2];
-    [self.wechatPayView.layer addSublayer:border2];
-    
-    UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"28背景02"]];
-    arrowImageView.centerY = self.topView.height - arrowImageView.height * 0.5;
-    arrowImageView.centerX = self.tranformImageView.centerX;
-    [self.view addSubview:arrowImageView];
 
 }
 
@@ -310,7 +279,8 @@
 - (IBAction)chargeButtonClick:(id)sender {
     YYPayDepositRequest *request = [[YYPayDepositRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayDepositAPI];
-    if (self.alipaySelectButton.selected) {
+    __weak __typeof(self)weakSelf = self;
+    if (self.currentCheckBox == self.aliCheckBox) {
         request.ptype = 0;
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {
@@ -319,6 +289,8 @@
                 [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
                     NSLog(@"reslut = %@",resultDic);
                 }];
+            }else{
+                [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
             }
         } error:^(NSError *error) {
             
@@ -335,6 +307,8 @@
                 req.package             = response[@"package"];
                 req.sign                = response[@"sign"];
                 [WXApi sendReq:req];
+            }else{
+                [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
             }
         } error:^(NSError *error) {
             
@@ -342,20 +316,6 @@
     }
 }
 
-- (IBAction)wechatPayButtonClick:(id)sender {
-    self.alipayImageView.image = [UIImage imageNamed:@"26支付01"];
-    self.wechatImageView.image = [UIImage imageNamed:@"27微信02"];
-    self.alipaySelectButton.selected = NO;
-    self.wechatSelectButton.selected = YES;
-}
-
-
-- (IBAction)alipayButtonClick:(id)sender {
-    self.alipayImageView.image = [UIImage imageNamed:@"26支付02"];
-    self.wechatImageView.image = [UIImage imageNamed:@"27微信01"];
-    self.alipaySelectButton.selected = YES;
-    self.wechatSelectButton.selected = NO;
-}
 
 
 

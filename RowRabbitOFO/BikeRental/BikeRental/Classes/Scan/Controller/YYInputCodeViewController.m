@@ -28,6 +28,9 @@
 
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
 
+@property (weak, nonatomic) IBOutlet UIView *inputView;
+
+
 @property (nonatomic,assign) BOOL lightON;
 @end
 
@@ -40,6 +43,8 @@
     self.flashButton.imagePosition = QMUIButtonImagePositionTop;
     self.scanButton.spacingBetweenImageAndTitle = 10;
     self.flashButton.spacingBetweenImageAndTitle = 10;
+    self.inputView.layer.cornerRadius = 24;
+    self.inputView.layer.masksToBounds = YES;
     // Do any additional setup after loading the view.
 }
 

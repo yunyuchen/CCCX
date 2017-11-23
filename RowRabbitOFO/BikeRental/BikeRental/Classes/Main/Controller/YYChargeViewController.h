@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QMUIKit/QMUIKit.h>
 
 @interface YYChargeViewController : UIViewController
 

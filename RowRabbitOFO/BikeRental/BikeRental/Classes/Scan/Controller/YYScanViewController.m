@@ -34,6 +34,8 @@
 
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
 @end
 
 @implementation YYScanViewController
@@ -79,6 +81,7 @@
     [self.view bringSubviewToFront:self.leftBottomView];
     [self.view bringSubviewToFront:self.rightBottomView];
     [self.view bringSubviewToFront:self.logoImageView];
+    [self.view bringSubviewToFront:self.titleLabel];
 }
 
 -(void) drawTitle

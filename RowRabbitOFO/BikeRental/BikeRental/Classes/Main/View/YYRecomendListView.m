@@ -144,8 +144,8 @@
     self.tableView.tableFooterView = nil;
     
     if (kScreenHeight <= 568) {
-        if (self.array.count >= 5) {
-            self.height += 4 * 58 - 29;
+        if (self.array.count >= 4) {
+            self.height += 3 * 58 - 29;
         }else{
             if (self.array.count > 1) {
                 self.height += (self.array.count - 1 ) * 58 - 29;
@@ -155,8 +155,8 @@
             
         }
     }else{
-        if (self.array.count >= 8) {
-            self.height += 9 * 58 - 29;
+        if (self.array.count >= 6) {
+            self.height += 5 * 58 - 29;
         }else{
             if (self.array.count > 1) {
                 self.height += (self.array.count - 1 ) * 58 - 29;

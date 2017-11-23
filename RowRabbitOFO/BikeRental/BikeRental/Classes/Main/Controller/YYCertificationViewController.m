@@ -64,7 +64,7 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
     self.sesameButton.spacingBetweenImageAndTitle = 10;
     self.studentCardButton.imagePosition = QMUIButtonImagePositionTop;
     self.studentCardButton.spacingBetweenImageAndTitle = 10;
-    // Do any additional setup after loading the view.
+    self.sesameLeadingCons.constant = -kScreenWidth;
     if (self.preState) {
         self.successView.hidden = NO;
     }
@@ -250,7 +250,7 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
                     [weak_self performSegueWithIdentifier:@"charge" sender:self];
                 }
             }else{
-                [SVProgressHUD showErrorWithStatus:message];
+                [QMUITips showError:message inView:weak_self.view hideAfterDelay:2];
             }
         } error:^(NSError *error) {
             
@@ -292,9 +292,12 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
         request.college = self.schoolNameTextField.text;
         request.colnum = self.studentNoTextField.text;
         request.img = self.url;
+        __weak __typeof(self)weakSelf = self;
        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {
                 self.successView.hidden = NO;
+            }else{
+                [QMUITips showError:message inView:weakSelf.view hideAfterDelay:2];
             }
         } error:^(NSError *error) {
             

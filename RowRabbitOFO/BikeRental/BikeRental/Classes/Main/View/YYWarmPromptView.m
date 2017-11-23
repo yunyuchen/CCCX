@@ -8,11 +8,12 @@
 
 #import "YYWarmPromptView.h"
 #import "YYFileCacheManager.h"
+#import "UIImageView+WebCache.h"
 #import <QMUIKit/QMUIKit.h>
 
 @interface YYWarmPromptView()
 
-@property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *tipsLabel;
 
 @end
 
@@ -23,8 +24,8 @@
     self = [super init];
     if (self) {
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
-        if ([YYFileCacheManager readUserDataForKey:@"config"][@"tipmsg"] != nil) {
-              self.tipsLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"tipmsg"];
+        if ([YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"] != nil) {
+            [self.tipsLabel sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,[YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"]]] placeholderImage:[UIImage imageNamed:@"提示"]];
         }
 
     }

@@ -17,6 +17,9 @@
 
 @property (nonatomic,strong) NSMutableArray<YYDriveHisModel *> *models;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
+
+
 @end
 
 @implementation YYDriveHisViewController
@@ -35,7 +38,12 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [self getDriveHisRequest];
-    // Do any additional setup after loading the view.
+    
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
 }
 
 -(void) getDriveHisRequest

@@ -7,7 +7,6 @@
 //
 
 #import "YYControlBikeViewController.h"
-#import "YYNetStartView.h"
 #import "MZTimerLabel.h"
 #import "NSString+YYExtension.h"
 #import "YYOprateBikeRequest.h"
@@ -28,7 +27,7 @@
 
 #define OPENOP  @"11"
 #define CLOSEOP @"10"
-@interface YYControlBikeViewController ()<CBCentralManagerDelegate,CBPeripheralDelegate,NetStartViewDelegate>
+@interface YYControlBikeViewController ()<CBCentralManagerDelegate,CBPeripheralDelegate>
 
 //设备编号
 @property (weak, nonatomic) IBOutlet UILabel *deviceLabel;
@@ -71,6 +70,8 @@
 
 @property (nonatomic,strong) KKPopTooltip *tooltipView;
 
+@property (weak, nonatomic) IBOutlet UIView *bluetoothTipsView;
+
 @end
 
 @implementation YYControlBikeViewController
@@ -95,19 +96,7 @@
     }
     [self.driveTimeLabel start];
     
-    if ([[YYFileCacheManager readUserDataForKey:kBikeStateKey] isEqualToString:@"0"] || [YYFileCacheManager readUserDataForKey:kBikeStateKey] == nil) {
-        self.startButton.selected = YES;
-        self.tipsLabel.text = @"已开启";
-        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
-        
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
-    }else{
-        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
-        self.startButton.selected = NO;
-        self.tipsLabel.text = @"已上锁";
-        
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
-    }
+  
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     animation.fromValue = [NSNumber numberWithFloat:1.0f];
@@ -137,9 +126,30 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    if (self.tooltipView != nil) {
+        return;
+    }
+    if ([[YYFileCacheManager readUserDataForKey:kBikeStateKey] isEqualToString:@"0"] || [YYFileCacheManager readUserDataForKey:kBikeStateKey] == nil) {
+        self.startButton.selected = YES;
+        self.tipsLabel.text = @"已开启";
+        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
+        
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
+    }else{
+        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
+        self.startButton.selected = NO;
+        self.tipsLabel.text = @"已上锁";
+        
+        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
+    }
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
 
     
+ 
 }
 
 -(void) buttonClickAction:(NSNotification *)noti
@@ -251,32 +261,12 @@
     [self performSegueWithIdentifier:@"returnBike1" sender:self];
 }
 
-//点击关闭按钮
--(void)NetStartView:(YYNetStartView *)netStartView didClickColseButton:(UIButton *)CloseButton
-{
-    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-      
-    }];
-}
-
-//网络启动按钮点击
--(void)NetStartView:(YYNetStartView *)netStartView didClickOpenButton:(UIButton *)openButton
-{
-    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-        if (finished) {
-            [self operateBike:OPENOP];
-        }
-    }];
-   
-}
-
-
 //启动按钮点击
 - (IBAction)startButtonClick:(UIButton *)sender {
     if (sender.selected) {
         [self.tooltipView removeFromSuperview];
         self.tooltipView = nil;
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
+         self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
         if (self.bluetoothButton.selected) {
             if (self.currPeripheral == nil || self.currCharacteristic == nil) {
                 return;
@@ -296,7 +286,7 @@
     }else{
         [self.tooltipView removeFromSuperview];
         self.tooltipView = nil;
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame) + self.startButtonHeightCons.constant) inView:self.view message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
+         self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
         if (!self.bluetoothButton.selected) {
             [self operateBike:OPENOP];
             return;
@@ -354,6 +344,7 @@
 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central{
     self.bluetoothButton.selected = NO;
+    self.bluetoothTipsView.hidden = NO;
     switch (central.state) {
         case CBCentralManagerStateUnknown:
             NSLog(@">>>CBCentralManagerStateUnknown");
@@ -372,6 +363,7 @@
             break;
         case CBCentralManagerStatePoweredOn:
             NSLog(@">>>CBCentralManagerStatePoweredOn");
+            self.bluetoothTipsView.hidden = YES;
              [self.manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FF00"]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(YES)}];
             break;
     }

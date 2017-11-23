@@ -11,8 +11,12 @@
 #import "MJExtension.h"
 #import "NSString+Addition.h"
 #import "NSDictionary+Addition.h"
+#import "YYUserManager.h"
 #import "AFNetworkReachabilityManager.h"
 #import "NSNotificationCenter+Addition.h"
+#import "YYNaviViewController.h"
+#import "YYNavigationController.h"
+#import <QMUIKit/QMUIKit.h>
 
 
 @implementation YYBaseRequest
@@ -118,6 +122,7 @@
                 [self handleResponse:responseObject completion:completion];
             } failure:^(NSError *error) {
                 if (error) {
+                    [QMUITips showError:@"网络异常，请检查网络设置" inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
                     errorCompletion(error);
                 }
                 // 数据请求失败，暂时不做处理
@@ -134,6 +139,7 @@
         } failure:^(NSError *error) {
             // 数据请求失败，暂时不做处理
             if (error) {
+                [QMUITips showError:@"网络异常，请检查网络设置" inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
                 errorCompletion(error);
             }
         }];
@@ -171,18 +177,14 @@
     }
     // 数据请求成功回调
     BOOL success = [responseObject[@"state"] isEqualToString:@"000"];
-    
-//    NSLog(@"%@",kFetchUserId);
-//    
-//    if ([responseObject[@"state"] isEqualToString:@"503"] && kFetchUserInfo != nil) {
-//        success = false;
-//        
-//        [SVProgressHUD showErrorWithStatus:@"您的账号在别处登录，请重新登录"];
-//        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kLogoutSuccessNotification object:nil];
-//    }
-    
-   
+    if ([responseObject[@"state"] isEqualToString:@"503"]) {
+        success = false;
+      
+        [YYUserManager logout];
+        YYNaviViewController *naviViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"navi"];
+        [UIApplication sharedApplication].keyWindow.rootViewController = [[YYNavigationController alloc] initWithRootViewController:naviViewController];
+        [QMUITips showError:responseObject[@"msg"] inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
+    }
     if (completion) {
         
         completion(responseObject[@"data"], success, responseObject[@"msg"]);

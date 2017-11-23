@@ -47,6 +47,7 @@
 
 @property (weak, nonatomic) IBOutlet QMUITextField *inviteCodeTextField;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
 
 @end
 
@@ -58,8 +59,12 @@
     self.time = 60;
     
     self.fd_prefersNavigationBarHidden = YES;
-    //[self setUpHUD];
-    // Do any additional setup after loading the view from its nib.
+
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
 }
 
 -(void) setUpHUD
@@ -123,11 +128,11 @@
 //登录
 - (IBAction)loginButtonClick:(UIButton *)sender {
     if (self.mobileTextField.text.length <= 0) {
-        [SVProgressHUD showInfoWithStatus:@"请输入您的手机号码"];
+        [QMUITips showWithText:@"请输入您的手机号码" inView:self.view hideAfterDelay:2];
         return;
     }
     if (self.validateCodeTextField.text.length <= 0) {
-        [SVProgressHUD showInfoWithStatus:@"请输入验证码"];
+        [QMUITips showWithText:@"请输入验证码" inView:self.view hideAfterDelay:2];
         return;
     }
     
@@ -142,13 +147,11 @@
     
     request.inviteid = self.inviteCodeTextField.text;
     
-    [SVProgressHUD showWithStatus:@"正在登录..."];
+    [QMUITips showLoadingInView:self.view];
     
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+           [QMUITips hideAllToastInView:self.view animated:YES];
         if (success) {
-            
-            [SVProgressHUD dismiss];
-            
             DLog(@"%@",response);
             
             //记录用户Token
@@ -191,10 +194,10 @@
             [weak_self dismissViewControllerAnimated:YES completion:nil];
             
         }else{
-            [SVProgressHUD showErrorWithStatus:@"登录失败"];
+            [QMUITips showError:message inView:self.view hideAfterDelay:2];
         }
     } error:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"登录失败"];
+        [QMUITips showError:@"登录失败" inView:self.view hideAfterDelay:2];
     }];
 }
 
