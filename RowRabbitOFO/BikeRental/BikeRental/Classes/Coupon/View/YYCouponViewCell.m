@@ -7,6 +7,26 @@
 //
 
 #import "YYCouponViewCell.h"
+#import <DateTools/DateTools.h>
+
+@interface YYCouponViewCell()
+
+@property (weak, nonatomic) IBOutlet UILabel *couponPriceLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *couponRemarkLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *couponConditionLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *outTimeLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *extLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *selectedImageView;
+
+
+@end
 
 @implementation YYCouponViewCell
 
@@ -24,6 +44,23 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+}
+
+-(void)setModel:(YYCouponModel *)model
+{
+    _model = model;
+
+    if (model.selected) {
+        self.selectedImageView.hidden = NO;
+    }else{
+        self.selectedImageView.hidden = YES;
+    }
+    
+    self.couponPriceLabel.text = [NSString stringWithFormat:@"%.1f",model.money];
+    self.couponConditionLabel.text = [NSString stringWithFormat:@"满%ld元可用",model.condition];
+    NSDate *time = [NSDate dateWithString:model.outtime formatString:@"yyyy-MM-dd HH:mm:ss"];
+    self.outTimeLabel.text = [NSString stringWithFormat:@"%ld.%ld.%ld到期",[time year],[time month],[time day]];
+    self.extLabel.text = [NSString stringWithFormat:@"仅剩%ld天",model.lday];
 }
 
 @end

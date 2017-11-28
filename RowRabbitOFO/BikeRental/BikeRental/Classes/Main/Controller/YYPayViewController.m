@@ -162,11 +162,11 @@
     YYCreateVipRequest *request = [[YYCreateVipRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayVip];
     if ([self.name isEqualToString:@"月卡"]) {
-        request.vipType = 1;
+        request.vipid = 1;
     }else if ([self.name isEqualToString:@"季卡"]){
-        request.vipType = 2;
+        request.vipid = 2;
     }else{
-        request.vipType = 3;
+        request.vipid = 3;
     }
     if (self.alipaySelectButton.selected) {
         request.ptype = 0;

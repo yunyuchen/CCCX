@@ -41,8 +41,6 @@
     
     self.navigationItem.title = @"反馈";
     
-    // Do any additional setup after loading the view from its nib.
-    //收起键盘
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped)];
     tap.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tap];

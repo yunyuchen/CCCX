@@ -18,4 +18,6 @@
 
 @property (nonatomic,assign) CGFloat lat;
 
+@property(nonatomic, assign) NSInteger cid;
+
 @end

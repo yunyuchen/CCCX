@@ -16,4 +16,6 @@
 
 @property (nonatomic,copy) NSString *img;
 
+@property(nonatomic, copy) NSString *deviceid;
+
 @end

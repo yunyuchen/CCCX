@@ -7,7 +7,11 @@
 //
 
 #import <QMUIKit/QMUIKit.h>
+#import "YYCouponModel.h"
+
 
 @interface YYDisabledCouponViewCell : QMUITableViewCell
+
+@property(nonatomic, strong) YYCouponModel *model;
 
 @end

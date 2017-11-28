@@ -8,15 +8,27 @@
 
 #import "YYEnabledCouponViewController.h"
 #import "YYCouponViewCell.h"
+#import "YYMyCouponRequest.h"
+#import "YYCouponModel.h"
+#import "NSNotificationCenter+Addition.h"
 
 @interface YYEnabledCouponViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet QMUITableView *tableView;
 
+@property(nonatomic, strong) NSArray<YYCouponModel *> *models;
 
 @end
 
 @implementation YYEnabledCouponViewController
+
+-(NSArray<YYCouponModel *> *)models
+{
+    if (_models == nil) {
+        _models = [NSArray array];
+    }
+    return _models;
+}
 
 - (void)didInitialized {
     [super didInitialized];
@@ -30,7 +42,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // 对 self.view 的操作写在这里
+    
+    [self requestCoupons];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,19 +68,55 @@
 
 - (void)setNavigationItemsIsInEditMode:(BOOL)isInEditMode animated:(BOOL)animated {
     [super setNavigationItemsIsInEditMode:isInEditMode animated:animated];
-    self.title = @"";
+    self.title = @"选择优惠券";
+}
+
+- (void) requestCoupons
+{
+    YYMyCouponRequest *request = [[YYMyCouponRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kMyCouponsAPI];
+    request.state = 0;
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYCouponModel modelArrayWithDictArray:response];
+            
+            if (weakSelf.selected) {
+                for (YYCouponModel *model in weakSelf.models) {
+                    if (model.ID == weakSelf.cid) {
+                        model.selected = YES;
+                        break;
+                    }
+                }
+            }
+            
+            [weakSelf.tableView reloadData];
+        }
+    }];
+    
 }
 
 #pragma mark - tableViewDelegate
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.models.count;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YYCouponViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"enableCoupon"];
+    cell.model = self.models[indexPath.row];
     return cell;
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.selected) {
+        
+        [NSNotificationCenter postNotification:kSelectedCouponNotification object:self.models[indexPath.row]];
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

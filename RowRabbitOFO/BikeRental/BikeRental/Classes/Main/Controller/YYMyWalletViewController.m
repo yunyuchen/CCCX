@@ -75,11 +75,11 @@
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
             weak_self.model = [YYUserModel modelWithDictionary:response];
-            if (!weak_self.model.vipstate) {
-                weak_self.vipLabel.hidden = YES;
-            }else{
-                weak_self.vipLabel.hidden = NO;
-            }
+//            if (!weak_self.model.vipstate) {
+//                weak_self.vipLabel.hidden = YES;
+//            }else{
+//                weak_self.vipLabel.hidden = NO;
+//            }
             NSString *vipType = @"";
             switch (weak_self.model.vip) {
                 case 1:

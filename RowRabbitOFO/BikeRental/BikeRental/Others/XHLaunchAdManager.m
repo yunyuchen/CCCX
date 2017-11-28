@@ -528,7 +528,8 @@
     QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
     modalViewController.contentView = contentView;
     modalViewController.maximumContentViewWidth = kScreenWidth;
-    modalViewController.animationStyle = QMUIModalPresentationAnimationStylePopup;
+    modalViewController.contentViewMargins = UIEdgeInsetsMake(10, 10, 10, 10);
+    modalViewController.animationStyle = QMUIModalPresentationAnimationStyleSlide;
     [modalViewController showWithAnimated:YES completion:nil];
     
     [self checkLBSAuth];

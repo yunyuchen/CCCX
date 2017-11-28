@@ -24,10 +24,11 @@ UIKIT_EXTERN NSString *const kWeChatPayNotifacation;
 UIKIT_EXTERN NSString *const kReturnSuccessNotification;
 //跳转导航通知
 UIKIT_EXTERN NSString *const kDirectNotifaction;
-//站点刷新通知
-UIKIT_EXTERN NSString *const kSiteRefreshNotifaction;
 //地图寻车
 UIKIT_EXTERN NSString *const kClickStartButtonNotifaction;
+
+UIKIT_EXTERN NSString *const kSelectedCouponNotification;
+
 //高德地图API开发者ID
 UIKIT_EXTERN NSString *const kAMapKey;
 /** 基础URL*/
@@ -104,4 +105,13 @@ UIKIT_EXTERN NSString *const kAppconfigAPI;
 UIKIT_EXTERN NSString *const kcollegeAuthAPI;
 //充值金额
 UIKIT_EXTERN NSString *const kPayParamsAPI;
+//用户信息
+UIKIT_EXTERN NSString *const kUserinfoAPI;
+//我的积分
+UIKIT_EXTERN NSString *const kMyPointAPI;
+//我的优惠券
+UIKIT_EXTERN NSString *const kMyCouponsAPI;
+
+UIKIT_EXTERN NSString *const kGetCouponAPI;
+
 @end

@@ -22,12 +22,14 @@
 #import "YYFileCacheManager.h"
 #import "YYFeedBackController.h"
 #import "YYOrderPriceNoCheckRequest.h"
+#import "YYBuyMemberCardViewController.h"
+#import "YYEnabledCouponViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-@interface YYReturnViewController ()<MAMapViewDelegate,AMapSearchDelegate,AddressViewDelegate,OrderInfoViewDelegate,Tips1ViewDelegate,ScrollAddressViewDelegate>
+@interface YYReturnViewController ()<MAMapViewDelegate,AMapSearchDelegate,AddressViewDelegate,OrderInfoViewDelegate,Tips1ViewDelegate,ScrollAddressViewDelegate,AVAudioPlayerDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -44,6 +46,8 @@
 @property (nonatomic,strong) NSArray<YYSiteModel *> *models;
 
 @property (weak, nonatomic) IBOutlet UIButton *gpsButton;
+
+@property(nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 /* 终点经纬度. */
 @property (nonatomic) CLLocationCoordinate2D destinationCoordinate;
@@ -74,6 +78,8 @@
 
 @property (nonatomic,assign) CLLocationCoordinate2D lastPostion;
 
+@property(nonatomic, weak) UIView *shadeView;
+
 @end
 
 @implementation YYReturnViewController
@@ -98,15 +104,13 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     [self initAnnotations];
     
-    self.search = [[AMapSearchAPI alloc] init];
-    self.search.delegate = self;
-    
     [self getUserInfoRequest];
     
+    self.search = [[AMapSearchAPI alloc] init];
+    self.search.delegate = self;
     self.flag = NO;
-    
     self.firstLoad = YES;
-    
+
     YYTips1View *tips1View = [[YYTips1View alloc] init];
     tips1View.delegate = self;
     tips1View.frame = CGRectMake(0, 64, kScreenWidth, 272);
@@ -239,10 +243,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             }
             if (weak_self.models.count > 0 && weak_self.firstLoad) {
                 YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
+                orderInfoView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 400);
                 orderInfoView.rsid = weak_self.models[0].ID;
                 orderInfoView.userModel = weak_self.userModel;
                 orderInfoView.delegate = weak_self;
                 orderInfoView.siteName = weak_self.models[0].name;
+             
                 
                 YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
                 request.rsid = weak_self.models[0].ID;
@@ -252,17 +258,17 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                
                 [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
                     if (success) {
-
+                        UIView *shadeView = [[UIView alloc] initWithFrame:weak_self.view.bounds];
+                        shadeView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+                        [weak_self.view addSubview:shadeView];
+                        weak_self.shadeView = shadeView;
                         orderInfoView.resultModel = [YYReturnResultModel modelWithDictionary:response];
-                        QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-                        modalViewController.contentView = orderInfoView;
-                        modalViewController.maximumContentViewWidth = kScreenWidth;
-                        modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-                        [modalViewController showWithAnimated:YES completion:nil];
-                        weak_self.modalPrentViewController = modalViewController;
-                     
-                   
-                        
+                        [weak_self.view addSubview:orderInfoView];
+                        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+                        animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight - 400, kScreenWidth, 400)];
+                        animation.beginTime = CACurrentMediaTime();
+                        animation.duration = 0.5;
+                        [orderInfoView pop_addAnimation:animation forKey:kPOPViewFrame];
                     }else{
                         if (self.models.count > 0) {
                             //1.将两个经纬度点转成投影点
@@ -533,11 +539,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 -(void)addressView:(YYAddressView *)addressView didClickReturnButton:(UIButton *)returnButton
 {
     YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
+    orderInfoView.frame =  CGRectMake(0, kScreenHeight, kScreenWidth, 400);
     orderInfoView.rsid = addressView.model.ID;
     orderInfoView.userModel = self.userModel;
     orderInfoView.delegate = self;
     orderInfoView.siteName = addressView.model.name;
-
+    
     YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
     request.rsid = self.models[self.selectedId].ID;
     request.lat = self.mapView.userLocation.coordinate.latitude;
@@ -546,13 +553,17 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     WEAK_REF(self);
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
+            UIView *shadeView = [[UIView alloc] initWithFrame:weak_self.view.bounds];
+            shadeView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+            [weak_self.view addSubview:shadeView];
+            weak_self.shadeView = shadeView;
             orderInfoView.resultModel = [YYReturnResultModel modelWithDictionary:response];
-            QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-            modalViewController.contentView = orderInfoView;
-            modalViewController.maximumContentViewWidth = kScreenWidth;
-            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-            [modalViewController showWithAnimated:YES completion:nil];
-            weak_self.modalPrentViewController = modalViewController;
+            [weak_self.view addSubview:orderInfoView];
+            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight - 400, kScreenWidth, 400)];
+            animation.beginTime = CACurrentMediaTime();
+            animation.duration = 0.5;
+            [orderInfoView pop_addAnimation:animation forKey:kPOPViewFrame];
             weak_self.firstLoad = NO;
         }else{
             if (self.models.count > 0) {
@@ -593,53 +604,65 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void)orderInfoView:(YYOrderInfoView *)orderView didClickOKButton:(UIButton *)sender
 {
-    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-        YYReturnBikeRequest *request = [[YYReturnBikeRequest alloc] init];
-        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kReturnBikeAPI];
-        request.rsid = orderView.rsid;
-        request.lng = self.mapView.userLocation.coordinate.longitude;
-        request.lat = self.mapView.userLocation.coordinate.latitude;
-        if (orderView.error > 0) {
-            request.error = orderView.error;
-        }
-        WEAK_REF(self);
-        QMUITips *tips = [QMUITips createTipsToView:self.view];
-        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-        contentView.minimumSize = CGSizeMake(100, 100);
-        [tips showLoading];
-        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-            [tips hideAnimated:YES];
-            if (success) {
-                weak_self.resultModel = [YYReturnResultModel modelWithDictionary:response];
-                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(200, 100);
-                [tips showSucceed:@"还车成功" hideAfterDelay:2];
-                [YYFileCacheManager removeUserDataForkey:KBLEIDKey];
-                [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
-                [weak_self.navigationController popToRootViewControllerAnimated:YES];
-            }else{
-             
-                if ([message isEqualToString:@"车辆不在站点, 请到指定站点还车"]) {
-                    if (self.models.count > 0) {
-                        //1.将两个经纬度点转成投影点
-                        MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[weak_self.selectedId].latitude,weak_self.models[weak_self.selectedId].longitude));
-                        MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
-                        //2.计算距离
-                        CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
-                        self.tipsView.distanceLabel.text = [NSString stringWithFormat:@"%.0f",distance];
-                        self.tipsView.addressLabel.text = self.models[0].name;
-                        self.tipsView.hidden = NO;
-                    }
-                }else{
-                    [QMUITips showError:message inView:self.view hideAfterDelay:2];
-                }
-            
-
-            }
-        } error:^(NSError *error) {
-            [tips hideAnimated:YES];
+    YYReturnBikeRequest *request = [[YYReturnBikeRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kReturnBikeAPI];
+    request.rsid = orderView.rsid;
+    request.lng = self.mapView.userLocation.coordinate.longitude;
+    request.lat = self.mapView.userLocation.coordinate.latitude;
+    request.cid = orderView.cid;
+    if (orderView.error > 0) {
+        request.error = orderView.error;
+    }
+    WEAK_REF(self);
+    QMUITips *tips = [QMUITips createTipsToView:self.view];
+    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+    contentView.minimumSize = CGSizeMake(100, 100);
+    [tips showLoading];
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [tips hideAnimated:YES];
+        [weak_self.shadeView removeFromSuperview];
+        weak_self.shadeView = nil;
+        
+        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+        
+        animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight, kScreenWidth, 400)];
+        animation.beginTime = CACurrentMediaTime();
+        animation.duration = 0.5;
+        [animation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
+            [orderView removeFromSuperview];
         }];
+        [orderView pop_addAnimation:animation forKey:kPOPViewFrame];
+        if (success) {
+            weak_self.resultModel = [YYReturnResultModel modelWithDictionary:response];
+            QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+            QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+            contentView.minimumSize = CGSizeMake(200, 100);
+            [tips showSucceed:@"还车成功" hideAfterDelay:2];
+            [YYFileCacheManager removeUserDataForkey:KBLEIDKey];
+            [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kReturnSuccessNotification object:nil];
+            [weak_self.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+            
+            if ([message isEqualToString:@"车辆不在站点, 请到指定站点还车"]) {
+                if (self.models.count > 0) {
+                    //1.将两个经纬度点转成投影点
+                    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[weak_self.selectedId].latitude,weak_self.models[weak_self.selectedId].longitude));
+                    MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
+                    //2.计算距离
+                    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+                    self.tipsView.distanceLabel.text = [NSString stringWithFormat:@"%.0f",distance];
+                    self.tipsView.addressLabel.text = self.models[0].name;
+                    self.tipsView.hidden = NO;
+                }
+            }else{
+                [QMUITips showError:message inView:self.view hideAfterDelay:2];
+            }
+            
+            
+        }
+    } error:^(NSError *error) {
+        [tips hideAnimated:YES];
     }];
 }
 
@@ -655,10 +678,38 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void)orderInfoView:(YYOrderInfoView *)orderView didClickCloseButton:(UIButton *)sender
 {
-    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
+    [self.shadeView removeFromSuperview];
+    self.shadeView = nil;
+    
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
 
+    animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight, kScreenWidth, 400)];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 0.5;
+    [animation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
+        [orderView removeFromSuperview];
     }];
+    [orderView pop_addAnimation:animation forKey:kPOPViewFrame];
+    
 }
+
+//选择优惠券
+-(void)orderInfoView:(YYOrderInfoView *)orderView didClickCouponButton:(UIButton *)sender
+{
+    YYEnabledCouponViewController *couponViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Enabledcoupon"];
+    couponViewController.selected = YES;
+    couponViewController.cid = orderView.cid;
+    [self.navigationController pushViewController:couponViewController animated:YES];
+}
+
+//购买VIP
+-(void)orderInfoView:(YYOrderInfoView *)orderView didClickBuyButton:(UIButton *)sender
+{
+    YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
+    [self.navigationController pushViewController:memberCardViewController animated:YES];
+}
+
+
 
 -(void)YYTips1View:(YYTips1View *)tipsView didClickCloseButton:(UIButton *)closeButton
 {
@@ -689,11 +740,13 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     WEAK_REF(self);
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
+            CGFloat bottomMargin = (kScreenHeight - orderInfoView.height) * 0.5;
             orderInfoView.resultModel = [YYReturnResultModel modelWithDictionary:response];
             QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
             modalViewController.contentView = orderInfoView;
+            modalViewController.contentViewMargins = UIEdgeInsetsMake(0, 0, bottomMargin, 0);
             modalViewController.maximumContentViewWidth = kScreenWidth;
-            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
+            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleSlide;
             [modalViewController showWithAnimated:YES completion:nil];
             weak_self.modalPrentViewController = modalViewController;
         }

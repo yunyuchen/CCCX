@@ -8,31 +8,23 @@
 
 #import "YYDisabledCouponViewController.h"
 #import "YYDisabledCouponViewCell.h"
-
+#import "YYMyCouponRequest.h"
 
 @interface YYDisabledCouponViewController ()<UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet QMUITableView *tableView;
 
+@property(nonatomic, strong) NSArray<YYCouponModel *> *models;
 
 @end
 
 @implementation YYDisabledCouponViewController
 
 
-- (void)didInitialized {
-    [super didInitialized];
-    // init 时做的事情请写在这里
-}
-
-- (void)initSubviews {
-    [super initSubviews];
-    // 对 subviews 的初始化写在这里
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // 对 self.view 的操作写在这里
+    
+    [self requestCoupons];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -60,15 +52,35 @@
     self.title = @"";
 }
 
+- (void) requestCoupons
+{
+    YYMyCouponRequest *request = [[YYMyCouponRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kMyCouponsAPI];
+    request.state = 1;
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            weakSelf.models = [YYCouponModel modelArrayWithDictArray:response];
+           
+            
+            [weakSelf.tableView reloadData];
+        }
+    }];
+    
+}
+
+
 #pragma mark - tableViewDelegate
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return self.models.count;
 }
+
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     YYDisabledCouponViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disabledCoupon"];
+    cell.model = self.models[indexPath.row];
     return cell;
 }
 

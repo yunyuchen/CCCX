@@ -16,26 +16,8 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分享红包" translatesAutoresizingMaskIntoConstraints="NO" id="9jD-0Q-6QG">
-                    <rect key="frame" x="30" y="74.5" width="317" height="302"/>
+                    <rect key="frame" x="71" y="57.5" width="235" height="336"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ib-hr-xfE" customClass="QMUIFillButton">
-                    <rect key="frame" x="97" y="399" width="183" height="52"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="183" id="O5u-f3-saf"/>
-                        <constraint firstAttribute="height" constant="52" id="dA0-H6-YrK"/>
-                    </constraints>
-                    <state key="normal" title="分享行程">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
-                            <color key="value" red="0.34901960780000002" green="0.74117647060000003" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="shareButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="8bd-Nn-IUy"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-tp-HOa">
                     <rect key="frame" x="276" y="28" width="84" height="30"/>
                     <constraints>
@@ -46,11 +28,43 @@
                         <action selector="closeButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="Jqp-bh-lih"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUU-6d-MCu">
+                    <rect key="frame" x="127" y="300" width="123" height="29"/>
+                    <string key="text">邀请好友一起绿色出行
+分享到微信朋友圈</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ib-hr-xfE" customClass="QMUIFillButton">
+                    <rect key="frame" x="97" y="359" width="183" height="52"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="183" id="O5u-f3-saf"/>
+                        <constraint firstAttribute="height" constant="52" id="dA0-H6-YrK"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="立刻分享">
+                        <color key="titleColor" red="0.50588235294117645" green="0.31764705882352939" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                            <color key="value" red="1" green="0.94509803921568625" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleTextColor">
+                            <color key="value" red="0.50588235290000005" green="0.31764705879999999" blue="0.10980392160000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="shareButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="8bd-Nn-IUy"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="RBm-tp-HOa" secondAttribute="trailing" constant="17" id="38J-gz-vvb"/>
-                <constraint firstAttribute="bottom" secondItem="4Ib-hr-xfE" secondAttribute="bottom" id="iJN-3l-XcV"/>
+                <constraint firstItem="4Ib-hr-xfE" firstAttribute="top" secondItem="QUU-6d-MCu" secondAttribute="bottom" constant="30" id="QCa-K2-Y9x"/>
+                <constraint firstItem="QUU-6d-MCu" firstAttribute="centerX" secondItem="4Ib-hr-xfE" secondAttribute="centerX" id="lJC-iY-ZVY"/>
+                <constraint firstAttribute="bottom" secondItem="4Ib-hr-xfE" secondAttribute="bottom" constant="40" id="ot8-SA-QIX"/>
                 <constraint firstItem="4Ib-hr-xfE" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="t2V-IF-gjf"/>
                 <constraint firstItem="9jD-0Q-6QG" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="u7w-U0-bHD"/>
                 <constraint firstItem="9jD-0Q-6QG" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xZf-sK-okt"/>
@@ -63,6 +77,6 @@
     </objects>
     <resources>
         <image name="关闭" width="30" height="30"/>
-        <image name="分享红包" width="317" height="302"/>
+        <image name="分享红包" width="235" height="336"/>
     </resources>
 </document>

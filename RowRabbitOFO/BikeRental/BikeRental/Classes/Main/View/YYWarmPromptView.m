@@ -25,6 +25,7 @@
     if (self) {
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
         if ([YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"] != nil) {
+            NSLog(@"%@",[YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"]);
             [self.tipsLabel sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,[YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"]]] placeholderImage:[UIImage imageNamed:@"提示"]];
         }
 

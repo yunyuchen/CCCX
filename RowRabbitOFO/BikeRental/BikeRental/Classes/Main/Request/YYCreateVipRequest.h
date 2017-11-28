@@ -12,6 +12,6 @@
 
 @property(nonatomic, assign) NSInteger ptype;
 
-@property(nonatomic, assign) NSInteger vipType;
+@property(nonatomic, assign) NSInteger vipid;
 
 @end

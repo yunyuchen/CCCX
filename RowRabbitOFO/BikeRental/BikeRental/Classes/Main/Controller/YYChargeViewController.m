@@ -61,8 +61,7 @@
     [NSNotificationCenter addObserver:self action:@selector(paySuccessAction:) name:kPayDesSuccessNotification];
     
     [NSNotificationCenter addObserver:self action:@selector(wechatPaySuccessAction:) name:kWeChatPayNotifacation];
-    
-    [WXApi registerApp:@"wx535feea77188fcab"];
+
 
     [self requestChargeValue];
 }

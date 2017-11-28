@@ -10,4 +10,8 @@
 
 @interface YYEnabledCouponViewController : QMUICommonViewController
 
+@property(nonatomic, assign) BOOL selected;
+
+@property(nonatomic, assign) NSInteger cid;
+
 @end

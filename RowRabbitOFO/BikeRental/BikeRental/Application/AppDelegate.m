@@ -18,6 +18,7 @@
 #import "CALayer+Transition.h"
 #import "WXApiManager.h"
 #import "YYBaseRequest.h"
+#import "QMUIConfigurationTemplate.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
 #import <AdSupport/AdSupport.h>
@@ -36,6 +37,7 @@
     [self configKeyboardManager];
     
     //[Bugly startWithAppId:@"c7c40aadc8"];
+    //[QMUIConfigurationTemplate setupConfigurationTemplate];
     /* 设置友盟appkey */
     [[UMSocialManager defaultManager] setUmSocialAppkey:@"5955ed264544cb4c520000ae"];
     
@@ -52,6 +54,9 @@
     }];
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
+    
+    [WXApi registerApp:@"wx535feea77188fcab"];
     
     return YES;
 }

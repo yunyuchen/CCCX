@@ -16,7 +16,7 @@
 #import <QMUIKit/QMUIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface YYInputCodeViewController ()<ShowBikeViewDelegate>
+@interface YYInputCodeViewController ()<ShowBikeViewDelegate,AVAudioPlayerDelegate>
 
 @property (weak, nonatomic) IBOutlet QMUIButton *scanButton;
 
@@ -30,6 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *inputView;
 
+@property (nonatomic,strong) AVAudioPlayer *audioPlayer;
 
 @property (nonatomic,assign) BOOL lightON;
 @end
@@ -45,7 +46,9 @@
     self.flashButton.spacingBetweenImageAndTitle = 10;
     self.inputView.layer.cornerRadius = 24;
     self.inputView.layer.masksToBounds = YES;
-    // Do any additional setup after loading the view.
+    
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,7 +117,11 @@
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             [tips hideAnimated:YES];
             if (success) {
-                
+                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"启动成功" withExtension:@".wav"];
+                weak_self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+                weak_self.audioPlayer.numberOfLoops = 0;
+                weak_self.audioPlayer.delegate = weak_self;
+                [weak_self.audioPlayer play];
                 YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
                 controlBikeViewController.last_mileage = showBikeView.result.last_mileage;
                 controlBikeViewController.deviceid = showBikeView.result.deviceid;

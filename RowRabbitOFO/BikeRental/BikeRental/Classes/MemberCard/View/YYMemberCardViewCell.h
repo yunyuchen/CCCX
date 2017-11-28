@@ -7,7 +7,12 @@
 //
 
 #import <QMUIKit/QMUIKit.h>
+#import "YYCardModel.h"
 
 @interface YYMemberCardViewCell : QMUITableViewCell
+
+@property(nonatomic, strong) YYCardModel *model;
+
+@property(nonatomic, copy) void (^priceClickBlock)(void);
 
 @end

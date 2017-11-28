@@ -12,22 +12,28 @@
 #import "YYUserModel.h"
 #import "YYMyWalletViewController.h"
 #import "YYGuideViewController.h"
-#import "YYInviteViewController.h"
 #import "YYSettingViewController.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import <QMUIKit/QMUIKit.h>
-
+#import "YYScoreViewController.h"
 
 @interface YYPCenterViewController ()
-
-@property (weak, nonatomic) IBOutlet QMUIButton *logoutButton;
 
 @property (nonatomic,strong) YYUserModel *model;
 
 @property (weak, nonatomic) IBOutlet UILabel *telLabel;
 
-@property (weak, nonatomic) IBOutlet UIView *dotView;
+@property (weak, nonatomic) IBOutlet QMUIGhostButton *scoreButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *buyButton;
+
+@property (weak, nonatomic) IBOutlet UIImageView *vipImageView;
+
+@property (weak, nonatomic) IBOutlet UILabel *vipLabel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buyButtonWidthCons;
+
+@property(nonatomic, assign) NSInteger score;
 
 @end
 
@@ -36,21 +42,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.logoutButton.imagePosition = QMUIButtonImagePositionRight;
     self.fd_prefersNavigationBarHidden = YES;
+    
     [self getUserInfoRequest];
     
-    if (self.used) {
-        self.logoutButton.hidden = YES;
-    }
-    
-    if (kFetchReadMessageKey == nil) {
-        self.dotView.hidden = NO;
-        self.dotView.layer.cornerRadius = 5;
-        self.dotView.layer.masksToBounds = YES;
-    }else{
-        self.dotView.hidden = YES;
-    }
+    [self getUserInfo];
 }
 
 -(void) getUserInfoRequest
@@ -61,6 +57,7 @@
     WEAK_REF(self);
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
+            QMUILog(@"%@",response);
             weak_self.model = [YYUserModel modelWithDictionary:response];
             
             weak_self.telLabel.text = weak_self.model.tel;
@@ -68,6 +65,41 @@
     } error:^(NSError *error) {
         
     }];
+}
+
+- (void) getUserInfo
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kUserinfoAPI];
+    
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            QMUILog(@"%@",response);
+            
+            [weakSelf.scoreButton setTitle:[NSString stringWithFormat:@"我的积分：%@",response[@"point"]] forState:UIControlStateNormal];
+            weakSelf.score = [response[@"point"] integerValue];
+            //是会员
+            if ([response[@"vipstate"] boolValue] == YES) {
+                weakSelf.vipImageView.image = [UIImage imageNamed:@"VIP1"];
+                weakSelf.buyButtonWidthCons.constant = 0;
+                weakSelf.vipLabel.text = [NSString stringWithFormat:@"到期时间：%@ %@",response[@"des"],response[@"outtime"]];
+            }else{
+                weakSelf.vipImageView.image = [UIImage imageNamed:@"VIP2"];
+                weakSelf.vipLabel.text = @"您还不是VIP会员";
+                weakSelf.buyButtonWidthCons.constant = 60;
+            }
+        }
+    } error:^(NSError *error) {
+        
+    }];
+    
+}
+
+- (IBAction)scoreButtonClick:(id)sender {
+    YYScoreViewController *scoreViewController = [[UIStoryboard storyboardWithName:@"Score" bundle:nil] instantiateViewControllerWithIdentifier:@"score"];
+    scoreViewController.score = self.score;
+    [self.navigationController pushViewController:scoreViewController animated:YES];
 }
 
 
@@ -103,9 +135,6 @@
     if ([segue.destinationViewController isKindOfClass:[YYMyWalletViewController class]]) {
         [segue.destinationViewController setValue:self.model forKey:@"model"];
     }
-    if ([segue.destinationViewController isKindOfClass:[YYInviteViewController class]]) {
-        [segue.destinationViewController setValue:@(self.model.ID) forKey:@"userId"];
-    }
     if ([segue.destinationViewController isKindOfClass:[YYSettingViewController class]]) {
         [segue.destinationViewController setValue:@(self.used) forKey:@"used"];
     }
@@ -126,7 +155,6 @@
 
 - (IBAction)guideButtonClick:(id)sender {
     [[NSUserDefaults standardUserDefaults] setValue:@"1" forKey:kReadMessageKey];
-     self.dotView.hidden = YES;
     YYGuideViewController *guideViewController = [[YYGuideViewController alloc] init];
     [self.navigationController pushViewController:guideViewController animated:YES];
 }

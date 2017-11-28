@@ -24,9 +24,9 @@ NSString *const kReturnSuccessNotification = @"ReturnSuccessNotification";
 
 NSString *const kDirectNotifaction = @"DirectNotifaction";
 
-NSString *const kSiteRefreshNotifaction = @"SiteRefreshNotifaction";
-
 NSString *const kClickStartButtonNotifaction = @"ClickStartButtonNotifaction";
+
+NSString *const kSelectedCouponNotification = @"SelectedCouponNotification";
 
 NSString *const kAMapKey = @"76ca483fa2be9f4f6a3f81c55831ff7c";
 
@@ -103,4 +103,12 @@ NSString *const kAppconfigAPI = @"open/get?module=UserService.appconfig";
 NSString *const kcollegeAuthAPI = @"get?module=UserService.collegeAuth";
 
 NSString *const kPayParamsAPI = @"get?module=PayService.payParams";
+
+NSString *const kUserinfoAPI = @"get?module=UserService.userinfo";
+
+NSString *const kMyPointAPI = @"get?module=UserService.myPoint";
+
+NSString *const kMyCouponsAPI = @"get?module=UserService.myCoupon";
+
+NSString *const kGetCouponAPI = @"get?module=UserService.getCoupon";
 @end

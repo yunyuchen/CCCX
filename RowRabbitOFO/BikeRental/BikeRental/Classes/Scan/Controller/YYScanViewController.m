@@ -36,6 +36,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
+@property(nonatomic, strong) AVAudioPlayer *audioPlayer;
+
 @end
 
 @implementation YYScanViewController
@@ -53,8 +55,6 @@
     self.flashButton.imagePosition = QMUIButtonImagePositionTop;
     self.inputBikeNoButton.spacingBetweenImageAndTitle = 10;
     self.flashButton.spacingBetweenImageAndTitle = 10;
-    // Do any additional setup after loading the view.
-
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -208,6 +208,10 @@
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             [tips hideAnimated:YES];
             if (success) {
+                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"启动成功" withExtension:@".wav"];
+                weak_self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+                weak_self.audioPlayer.numberOfLoops = 0;
+                [weak_self.audioPlayer play];
                 
                 YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
                 controlBikeViewController.last_mileage = showBikeView.result.last_mileage;
@@ -242,14 +246,5 @@
     }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

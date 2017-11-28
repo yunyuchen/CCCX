@@ -18,6 +18,10 @@
 
 -(void) orderInfoView:(YYOrderInfoView *)orderView didClickNaviButton:(UIButton *)sender withReturnModel:(YYReturnResultModel *)resultModel;
 
+-(void) orderInfoView:(YYOrderInfoView *)orderView didClickBuyButton:(UIButton *)sender;
+
+-(void) orderInfoView:(YYOrderInfoView *)orderView didClickCouponButton:(UIButton *)sender;
+
 @end
 
 
@@ -32,6 +36,8 @@
 @property (nonatomic,strong) YYReturnResultModel *resultModel;
 
 @property (nonatomic,weak) id<OrderInfoViewDelegate> delegate;
+
+@property(nonatomic, assign) NSInteger cid;
 
 @property (nonatomic,assign) NSInteger error;
 

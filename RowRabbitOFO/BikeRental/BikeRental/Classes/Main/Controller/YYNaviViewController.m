@@ -33,10 +33,12 @@
 #import "YYGuideView.h"
 #import "YYNavScrollView.h"
 #import "YYMessageViewController.h"
-#import "YYInviteViewController.h"
 #import "YYWarmPromptView.h"
 #import "YYGuideViewController.h"
 #import "YYReAuthViewController.h"
+#import "YYFaultWarrantyController.h"
+#import "YYGetCouponRequest.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
 #import <WZLBadge/WZLBadgeImport.h>
 #import <UMSocialCore/UMSocialCore.h>
@@ -145,6 +147,7 @@ typedef enum {
 
 @property(nonatomic, strong) JDFTooltipView *tooltipView;
 
+@property (nonatomic,strong) AVAudioPlayer *audioPlayer;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
 
@@ -184,6 +187,8 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
 }
 
+
+
 -(void) dirctAction:(NSNotification *)noti
 {
     YYSiteModel *model = (YYSiteModel *)noti.object;
@@ -192,6 +197,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [self ddd:nil];
 }
 
+//客服电话
 - (IBAction)kefuButtonClick:(id)sender {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"0596-2671066" message:[NSString stringWithFormat:@"%@",@""] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -208,6 +214,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYGuideViewController *guideViewController = [[YYGuideViewController alloc] init];
     [self.navigationController pushViewController:guideViewController animated:YES];
 }
+
+- (IBAction)faultRepairButtonClick:(UIButton *)sender {
+    YYFaultWarrantyController *faultWarrantyController = [[UIStoryboard storyboardWithName:@"Score" bundle:nil] instantiateViewControllerWithIdentifier:@"faultRepair"];
+    [self.navigationController pushViewController:faultWarrantyController animated:YES];
+}
+
 
 -(void) loginSuccessAction:(NSNotification *)noti
 {
@@ -311,6 +323,11 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void) returnSuccessAction:(NSNotification *)noti
 {
+    NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"还车成功" withExtension:@".wav"];
+    self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+    self.audioPlayer.numberOfLoops = 0;
+    [self.audioPlayer play];
+    
     YYShareHBView *shareHBView = [[YYShareHBView alloc] init];
     shareHBView.delegate = self;
     QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
@@ -548,13 +565,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.destinationViewController isKindOfClass:[YYInviteViewController class]]) {
-        [segue.destinationViewController setValue:@(self.userModel.ID) forKey:@"userId"];
-    }
-
-}
 
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
@@ -1255,7 +1265,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
     //创建网页内容对象
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"行运兔，新出行，新生活" descr:@"" thumImage:[UIImage imageNamed:@"logo"]];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"行运兔，新出行，新生活" descr:@"" thumImage:[UIImage imageNamed:@"1024"]];
     //设置网页地址
     shareObject.webpageUrl =@"http://zc.51xytu.com/htm/share.htm";
    
@@ -1268,26 +1278,15 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             NSLog(@"************Share fail with error %@*********",error);
         }else{
             NSLog(@"response data is %@",data);
-            YYBaseRequest *request = [[YYBaseRequest alloc] init];
-            request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kActCallbackAPI];
-            WEAK_REF(self);
-            [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                if (success) {
-                    [weak_self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-                        YYRegisterHBView *registerHBView = [[YYRegisterHBView alloc] init];
-                        registerHBView.delegate = weak_self;
-                        registerHBView.price = [response[@"money"] floatValue];
-                        QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-                        modalViewController.contentView = registerHBView;
-                        modalViewController.maximumContentViewWidth = kScreenWidth;
-                        modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-                        [modalViewController showWithAnimated:YES completion:nil];
-                        self.modalPrentViewController = modalViewController;
-                    }];
-                }
-            } error:^(NSError *error) {
-                
-            }];
+            [self.modalPrentViewController hideWithAnimated:YES completion:nil];
+            YYRegisterHBView *registerHBView = [[YYRegisterHBView alloc] init];
+            registerHBView.delegate = self;
+            QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
+            modalViewController.contentView = registerHBView;
+            modalViewController.maximumContentViewWidth = kScreenWidth;
+            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
+            [modalViewController showWithAnimated:YES completion:nil];
+            self.modalPrentViewController = modalViewController;
          
         }
     }];
@@ -1323,7 +1322,21 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(void)YYRegisterHBView:(YYRegisterHBView *)registerHBView didClickOKButton:(UIButton *)okButton
 {
-    [self.modalPrentViewController hideWithAnimated:YES completion:nil];
+    [QMUITips showLoadingInView:self.view];
+    YYGetCouponRequest *request = [[YYGetCouponRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetCouponAPI];
+    request.type = 2;
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+        if (success) {
+            [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:2];
+            [weakSelf.modalPrentViewController hideWithAnimated:YES completion:nil];
+        }else{
+            [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+        }
+    }];
+    
 }
 
 -(void)navScrollView:(YYNavScrollView *)navScrollView didSelectCurrentModel:(YYSiteModel *)model

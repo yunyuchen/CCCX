@@ -9,6 +9,9 @@
 #import "YYOrderInfoView.h"
 #import "YYOrderInfoRequest.h"
 #import "YYReturnResultModel.h"
+#import "NSNotificationCenter+Addition.h"
+#import "YYCouponModel.h"
+#import <QMUIKit/QMUIKit.h>
 #import <DateTools/DateTools.h>
 
 @interface YYOrderInfoView()
@@ -25,6 +28,11 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *vipButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *buyButton;
+
+@property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
+
+@property (weak, nonatomic) IBOutlet UILabel *couponPriceLabel;
 
 @end
 
@@ -43,10 +51,24 @@
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
         self.layer.cornerRadius = 4;
         self.layer.masksToBounds = YES;
+        self.indicatorImageView.image = [UIImage qmui_imageWithShape:QMUIImageShapeDisclosureIndicator size:CGSizeMake(6, 10) lineWidth:1 tintColor:[UIColor qmui_colorWithHexString:@"#9B9B9B"]];
+      
+        [NSNotificationCenter addObserver:self action:@selector(selectCouponAction:) name:kSelectedCouponNotification];
+
     }
     return self;
 }
 
+
+- (void) selectCouponAction:(NSNotification *)noti
+{
+    YYCouponModel *model = noti.object;
+    self.cid = model.ID;
+    YYReturnResultModel *resultModel = self.resultModel;
+    resultModel.cid = model.ID;
+    resultModel.money = model.money;
+    self.resultModel = resultModel;
+}
 
 -(void)setResultModel:(YYReturnResultModel *)resultModel
 {
@@ -56,33 +78,37 @@
     NSInteger minute = self.resultModel.keep % 60;
 
     self.totalTimeLabel.text = [NSString stringWithFormat:@"%ld时%ld分钟",hour,minute];
-    
-    self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price];
-    
-    self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.userModel.money - self.resultModel.price];
-    
+    self.cid = resultModel.cid;
+
+    if (resultModel.vip  > 1) {
+        self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 - resultModel.money];
+            self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10];
+    }else{
+        self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
+    }
+    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",self.resultModel.price] attributes:attribtDic];
+    self.extPrriceLabel.attributedText = attribtStr;
     self.siteNameLabel.text = [NSString stringWithFormat:@"%@",self.self.siteName];
     
-    if (!resultModel.vipstate) {
-        self.vipButton.hidden = YES;
+    if (resultModel.vipstate) {
+        [self.vipButton setImage:[UIImage imageNamed:@"VIP1"] forState:UIControlStateNormal];
+        self.buyButton.hidden = YES;
     }else{
-        self.vipButton.hidden = NO;
+        [self.vipButton setImage:[UIImage imageNamed:@"VIP2"] forState:UIControlStateNormal];
+        self.buyButton.hidden = NO;
     }
-    NSString *vipType = @"";
-    switch (resultModel.vip) {
-        case 1:
-            vipType = @"月卡";
-            break;
-        case 2:
-            vipType = @"季卡";
-            break;
-        default:
-            vipType = @"年卡";
-            break;
+    NSString *vipType = resultModel.des;
+   
+    if (resultModel.cid > 0) {
+        self.couponPriceLabel.text = [NSString stringWithFormat:@"-¥%.1f",resultModel.money];
+    }else{
+        self.couponPriceLabel.text = @"无可用优惠券";
     }
     
     if (resultModel.content.length == 0) {
-      [self.vipButton setTitle:[NSString stringWithFormat:@"  %@ %@到期",vipType, [[NSDate dateWithString:resultModel.outtime formatString:@"yyyy-MM-dd hh:mm:ss"] formattedDateWithStyle:NSDateFormatterShortStyle]] forState:UIControlStateNormal];
+      [self.vipButton setTitle:[NSString stringWithFormat:@"  %@ 享受%.1f折优惠",vipType,resultModel.vip] forState:UIControlStateNormal];
     }else{
        [self.vipButton setTitle:[NSString stringWithFormat:@"%@", resultModel.content] forState:UIControlStateNormal];
        [self.vipButton setImage:nil forState:UIControlStateNormal];
@@ -108,10 +134,30 @@
     }
 }
 
+- (IBAction)buyButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickBuyButton:)]) {
+        [self.delegate orderInfoView:self didClickBuyButton:sender];
+    }
+}
+
+
+- (IBAction)couponButtonClick:(id)sender {
+    if (self.resultModel.cid == 0) {
+        return;
+    }
+    if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickCouponButton:)]) {
+        [self.delegate orderInfoView:self didClickCouponButton:sender];
+    }
+}
 
 -(void)setRsid:(NSInteger)rsid
 {
     _rsid = rsid;
+}
+
+-(void)dealloc
+{
+    [NSNotificationCenter removeAllObserverForObj:self];
 }
 
 @end

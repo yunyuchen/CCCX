@@ -12,11 +12,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="YYWarmPromptView">
-            <rect key="frame" x="0.0" y="0.0" width="453" height="497"/>
+            <rect key="frame" x="0.0" y="0.0" width="350" height="437"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ptb-tX-xbk">
-                    <rect key="frame" x="196.5" y="432" width="60" height="60"/>
+                    <rect key="frame" x="145" y="372" width="60" height="60"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="Y5L-NH-GW0"/>
                         <constraint firstAttribute="height" constant="60" id="z7U-Xa-zJf"/>
@@ -27,7 +27,7 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="提示" translatesAutoresizingMaskIntoConstraints="NO" id="ZtY-My-8Zv">
-                    <rect key="frame" x="0.0" y="0.0" width="453" height="412"/>
+                    <rect key="frame" x="0.0" y="0.0" width="350" height="352"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -43,7 +43,7 @@
             <connections>
                 <outlet property="tipsLabel" destination="ZtY-My-8Zv" id="OtY-Md-63I"/>
             </connections>
-            <point key="canvasLocation" x="-386.5" y="-31.5"/>
+            <point key="canvasLocation" x="-387" y="3.5"/>
         </view>
     </objects>
     <resources>

@@ -10,10 +10,11 @@
 
 @interface YYCardModel : YYBaseModel
 
-//"content": "随开随用 去哪都方便",
-//"viphour": "90",
-//"vip": "499",
-//"name": "季卡"
+//cycle = 90;
+//des = "\U94bb\U77f3";
+//discount = "7.8";
+//id = 3;
+//price = 299;
 @property(nonatomic, copy) NSString *content;
 
 @property(nonatomic, copy) NSString *viphour;
@@ -21,5 +22,17 @@
 @property(nonatomic, copy) NSString *vip;
 
 @property(nonatomic, copy) NSString *name;
+
+@property(nonatomic, assign) CGFloat price;
+
+@property(nonatomic, assign) NSInteger ID;
+
+@property(nonatomic, assign) CGFloat discount;
+
+@property(nonatomic, copy) NSString *des;
+
+@property(nonatomic, assign) NSInteger cycle;
+
+@property(nonatomic, assign) BOOL recommend;
 
 @end
