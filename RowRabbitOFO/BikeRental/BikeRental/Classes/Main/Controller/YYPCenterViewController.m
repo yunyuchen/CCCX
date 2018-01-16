@@ -15,6 +15,7 @@
 #import "YYSettingViewController.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import <QMUIKit/QMUIKit.h>
+#import <DateTools/DateTools.h>
 #import "YYScoreViewController.h"
 
 @interface YYPCenterViewController ()
@@ -33,7 +34,7 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buyButtonWidthCons;
 
-@property(nonatomic, assign) NSInteger score;
+@property(nonatomic, assign) CGFloat score;
 
 @end
 
@@ -45,6 +46,12 @@
     self.fd_prefersNavigationBarHidden = YES;
     
     [self getUserInfoRequest];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     [self getUserInfo];
 }
@@ -78,12 +85,14 @@
             QMUILog(@"%@",response);
             
             [weakSelf.scoreButton setTitle:[NSString stringWithFormat:@"我的积分：%@",response[@"point"]] forState:UIControlStateNormal];
-            weakSelf.score = [response[@"point"] integerValue];
+            weakSelf.score = [response[@"point"] floatValue];
             //是会员
             if ([response[@"vipstate"] boolValue] == YES) {
                 weakSelf.vipImageView.image = [UIImage imageNamed:@"VIP1"];
                 weakSelf.buyButtonWidthCons.constant = 0;
-                weakSelf.vipLabel.text = [NSString stringWithFormat:@"到期时间：%@ %@",response[@"des"],response[@"outtime"]];
+                NSString *outtimeStr = response[@"outtime"];
+                NSDate *date = [NSDate dateWithString:outtimeStr formatString:@"yyyy-MM-dd HH:mm:ss"];
+                weakSelf.vipLabel.text = [NSString stringWithFormat:@"%@ 到期时间： %@",response[@"des"],[date formattedDateWithFormat:@"yyyy-MM-dd"]];
             }else{
                 weakSelf.vipImageView.image = [UIImage imageNamed:@"VIP2"];
                 weakSelf.vipLabel.text = @"您还不是VIP会员";

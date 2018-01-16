@@ -38,6 +38,8 @@
 #import "YYReAuthViewController.h"
 #import "YYFaultWarrantyController.h"
 #import "YYGetCouponRequest.h"
+#import "YYReAuthViewController1.h"
+#import "YYOtherAuthViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
 #import <WZLBadge/WZLBadgeImport.h>
@@ -151,6 +153,10 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
 
+@property (weak, nonatomic) IBOutlet UIButton *noticeButton;
+
+@property(nonatomic, assign) CGRect tmpFrame;
+
 @end
 
 static NSString *reuseIndetifier = @"annotationReuseIndetifier";
@@ -185,6 +191,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     //标题
     CGRect NavRect=self.navigationController.navigationBar.frame;
     self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
+    
 }
 
 
@@ -216,6 +223,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 }
 
 - (IBAction)faultRepairButtonClick:(UIButton *)sender {
+    if (![YYUserManager isHaveLogin]) {
+        UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
+        [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:loginViewController] animated:YES completion:nil];
+        return;
+    }
     YYFaultWarrantyController *faultWarrantyController = [[UIStoryboard storyboardWithName:@"Score" bundle:nil] instantiateViewControllerWithIdentifier:@"faultRepair"];
     [self.navigationController pushViewController:faultWarrantyController animated:YES];
 }
@@ -435,6 +448,23 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 return;
             }
             
+            //其他认证(认证中)
+            if (weak_self.userModel.authtype == 2 && weak_self.userModel.cstate == 0) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYOtherAuthViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"otherAuth"];
+                certificationViewController.preState = YES;
+                [self presentViewController:[[QMUINavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+                return;
+            }
+            
+            //其他认证(审核失败)
+            if (weak_self.userModel.authtype == 2 && weak_self.userModel.cstate == 2  && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYReAuthViewController1 *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"reAuth1"];
+                [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
+                return;
+            }
+            
             //未交押金
             if (weak_self.userModel.authtype == 0 && weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
                 //payDeposit
@@ -512,12 +542,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     self.flag = 0;
     
-    if (kFetchReadMessageKey == nil) {
-        [self.pCenterButton showBadgeWithStyle:WBadgeStyleRedDot value:0 animationType:WBadgeAnimTypeNone];
-        [self.pCenterButton setBadgeCenterOffset:CGPointMake(-12, 10)];
-    }else{
-        [self.pCenterButton clearBadge];
-    }
     
     //用户登录的情况下获取用户状态
     if ([YYUserManager isHaveLogin]) {
@@ -534,10 +558,26 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 }
 
 - (IBAction)closeNoticeButtonClick:(id)sender {
-    [self.noticeView removeFromSuperview];
-    self.noticeView = nil;
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    self.tmpFrame = self.noticeView.frame;
+    animation.toValue = [NSValue valueWithCGRect:CGRectMake(15, self.noticeView.top , 0, 0)];
+    animation.duration = 0.5;
+    [animation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
+        self.noticeView.hidden = YES;
+        self.noticeButton.hidden = NO;
+    }];
+    [self.noticeView.layer pop_addAnimation:animation forKey:nil];
 }
 
+- (IBAction)noticeButtonClick:(id)sender {
+
+    self.noticeButton.hidden = YES;
+     self.noticeView.hidden = NO;
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    animation.toValue = [NSValue valueWithCGRect:CGRectMake(15, self.noticeView.top, kScreenWidth - 30, self.tmpFrame.size.height)];
+    animation.duration = 0.5;
+    [self.noticeView.layer pop_addAnimation:animation forKey:nil];
+}
 
 
 - (IBAction)ddd:(id)sender {
@@ -568,7 +608,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 -(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    if ([identifier isEqualToString:@"message1"] || [identifier isEqualToString:@"invite"] || [identifier isEqualToString:@"scanCode"]) {
+    if ([identifier isEqualToString:@"message1"] || [identifier isEqualToString:@"invite"] || [identifier isEqualToString:@"scanCode"] || [identifier isEqualToString:@"faultRepair"]) {
         if (![YYUserManager isHaveLogin]) {
             UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
@@ -580,7 +620,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             [QMUITips showWithText:@"网络不给力" inView:self.view hideAfterDelay:2];
             return NO;
         }
-      
+
         //未认证身份
         if ([self.userModel.idcard isEqualToString:@""]) {
             //Certification
@@ -606,6 +646,24 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
             return NO;
         }
+        
+        //其他认证(认证中)
+        if (self.userModel.authtype == 2 && self.userModel.cstate == 0) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            YYOtherAuthViewController *certificationViewController = [storyboard instantiateViewControllerWithIdentifier:@"otherAuth"];
+            certificationViewController.preState = YES;
+            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:certificationViewController] animated:YES completion:nil];
+            return NO;
+        }
+        
+        //其他认证(审核失败)
+        if (self.userModel.authtype == 2 && self.userModel.cstate == 2  && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            YYReAuthViewController1 *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"reAuth1"];
+            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
+            return NO;
+        }
+        
         
         //未交押金
         if (self.userModel.authtype == 0 && self.userModel.zmstate == 0 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
@@ -1265,7 +1323,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
     //创建网页内容对象
-    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:@"行运兔，新出行，新生活" descr:@"" thumImage:[UIImage imageNamed:@"1024"]];
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:[YYFileCacheManager readUserDataForKey:@"config"][@"shareTitle"] descr:@"" thumImage:[UIImage imageNamed:@"1024"]];
     //设置网页地址
     shareObject.webpageUrl =@"http://zc.51xytu.com/htm/share.htm";
    
@@ -1325,7 +1383,11 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [QMUITips showLoadingInView:self.view];
     YYGetCouponRequest *request = [[YYGetCouponRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetCouponAPI];
-    request.type = 2;
+    if (registerHBView.fromLogin) {
+        request.type = 0;
+    }else{
+        request.type = 2;
+    }
     __weak __typeof(self)weakSelf = self;
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         [QMUITips hideAllToastInView:weakSelf.view animated:YES];

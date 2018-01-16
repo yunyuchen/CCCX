@@ -9,8 +9,9 @@
 #import "YYDisabledCouponViewController.h"
 #import "YYDisabledCouponViewCell.h"
 #import "YYMyCouponRequest.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface YYDisabledCouponViewController ()<UIScrollViewDelegate>
+@interface YYDisabledCouponViewController ()<UIScrollViewDelegate,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource>
 
 @property (weak, nonatomic) IBOutlet QMUITableView *tableView;
 
@@ -82,6 +83,16 @@
     YYDisabledCouponViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"disabledCoupon"];
     cell.model = self.models[indexPath.row];
     return cell;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"暂无优惠券";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 @end

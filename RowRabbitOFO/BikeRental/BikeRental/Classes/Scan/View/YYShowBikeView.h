@@ -16,6 +16,7 @@
 
 -(void) YYShowBikeView:(YYShowBikeView *)showBikeView didClickOKButton:(UIButton *) okButton;
 
+-(void) YYShowBikeView:(YYShowBikeView *)showBikeView didClickFeeButton:(UIButton *) okButton;
 @end
 
 @interface YYShowBikeView : UIView

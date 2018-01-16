@@ -9,6 +9,7 @@
 
 #import "WebViewController.h"
 #import "UIView+MBProgressHUD.h"
+#import "Masonry.h"
 @interface WebViewController ()<UIWebViewDelegate>
 @property(nonatomic,strong)UIWebView *webView;
 @end
@@ -19,10 +20,24 @@
     [super viewDidLoad];
     self.navigationItem.title = @"详情";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"←" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
     [self.view addSubview:self.webView];
     self.webView.delegate = self;
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.URLString]];
     [self.webView loadRequest:request];
+    
+    // 状态栏(statusbar)
+    CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
+    //标题
+    CGRect NavRect=self.navigationController.navigationBar.frame;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, StatusRect.size.height + NavRect.size.height)];
+    [self.view addSubview:topView];
+    [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(StatusRect.size.height + NavRect.size.height);
+    }];
+    topView.backgroundColor = [UIColor whiteColor];
+    
 
 }
 -(void)back{

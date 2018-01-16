@@ -34,6 +34,14 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *couponPriceLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *actButton;
+
+@property (weak, nonatomic) IBOutlet UIView *actView;
+
+@property (weak, nonatomic) IBOutlet UILabel *actLabel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *actViewHeightCons;
+
 @end
 
 
@@ -54,7 +62,8 @@
         self.indicatorImageView.image = [UIImage qmui_imageWithShape:QMUIImageShapeDisclosureIndicator size:CGSizeMake(6, 10) lineWidth:1 tintColor:[UIColor qmui_colorWithHexString:@"#9B9B9B"]];
       
         [NSNotificationCenter addObserver:self action:@selector(selectCouponAction:) name:kSelectedCouponNotification];
-
+        self.actButton.layer.cornerRadius = 4;
+        self.actButton.layer.masksToBounds = YES;
     }
     return self;
 }
@@ -77,15 +86,39 @@
     NSInteger hour = self.resultModel.keep / 60;
     NSInteger minute = self.resultModel.keep % 60;
 
-    self.totalTimeLabel.text = [NSString stringWithFormat:@"%ld时%ld分钟",hour,minute];
+    if (resultModel.weekcut <= 1) {
+        self.actView.hidden = YES;
+        self.actViewHeightCons.constant = 0;
+    }else{
+        self.actView.hidden = NO;
+        self.actViewHeightCons.constant = 40;
+    }
+    
+    self.totalTimeLabel.text = [NSString stringWithFormat:@"%ld时%ld分钟（行驶时长）",hour,minute];
     self.cid = resultModel.cid;
 
     if (resultModel.vip  > 1) {
-        self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 - resultModel.money];
-            self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10];
+        if (resultModel.weekcut > 1) {
+             self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 * self.resultModel.weekcut / 10 - resultModel.money];
+            self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.price  * self.resultModel.vip / 10 - self.resultModel.price * self.resultModel.vip / 10 * self.resultModel.weekcut / 10];
+        }else{
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 - resultModel.money];
+             self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.price -self.resultModel.price * self.resultModel.vip / 10];
+        }
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10];
+       
     }else{
-        self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
-        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
+        self.extPrriceLabel.hidden = YES;
+        if (resultModel.weekcut > 1) {
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip * self.resultModel.weekcut / 10- resultModel.money];
+            self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.price -self.resultModel.price * self.resultModel.weekcut / 10];
+        }else{
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
+            self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.price ];
+        }
+     
+        self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip];
+    
     }
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
     NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%.2f",self.resultModel.price] attributes:attribtDic];
@@ -102,15 +135,16 @@
     NSString *vipType = resultModel.des;
    
     if (resultModel.cid > 0) {
+        [self.couponPriceLabel setTextColor:[UIColor qmui_colorWithHexString:@"#FF5500"]];
         self.couponPriceLabel.text = [NSString stringWithFormat:@"-¥%.1f",resultModel.money];
     }else{
         self.couponPriceLabel.text = @"无可用优惠券";
     }
     
-    if (resultModel.content.length == 0) {
+    if (resultModel.vip  > 1) {
       [self.vipButton setTitle:[NSString stringWithFormat:@"  %@ 享受%.1f折优惠",vipType,resultModel.vip] forState:UIControlStateNormal];
     }else{
-       [self.vipButton setTitle:[NSString stringWithFormat:@"%@", resultModel.content] forState:UIControlStateNormal];
+       [self.vipButton setTitle:[NSString stringWithFormat:@"您不是VIP会员  无法享受优惠折扣"] forState:UIControlStateNormal];
        [self.vipButton setImage:nil forState:UIControlStateNormal];
     }
 
@@ -140,6 +174,11 @@
     }
 }
 
+- (IBAction)feeButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickFeeButton:)]) {
+        [self.delegate orderInfoView:self didClickFeeButton:sender];
+    }
+}
 
 - (IBAction)couponButtonClick:(id)sender {
     if (self.resultModel.cid == 0) {
@@ -148,6 +187,12 @@
     if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickCouponButton:)]) {
         [self.delegate orderInfoView:self didClickCouponButton:sender];
     }
+}
+
+-(void) reload
+{
+    [self setUserModel:self.userModel];
+    [self setResultModel:self.resultModel];
 }
 
 -(void)setRsid:(NSInteger)rsid

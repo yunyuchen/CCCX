@@ -10,7 +10,7 @@
 #import "YYBaseRequest.h"
 #import "YYFeedBackRequest.h"
 #import "UIImage+Size.h"
-
+#import "YYFeedCfgModel.h"
 
 @interface YYFaultWarrantyController()
 
@@ -20,34 +20,106 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bikeIDView;
 
-@property (weak, nonatomic) IBOutlet UIView *bikeFaultView;
-
-@property (weak, nonatomic) IBOutlet UIView *useFaultView;
-
-@property (weak, nonatomic) IBOutlet UIView *partsFaultView;
-
 @property (weak, nonatomic) IBOutlet QMUITextView *additionalTextView;
 
 @property (weak, nonatomic) IBOutlet UILabel *textNumLabel;
 
-@property(nonatomic, strong) UIButton *selectedBikeFaultButton;
+@property (weak, nonatomic) IBOutlet UIView *faultReasonView;
 
-@property(nonatomic, strong) UIButton *selectedUseFaultButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *faultReasonViewHeightCons;
 
-@property(nonatomic, strong) UIButton *selectedPartsFaultButton;
+@property(nonatomic, strong) NSArray<YYFeedCfgModel *> *models;
+
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *mainViewHeightCons;
 
 @end
 
+
+
 #define kMaxTextCount 140
 @implementation YYFaultWarrantyController
+
+-(NSArray<YYFeedCfgModel *> *)models
+{
+    if (_models == nil) {
+        _models = [NSArray array];
+    }
+    return _models;
+}
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"故障保修";
-
+    self.navigationItem.title = @"故障报修";
+    self.extendedLayoutIncludesOpaqueBars = NO;
     [self setupControls];
+    
+    [self requestFeedConfig];
+}
+
+- (void) requestFeedConfig
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFeedcfgAPI];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            [YYFeedCfgModel setUpModelClassInArrayWithContainDict:@{@"value" : [YYCfgSubModel class]}];
+            weakSelf.models = [YYFeedCfgModel modelArrayWithDictArray:response];
+            
+            [weakSelf createFaultButtons];
+            
+            QMUILog(@"%@",weakSelf.models);
+        }
+    }];
+    
+}
+
+- (void) createFaultButtons
+{
+    UIButton *tmpBtn = nil;
+    for (YYFeedCfgModel *model in self.models) {
+        CGFloat labelY = 0;
+        UILabel *label = [[UILabel alloc] init];
+        label.text = model.type;
+        label.textColor = [UIColor qmui_colorWithHexString:@"#404040"];
+        if (tmpBtn == nil) {
+            labelY = 12;
+        }else{
+            labelY = CGRectGetMaxY(tmpBtn.frame) + 12;
+        }
+        label.frame = CGRectMake(21.5, labelY, 100, 22.5);
+        [self.faultReasonView addSubview:label];
+        
+        int j = 0;
+        for (YYCfgSubModel *sub in model.value) {
+            CGFloat buttonW = (kScreenWidth - 2 * 21.5 - 3 * 4.5) /  4;
+            CGFloat buttonH = 40;
+            CGFloat buttonX = 21.5 + (j % 4 * buttonW) + (j % 4 * 4.5);
+            CGFloat buttonY = CGRectGetMaxY(label.frame) + 13 + buttonH * (j / 4) + (j / 4) * 4.5;
+            
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.tag = sub.ID;
+            button.layer.cornerRadius = 4;
+            button.layer.borderWidth = 2;
+            button.layer.masksToBounds = YES;
+            button.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
+            button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
+            [button setTitle:sub.des forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor qmui_colorWithHexString:@"404040"] forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:14];
+            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.faultReasonView addSubview:button];
+            tmpBtn = button;
+            j++;
+        }
+    }
+    
+    self.faultReasonViewHeightCons.constant = CGRectGetMaxY(tmpBtn.frame) + 12;
+    self.mainViewHeightCons.constant += CGRectGetMaxY(tmpBtn.frame) + 12 - 280;
+    
 }
 
 - (void) setupControls
@@ -56,61 +128,36 @@
     self.bikeIDView.layer.masksToBounds = YES;
     self.showInView = self.contentView;
     self.maxCount = 1;
+    self.selectImageStr = @"不超过1张";
     [self initPickerView];
     
     self.pickerCollectionView.backgroundColor = [UIColor clearColor];
     self.additionalTextView.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-    for (UIView *view in self.bikeFaultView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton *)view).layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-        }
-    }
-    for (UIView *view in self.useFaultView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton *)view).layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-        }
-    }
-    for (UIView *view in self.partsFaultView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton *)view).layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-        }
-    }
-    
 }
 
-- (IBAction)bikeFaultButtonClick:(UIButton *)sender {
-    if (sender.selected) {
-        return;
-    }
-    self.selectedBikeFaultButton.selected = NO;
-    self.selectedBikeFaultButton.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-    sender.layer.borderColor = [UIColor qmui_colorWithHexString:@"#F08300"].CGColor;
-    sender.selected = YES;
-    self.selectedBikeFaultButton = sender;
-    
+- (IBAction)telButtonClick:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"0596-2671066" message:[NSString stringWithFormat:@"%@",@""] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",@"0596-2671066"]]];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (IBAction)useFaultButtonClick:(UIButton *)sender {
+
+- (IBAction)buttonClick:(UIButton *)sender {
     if (sender.selected) {
-        return;
+        sender.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
+        sender.selected = NO;
+    }else{
+        sender.layer.borderColor = [UIColor qmui_colorWithHexString:@"#F08300"].CGColor;
+        sender.selected = YES;
     }
-    self.selectedUseFaultButton.selected = NO;
-    self.selectedUseFaultButton.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-    sender.layer.borderColor = [UIColor qmui_colorWithHexString:@"#F08300"].CGColor;
-    sender.selected = YES;
-    self.selectedUseFaultButton = sender;
 }
 
-- (IBAction)partsFaultButtonClick:(UIButton *)sender {
-    if (sender.selected) {
-        return;
-    }
-    self.selectedPartsFaultButton.selected = NO;
-    self.selectedPartsFaultButton.layer.borderColor = [UIColor qmui_colorWithHexString:@"#DCDCDC"].CGColor;
-    sender.layer.borderColor = [UIColor qmui_colorWithHexString:@"#F08300"].CGColor;
-    sender.selected = YES;
-    self.selectedPartsFaultButton = sender;
-}
 
 - (IBAction)submitButtonClick:(UIButton *)sender {
     if (self.bikeIDTextField.text.qmui_trim.length <= 0) {
@@ -118,23 +165,28 @@
         return;
     }
     
-    if (self.selectedPartsFaultButton == nil && self.selectedUseFaultButton == nil && self.selectedPartsFaultButton == nil) {
-        [QMUITips showWithText:@"请选择您的故障问题" inView:self.view hideAfterDelay:2];
-        return;
-    }
-    
     NSString *faultStr = @"";
-    if (self.selectedBikeFaultButton) {
-        faultStr = [faultStr stringByAppendingString:self.selectedPartsFaultButton.currentTitle];
+    NSString *ids = @"";
+
+    for (UIControl *ctrl in self.faultReasonView.subviews) {
+        if ([ctrl isKindOfClass:[UIButton class]]) {
+            if (((UIButton *)ctrl).selected) {
+                if ([ids isEqualToString:@""]) {
+                    ids = [ids stringByAppendingFormat:@"%ld",((UIButton *)ctrl).tag];
+                }else{
+                    ids = [ids stringByAppendingFormat:@",%ld",((UIButton *)ctrl).tag];
+                }
+                faultStr = [faultStr stringByAppendingFormat:@" %@",((UIButton *)ctrl).currentTitle];
+            }
+        }
+  
     }
-    if (self.selectedUseFaultButton) {
-        faultStr = [faultStr stringByAppendingString:self.selectedUseFaultButton.currentTitle];
-    }
-    if (self.selectedPartsFaultButton) {
-        faultStr = [faultStr stringByAppendingString:self.selectedPartsFaultButton.currentTitle];
-    }
-    if (self.additionalTextView.text.qmui_trim.length > 0) {
-        faultStr = [faultStr stringByAppendingString:self.additionalTextView.text];
+
+    faultStr = [faultStr stringByAppendingFormat:@"  %@",self.additionalTextView.text];
+    
+    if (faultStr.qmui_trim.length <= 0) {
+        [QMUITips showWithText:@"请选择您要报修的问题" inView:self.view hideAfterDelay:2];
+        return;
     }
     
     //大图数据
@@ -161,6 +213,7 @@
         YYFeedBackRequest *request = [[YYFeedBackRequest alloc] init];
         request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFeedBackAPI];;
         request.des = faultStr;
+        request.ids = ids;
         request.img = @"";
         request.deviceid = self.bikeIDTextField.text;
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
@@ -187,6 +240,7 @@
                 YYFeedBackRequest *request = [[YYFeedBackRequest alloc] init];
                 request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFeedBackAPI];;
                 request.des = faultStr;
+                request.ids = ids;
                 request.img = [NSString stringWithFormat:@"%@",response];
                 request.deviceid = self.bikeIDTextField.text;
                 [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
@@ -221,6 +275,19 @@
         self.textNumLabel.textColor = [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0];
     }
     return YES;
+}
+
+//文本框每次输入文字都会调用  -> 更改文字个数提示框
+- (void)textViewDidChangeSelection:(UITextView *)textView{
+
+    //
+    self.textNumLabel.text = [NSString stringWithFormat:@"%lu/%d    ",(unsigned long)self.additionalTextView.text.length,kMaxTextCount];
+    if (self.additionalTextView.text.length > kMaxTextCount) {
+        self.textNumLabel.textColor = [UIColor redColor];
+    }
+    else{
+        self.textNumLabel.textColor = [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0];
+    }
 }
 
 @end

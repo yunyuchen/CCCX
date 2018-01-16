@@ -13,6 +13,7 @@
 #import "YYShowBikeView.h"
 #import "YYControlBikeViewController.h"
 #import "YYFileCacheManager.h"
+#import "YYFeeIntroViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -145,8 +146,17 @@
 -(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickCancelButton:(UIButton *)cancelButton
 {
     [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-    
+        
     }];
+}
+
+-(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickFeeButton:(UIButton *)okButton
+{
+    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
+        YYFeeIntroViewController *feeIntroViewController = [[YYFeeIntroViewController alloc] init];
+        [self.navigationController pushViewController:feeIntroViewController animated:YES];
+    }];
+  
 }
 
 - (IBAction)scanButtonClick:(id)sender {

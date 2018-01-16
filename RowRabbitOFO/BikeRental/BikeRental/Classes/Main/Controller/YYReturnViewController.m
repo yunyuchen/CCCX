@@ -24,6 +24,7 @@
 #import "YYOrderPriceNoCheckRequest.h"
 #import "YYBuyMemberCardViewController.h"
 #import "YYEnabledCouponViewController.h"
+#import "YYFeeIntroViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
@@ -104,8 +105,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     [self initAnnotations];
     
-    [self getUserInfoRequest];
-    
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
     self.flag = NO;
@@ -136,11 +135,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-  
+    [self getUserInfoRequest];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -595,7 +593,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         if (success) {
             weak_self.userModel = [YYUserModel modelWithDictionary:response];
             
-            
+            QMUILog(@"----------------");
         }
     } error:^(NSError *error) {
         
@@ -699,6 +697,16 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYEnabledCouponViewController *couponViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Enabledcoupon"];
     couponViewController.selected = YES;
     couponViewController.cid = orderView.cid;
+    CGFloat price = 0.0f;
+    if (orderView.resultModel.vip > 1) {
+        price = orderView.resultModel.price * orderView.resultModel.vip / 10;
+    }else{
+        price = orderView.resultModel.price;
+    }
+    if (orderView.resultModel.weekcut > 1) {
+        price = price * orderView.resultModel.weekcut / 10;
+    }
+    couponViewController.price = price;
     [self.navigationController pushViewController:couponViewController animated:YES];
 }
 
@@ -707,6 +715,24 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 {
     YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
     [self.navigationController pushViewController:memberCardViewController animated:YES];
+    
+    [self.shadeView removeFromSuperview];
+    self.shadeView = nil;
+    POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+    
+    animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight, kScreenWidth, 400)];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 0.5;
+    [animation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
+        [orderView removeFromSuperview];
+    }];
+    [orderView pop_addAnimation:animation forKey:kPOPViewFrame];
+}
+
+-(void)orderInfoView:(YYOrderInfoView *)orderView didClickFeeButton:(UIButton *)sender
+{
+    YYFeeIntroViewController *feeIntroViewController = [[YYFeeIntroViewController alloc] init];
+    [self.navigationController pushViewController:feeIntroViewController animated:YES];
 }
 
 

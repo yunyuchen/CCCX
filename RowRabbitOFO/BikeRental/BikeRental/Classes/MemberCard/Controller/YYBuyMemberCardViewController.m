@@ -13,7 +13,9 @@
 #import "YYBaseRequest.h"
 #import "YYCreateVipRequest.h"
 #import "YYCardModel.h"
+#import "YYFileCacheManager.h"
 #import "NSNotificationCenter+Addition.h"
+#import <DateTools/DateTools.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import <WXApi.h>
 
@@ -59,9 +61,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.memberCardRemarkLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"vipmsg"];
+     [UILabel changeLineSpaceForLabel:self.memberCardRemarkLabel WithSpace:6];
     self.tableView.tableHeaderView = self.headerView;
     self.tableView.tableFooterView = self.footerView;
-    [UILabel changeLineSpaceForLabel:self.memberCardRemarkLabel WithSpace:8];
+   
     
     [self requestVipList];
     
@@ -117,9 +121,11 @@
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
             QMUILog(@"%@",response);
+            NSString *outtimeStr = response[@"outtime"];
+            NSDate *date = [NSDate dateWithString:outtimeStr formatString:@"yyyy-MM-dd HH:mm:ss"];
             //是会员
             if ([response[@"vipstate"] boolValue] == YES) {
-                [weakSelf.vipButton setTitle:[NSString stringWithFormat:@"%@ %@",response[@"des"],response[@"outtime"]] forState:UIControlStateNormal];
+                [weakSelf.vipButton setTitle:[NSString stringWithFormat:@"%@ 有效期至 %@",response[@"des"],[date formattedDateWithFormat:@"yyyy-MM-dd"]] forState:UIControlStateNormal];
                 [weakSelf.vipButton setImage:[UIImage imageNamed:@"VIP1"] forState:UIControlStateNormal];
             
             }else{
@@ -214,6 +220,8 @@
 
 -(void) paySuccessAction:(NSNotification *)noti
 {
+    [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -224,6 +232,7 @@
     switch (resp.errCode) {
         case WXSuccess:
         {
+            [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
             strMsg = @"支付成功！";
             QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
             
@@ -231,7 +240,7 @@
             contentView.minimumSize = CGSizeMake(300, 100);
             [tips showSucceed:strMsg hideAfterDelay:3];
             [self.navigationController popViewControllerAnimated:YES];
-            
+
             return;
         }
         case WXErrCodeCommon: strMsg = @"普通错误类型"; break;

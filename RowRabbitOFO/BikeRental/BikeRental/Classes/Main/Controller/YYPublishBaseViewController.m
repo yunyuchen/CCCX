@@ -66,8 +66,11 @@ static NSString * const reuseIdentifier = @"YYPhotoCell";
     _pickerCollectionView.scrollEnabled = NO;
     
     //添加图片提示
-    addImageStrLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 50, 70, 20)];
+    addImageStrLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 50, 150, 20)];
     addImageStrLabel.text = @"添加图片";
+    if (self.selectImageStr) {
+        addImageStrLabel.text = self.selectImageStr;
+    }
     addImageStrLabel.textColor = [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0];
     [self.pickerCollectionView addSubview:addImageStrLabel];
     

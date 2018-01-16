@@ -11,8 +11,9 @@
 #import "YYMyCouponRequest.h"
 #import "YYCouponModel.h"
 #import "NSNotificationCenter+Addition.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface YYEnabledCouponViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface YYEnabledCouponViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 
 @property (weak, nonatomic) IBOutlet QMUITableView *tableView;
 
@@ -111,12 +112,27 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    YYCouponModel *model = self.models[indexPath.row];
+    if (model.condition > self.price) {
+        [QMUITips showWithText:@"无法使用该优惠券" inView:self.view hideAfterDelay:2];
+        return;
+    }
     if (self.selected) {
         
         [NSNotificationCenter postNotification:kSelectedCouponNotification object:self.models[indexPath.row]];
         
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
+{
+    NSString *text = @"暂无优惠券";
+    
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
+                                 NSForegroundColorAttributeName: [UIColor darkGrayColor]};
+    
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 @end

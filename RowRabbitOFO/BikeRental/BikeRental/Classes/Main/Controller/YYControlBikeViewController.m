@@ -72,6 +72,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *bluetoothTipsView;
 
+@property (weak, nonatomic) IBOutlet UIButton *moreButton;
+
 @end
 
 @implementation YYControlBikeViewController
@@ -89,6 +91,7 @@
     self.last_mileageLabek.text = [NSString stringWithFormat:@"%.1f",self.last_mileage];
     self.bikeNameLabel.text = self.name; 
     self.driveTimeLabel.timeFormat = @"HH mm";
+    self.driveTimeLabel.shouldCountBeyondHHLimit = YES;
     if (self.ctime != nil) {
         NSDate *startDate = [NSDate dateWithString:self.ctime formatString:@"yyyy-MM-dd HH:mm:ss"];
         NSTimeInterval time = [[NSDate date] secondsFrom:startDate];
@@ -120,7 +123,7 @@
     
     //添加通知(处理从后台进来后的情况)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveBackgroundNoti) name:UIApplicationWillEnterForegroundNotification object:nil];
-
+    [self.view bringSubviewToFront:self.moreButton];
 }
 
 -(void)viewDidAppear:(BOOL)animated

@@ -47,7 +47,7 @@
     [super viewDidLoad];
     
     self.fd_prefersNavigationBarHidden = YES;
-    self.scoreLabel.text = [NSString stringWithFormat:@"%ld",self.score];
+    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f",self.score];
     
     [self requestMyPoint];
 }

@@ -23,6 +23,8 @@ typedef void(^okBlock)();
 
 @property (nonatomic,copy) okBlock block;
 
+@property(nonatomic, assign) BOOL fromLogin;
+
 @property (nonatomic,assign) CGFloat price;
 
 @end

@@ -43,7 +43,7 @@
     
     self.remarkLabel.text = model.des;
     self.timeLabel.text = model.ctime;
-    self.scoreLabel.text = [NSString stringWithFormat:@"%ld",model.point];
+    self.scoreLabel.text = [NSString stringWithFormat:@"%.1f",model.point];
 }
 
 @end

@@ -109,9 +109,9 @@
     [Network getLaunchAdImageDataSuccess:^(NSDictionary * response) {
         
         NSLog(@"广告数据 = %@",response);
-        NSString *openUrl = response[@"launchImgurl"];
+        NSString *openUrl = response[@"launchUrl"];
         if (![openUrl hasPrefix:@"http://"]) {
-            openUrl = [NSString stringWithFormat:@"%@%@",kBaseURL,response[@"launchImgurl"]];
+            openUrl = [NSString stringWithFormat:@"%@%@",kBaseURL,response[@"launchUrl"]];
         }
         [[NSUserDefaults standardUserDefaults] setObject:response forKey:@"config"];
         //广告数据转模型
@@ -478,13 +478,15 @@
  *  广告点击事件 回调
  */
 - (void)xhLaunchAd:(XHLaunchAd *)launchAd clickAndOpenURLString:(NSString *)openURLString{
-    
-//    NSLog(@"广告点击事件");
-//    WebViewController *VC = [[WebViewController alloc] init];
-//    VC.URLString = openURLString;
-//    //此处不要直接取keyWindow
-//    UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
-//    [rootVC.myNavigationController pushViewController:VC animated:YES];
+    if ([openURLString isEqualToString:kBaseURL]) {
+        return;
+    }
+    NSLog(@"广告点击事件");
+    WebViewController *VC = [[WebViewController alloc] init];
+    VC.URLString = openURLString;
+    //此处不要直接取keyWindow
+    UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+    [rootVC.myNavigationController pushViewController:VC animated:YES];
 }
 
 /**

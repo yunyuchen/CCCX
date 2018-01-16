@@ -47,6 +47,8 @@
 //图片总数量限制
 @property(nonatomic,assign) NSInteger maxCount;
 
+@property(nonatomic, copy) NSString *selectImageStr;
+
 
 //初始化collectionView
 - (void)initPickerView;

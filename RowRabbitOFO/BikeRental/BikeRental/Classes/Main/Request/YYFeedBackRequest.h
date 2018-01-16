@@ -18,4 +18,6 @@
 
 @property(nonatomic, copy) NSString *deviceid;
 
+@property(nonatomic, copy) NSString *ids;
+
 @end

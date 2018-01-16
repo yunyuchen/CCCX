@@ -20,7 +20,7 @@
 
 @property(nonatomic, assign) NSInteger ID;
 
-@property(nonatomic, assign) NSInteger point;
+@property(nonatomic, assign) CGFloat point;
 
 @property(nonatomic, copy) NSString *des;
 

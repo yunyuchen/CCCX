@@ -22,6 +22,9 @@
 
 -(void) orderInfoView:(YYOrderInfoView *)orderView didClickCouponButton:(UIButton *)sender;
 
+
+-(void) orderInfoView:(YYOrderInfoView *)orderView didClickFeeButton:(UIButton *)sender;
+
 @end
 
 
@@ -40,5 +43,7 @@
 @property(nonatomic, assign) NSInteger cid;
 
 @property (nonatomic,assign) NSInteger error;
+
+-(void) reload;
 
 @end

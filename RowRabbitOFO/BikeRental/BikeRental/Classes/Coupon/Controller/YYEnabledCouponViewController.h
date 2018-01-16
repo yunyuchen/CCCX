@@ -14,4 +14,6 @@
 
 @property(nonatomic, assign) NSInteger cid;
 
+@property(nonatomic, assign) CGFloat price;
+
 @end

@@ -114,4 +114,8 @@ UIKIT_EXTERN NSString *const kMyCouponsAPI;
 
 UIKIT_EXTERN NSString *const kGetCouponAPI;
 
+UIKIT_EXTERN NSString *const kCompanyAuthAPI;
+
+UIKIT_EXTERN NSString *const kFeedcfgAPI;
+
 @end

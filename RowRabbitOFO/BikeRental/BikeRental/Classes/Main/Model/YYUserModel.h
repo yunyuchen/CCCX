@@ -42,6 +42,8 @@
 
 @property(nonatomic, assign) NSInteger xstate;
 
+@property(nonatomic, assign) NSInteger cstate;
+
 @property(nonatomic, assign) BOOL vipstate;
 
 @end

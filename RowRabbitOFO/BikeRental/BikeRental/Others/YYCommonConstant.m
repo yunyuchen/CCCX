@@ -111,4 +111,8 @@ NSString *const kMyPointAPI = @"get?module=UserService.myPoint";
 NSString *const kMyCouponsAPI = @"get?module=UserService.myCoupon";
 
 NSString *const kGetCouponAPI = @"get?module=UserService.getCoupon";
+
+NSString *const kCompanyAuthAPI = @"get?module=UserService.companyAuth";
+
+NSString *const kFeedcfgAPI = @"get?module=UserService.feedcfg";
 @end

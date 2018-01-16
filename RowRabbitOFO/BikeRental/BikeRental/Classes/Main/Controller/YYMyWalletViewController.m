@@ -104,12 +104,20 @@
                     [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"未通过芝麻信用（＜%@分)",zmscore] forState:UIControlStateNormal];
                     [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
                 }
-            }else{
+            }else if (weak_self.model.authtype == 1){
                 if (weak_self.model.xstate == 1) {
                     [weak_self.sesameStateLabel setTitle:@"成功通过学生认证" forState:UIControlStateNormal];
                     [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
                 }else{
                     [weak_self.sesameStateLabel setTitle:@"未通过学生认证" forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
+                }
+            }else{
+                if (weak_self.model.cstate == 1) {
+                    [weak_self.sesameStateLabel setTitle:@"成功通过其他认证" forState:UIControlStateNormal];
+                    [weak_self.sesameStateLabel setImage:[UIImage imageNamed:@"aj_成功"] forState:UIControlStateNormal];
+                }else{
+                    [weak_self.sesameStateLabel setTitle:@"未通过其他认证" forState:UIControlStateNormal];
                     [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
                 }
             }

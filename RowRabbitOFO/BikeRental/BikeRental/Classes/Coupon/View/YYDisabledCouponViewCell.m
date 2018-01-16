@@ -7,6 +7,7 @@
 //
 
 #import "YYDisabledCouponViewCell.h"
+#import "YYFileCacheManager.h"
 #import <DateTools/DateTools.h>
 
 @interface YYDisabledCouponViewCell()
@@ -55,11 +56,12 @@
     NSDate *time = [NSDate dateWithString:model.outtime formatString:@"yyyy-MM-dd HH:mm:ss"];
     self.outTimeLabel.text = [NSString stringWithFormat:@"%ld.%ld.%ld到期",[time year],[time month],[time day]];
     self.extLabel.text = [NSString stringWithFormat:@"仅剩%ld天",model.lday];
-    if (model.lday < 0) {
-        self.stateImageView.image = [UIImage imageNamed:@"已过期"];
-    }else{
+    if (model.state == 1) {
         self.stateImageView.image = [UIImage imageNamed:@"已使用"];
+    }else{
+        self.stateImageView.image = [UIImage imageNamed:@"已过期"];
     }
+    self.descriptionLabel.text = [NSString stringWithFormat:@"限手机号码为%@",[YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tel"]];
 }
 
 @end

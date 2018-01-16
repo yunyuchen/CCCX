@@ -7,6 +7,7 @@
 //
 
 #import "YYCouponViewCell.h"
+#import "YYFileCacheManager.h"
 #import <DateTools/DateTools.h>
 
 @interface YYCouponViewCell()
@@ -61,6 +62,7 @@
     NSDate *time = [NSDate dateWithString:model.outtime formatString:@"yyyy-MM-dd HH:mm:ss"];
     self.outTimeLabel.text = [NSString stringWithFormat:@"%ld.%ld.%ld到期",[time year],[time month],[time day]];
     self.extLabel.text = [NSString stringWithFormat:@"仅剩%ld天",model.lday];
+    self.descriptionLabel.text = [NSString stringWithFormat:@"限手机号码为%@",[YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tel"]];
 }
 
 @end

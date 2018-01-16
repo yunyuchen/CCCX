@@ -53,5 +53,11 @@
     }
 }
 
+- (IBAction)feeButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(YYShowBikeView:didClickFeeButton:)]) {
+        [self.delegate YYShowBikeView:self didClickFeeButton:sender];
+    }
+}
+
 
 @end

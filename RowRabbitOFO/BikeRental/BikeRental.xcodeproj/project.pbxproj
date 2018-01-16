@@ -91,6 +91,12 @@
 		0B36147A1F0E068E00E4DCCA /* LaunchVideoAd.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B36146F1F0E068E00E4DCCA /* LaunchVideoAd.json */; };
 		0B36147B1F0E068E00E4DCCA /* video0.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0B3614701F0E068E00E4DCCA /* video0.mp4 */; };
 		0B36147C1F0E068E00E4DCCA /* video1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0B3614711F0E068E00E4DCCA /* video1.mp4 */; };
+		0B3654711FCD2C4F008FC7AC /* YYScoreIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3654701FCD2C4F008FC7AC /* YYScoreIntroViewController.m */; };
+		0B3654741FCD2CBD008FC7AC /* YYFeeIntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3654731FCD2CBD008FC7AC /* YYFeeIntroViewController.m */; };
+		0B3654771FCD3088008FC7AC /* YYOtherAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3654761FCD3088008FC7AC /* YYOtherAuthViewController.m */; };
+		0B36547A1FCD356A008FC7AC /* YYReAuthViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3654791FCD356A008FC7AC /* YYReAuthViewController1.m */; };
+		0B36547D1FCD390A008FC7AC /* YYCompanyAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B36547C1FCD390A008FC7AC /* YYCompanyAuthRequest.m */; };
+		0B3DDF7F1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3DDF7E1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.m */; };
 		0B3E619C1ED807FE008B28B6 /* CLRollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E619B1ED807FE008B28B6 /* CLRollLabel.m */; };
 		0B3E619F1ED8089A008B28B6 /* CFDynamicLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E619E1ED8089A008B28B6 /* CFDynamicLabel.m */; };
 		0B3E61A81ED81B32008B28B6 /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3E61A11ED81B32008B28B6 /* LineDashPolyline.m */; };
@@ -230,6 +236,7 @@
 		0BB090CF1F05EAA8007049D3 /* YYRegisterHBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB090CE1F05EAA8007049D3 /* YYRegisterHBView.xib */; };
 		0BB090D21F05EEFF007049D3 /* YYShareHBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB090D11F05EEFF007049D3 /* YYShareHBView.m */; };
 		0BB090D41F05EF81007049D3 /* YYShareHBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB090D31F05EF81007049D3 /* YYShareHBView.xib */; };
+		0BBC54851FD7B98F001F6133 /* YYFeedCfgModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */; };
 		0BCB7C951ED67C3F000DA476 /* YYReturnResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C941ED67C3F000DA476 /* YYReturnResultModel.m */; };
 		0BCB7C981ED6802A000DA476 /* YYPayOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C971ED6802A000DA476 /* YYPayOrderRequest.m */; };
 		0BCB7C9E1ED6AE08000DA476 /* YYCoreNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C9B1ED6AE08000DA476 /* YYCoreNewFeatureViewController.m */; };
@@ -473,6 +480,18 @@
 		0B36146F1F0E068E00E4DCCA /* LaunchVideoAd.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = LaunchVideoAd.json; sourceTree = "<group>"; };
 		0B3614701F0E068E00E4DCCA /* video0.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video0.mp4; sourceTree = "<group>"; };
 		0B3614711F0E068E00E4DCCA /* video1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video1.mp4; sourceTree = "<group>"; };
+		0B36546F1FCD2C4F008FC7AC /* YYScoreIntroViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYScoreIntroViewController.h; sourceTree = "<group>"; };
+		0B3654701FCD2C4F008FC7AC /* YYScoreIntroViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYScoreIntroViewController.m; sourceTree = "<group>"; };
+		0B3654721FCD2CBD008FC7AC /* YYFeeIntroViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYFeeIntroViewController.h; sourceTree = "<group>"; };
+		0B3654731FCD2CBD008FC7AC /* YYFeeIntroViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYFeeIntroViewController.m; sourceTree = "<group>"; };
+		0B3654751FCD3088008FC7AC /* YYOtherAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYOtherAuthViewController.h; sourceTree = "<group>"; };
+		0B3654761FCD3088008FC7AC /* YYOtherAuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYOtherAuthViewController.m; sourceTree = "<group>"; };
+		0B3654781FCD356A008FC7AC /* YYReAuthViewController1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYReAuthViewController1.h; sourceTree = "<group>"; };
+		0B3654791FCD356A008FC7AC /* YYReAuthViewController1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYReAuthViewController1.m; sourceTree = "<group>"; };
+		0B36547B1FCD390A008FC7AC /* YYCompanyAuthRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCompanyAuthRequest.h; sourceTree = "<group>"; };
+		0B36547C1FCD390A008FC7AC /* YYCompanyAuthRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYCompanyAuthRequest.m; sourceTree = "<group>"; };
+		0B3DDF7D1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+BackButtonHandler.h"; sourceTree = "<group>"; };
+		0B3DDF7E1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+BackButtonHandler.m"; sourceTree = "<group>"; };
 		0B3E619A1ED807FE008B28B6 /* CLRollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLRollLabel.h; sourceTree = "<group>"; };
 		0B3E619B1ED807FE008B28B6 /* CLRollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLRollLabel.m; sourceTree = "<group>"; };
 		0B3E619D1ED8089A008B28B6 /* CFDynamicLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFDynamicLabel.h; sourceTree = "<group>"; };
@@ -728,6 +747,8 @@
 		0BB090D11F05EEFF007049D3 /* YYShareHBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYShareHBView.m; sourceTree = "<group>"; };
 		0BB090D31F05EF81007049D3 /* YYShareHBView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYShareHBView.xib; sourceTree = "<group>"; };
 		0BB32AEC1F9ED64300ADF79F /* BikeRental.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BikeRental.entitlements; sourceTree = "<group>"; };
+		0BBC54831FD7B98F001F6133 /* YYFeedCfgModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYFeedCfgModel.h; sourceTree = "<group>"; };
+		0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYFeedCfgModel.m; sourceTree = "<group>"; };
 		0BCB7C931ED67C3F000DA476 /* YYReturnResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYReturnResultModel.h; sourceTree = "<group>"; };
 		0BCB7C941ED67C3F000DA476 /* YYReturnResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYReturnResultModel.m; sourceTree = "<group>"; };
 		0BCB7C961ED6802A000DA476 /* YYPayOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPayOrderRequest.h; sourceTree = "<group>"; };
@@ -949,6 +970,8 @@
 				0B3063D41F8DB7330075372A /* YYCollegeAuthRequest.m */,
 				0BE8396B1FCBF21C00159104 /* YYGetCouponRequest.h */,
 				0BE8396C1FCBF21C00159104 /* YYGetCouponRequest.m */,
+				0B36547B1FCD390A008FC7AC /* YYCompanyAuthRequest.h */,
+				0B36547C1FCD390A008FC7AC /* YYCompanyAuthRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1122,6 +1145,15 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		0B3DDF791FD0EB48004F3501 /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0B3DDF7D1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.h */,
+				0B3DDF7E1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.m */,
+			);
+			path = UIViewController;
+			sourceTree = "<group>";
+		};
 		0B4137D01ECFCE480086D569 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1275,6 +1307,7 @@
 		0B6727D01EC698F000056F01 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				0B3DDF791FD0EB48004F3501 /* UIViewController */,
 				0B1B7F0E1F725D7700EE28D7 /* UILabel */,
 				0B6727D61EC6993F00056F01 /* NSData */,
 				0B6727D91EC6993F00056F01 /* NSDate */,
@@ -1590,6 +1623,10 @@
 				0B3232F31FB2E1AD00D3F951 /* YYReAuthViewController.m */,
 				0BE839681FCBA1DC00159104 /* YYFaultWarrantyController.h */,
 				0BE839691FCBA1DC00159104 /* YYFaultWarrantyController.m */,
+				0B3654751FCD3088008FC7AC /* YYOtherAuthViewController.h */,
+				0B3654761FCD3088008FC7AC /* YYOtherAuthViewController.m */,
+				0B3654781FCD356A008FC7AC /* YYReAuthViewController1.h */,
+				0B3654791FCD356A008FC7AC /* YYReAuthViewController1.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1627,6 +1664,8 @@
 				0B1B7F0B1F72592400EE28D7 /* YYCardModel.m */,
 				0B33693E1FA8418F00D5474A /* YYChargeItemModel.h */,
 				0B33693F1FA8418F00D5474A /* YYChargeItemModel.m */,
+				0BBC54831FD7B98F001F6133 /* YYFeedCfgModel.h */,
+				0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1769,6 +1808,10 @@
 				0B9CA0CD1FC54C5600E79EAD /* YYBuyMemberCardViewController.m */,
 				0B199BD21FC7ADBD0010A9F5 /* YYScoreViewController.h */,
 				0B199BD31FC7ADBD0010A9F5 /* YYScoreViewController.m */,
+				0B36546F1FCD2C4F008FC7AC /* YYScoreIntroViewController.h */,
+				0B3654701FCD2C4F008FC7AC /* YYScoreIntroViewController.m */,
+				0B3654721FCD2CBD008FC7AC /* YYFeeIntroViewController.h */,
+				0B3654731FCD2CBD008FC7AC /* YYFeeIntroViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2411,6 +2454,7 @@
 				0B4B402F1EFB920C004E1638 /* SDLoopProgressView.m in Sources */,
 				0B3614641F0E036500E4DCCA /* MBProgressHUD.m in Sources */,
 				0BE8CAC21ED2DA79008DBF2C /* YYGetBikeRequest.m in Sources */,
+				0BBC54851FD7B98F001F6133 /* YYFeedCfgModel.m in Sources */,
 				0B4B3FE81EFB9178004E1638 /* YYPublishBaseViewController.m in Sources */,
 				0BF054A21F1C951A00638074 /* YYActChargeViewController.m in Sources */,
 				0B4B40221EFB920C004E1638 /* JJMainScrollView.m in Sources */,
@@ -2453,6 +2497,7 @@
 				0BCB7CF71ED6B05F000DA476 /* XWFilterAnimator+XWPageCurl.m in Sources */,
 				0B67282A1EC6993F00056F01 /* NSDictionary+JSON.m in Sources */,
 				0B3F37F41F21CCCA005FDCBB /* YYActListViewController.m in Sources */,
+				0B3654711FCD2C4F008FC7AC /* YYScoreIntroViewController.m in Sources */,
 				0B0B434F1F8C587900577331 /* YYWarmPromptView.m in Sources */,
 				0B67283F1EC6993F00056F01 /* UIImage+YYExtension.m in Sources */,
 				0BA814881ED909AC00570BA3 /* YYDriveHisViewController.m in Sources */,
@@ -2471,6 +2516,7 @@
 				0B4137D61ECFCE510086D569 /* MZTimerLabel.m in Sources */,
 				0B67283B1EC6993F00056F01 /* UIImage+Color.m in Sources */,
 				0B4B402C1EFB920C004E1638 /* MShowAllGroup.m in Sources */,
+				0B3654771FCD3088008FC7AC /* YYOtherAuthViewController.m in Sources */,
 				0B3E61AE1ED81B79008B28B6 /* CommonUtility.m in Sources */,
 				0B3063D51F8DB7330075372A /* YYCollegeAuthRequest.m in Sources */,
 				0BCB7CF91ED6B05F000DA476 /* XWFilterAnimator+XWSwipe.m in Sources */,
@@ -2528,12 +2574,15 @@
 				0B4B40211EFB920C004E1638 /* MHeadImaView.m in Sources */,
 				0B7685BA1ED569B200BEDD1B /* YYCreateOrderReuquest.m in Sources */,
 				0BCB7CF41ED6B05F000DA476 /* XWFilterAnimator+XWFlash.m in Sources */,
+				0B36547D1FCD390A008FC7AC /* YYCompanyAuthRequest.m in Sources */,
 				0B04F4471ED2756A0038FCDD /* YYLoginRequest.m in Sources */,
 				0B22638C1ECD4800008BEEB1 /* YYMyWalletViewController.m in Sources */,
 				0B67283A1EC6993F00056F01 /* UIImage+Clip.m in Sources */,
 				0B67284F1EC69B5900056F01 /* YYRequestManager.m in Sources */,
 				0B67285A1EC6AE1F00056F01 /* YYNaviViewController.m in Sources */,
+				0B36547A1FCD356A008FC7AC /* YYReAuthViewController1.m in Sources */,
 				0B3232E01FB29EFD00D3F951 /* XHLaunchAdConst.m in Sources */,
+				0B3DDF7F1FD0EC97004F3501 /* UINavigationController+BackButtonHandler.m in Sources */,
 				0B3232E71FB29EFD00D3F951 /* XHLaunchAdImageManager.m in Sources */,
 				0B6727D51EC698F000056F01 /* YYBaseModel.m in Sources */,
 				0B3614591F0E031700E4DCCA /* LaunchAdModel.m in Sources */,
@@ -2560,6 +2609,7 @@
 				0BCB7C9E1ED6AE08000DA476 /* YYCoreNewFeatureViewController.m in Sources */,
 				0BCB7CE31ED6B05F000DA476 /* XWTransitionAnimator.m in Sources */,
 				0BCB7D051ED6B9FD000DA476 /* YYRemoteViewCell.m in Sources */,
+				0B3654741FCD2CBD008FC7AC /* YYFeeIntroViewController.m in Sources */,
 				0B4ED78B1EEF728600A78F9F /* YYChargeViewController.m in Sources */,
 				0B3F37F71F21D515005FDCBB /* YYActModel.m in Sources */,
 				0B1079F31ECC1AD5003A0914 /* YYLoginViewController.m in Sources */,

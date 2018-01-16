@@ -49,6 +49,9 @@ UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *successView;
 
+
+@property (weak, nonatomic) IBOutlet UIButton *otherAuthButton;
+
 @end
 
 static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
@@ -67,6 +70,7 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
     self.sesameLeadingCons.constant = -kScreenWidth;
     if (self.preState) {
         self.successView.hidden = NO;
+        self.otherAuthButton.hidden = YES;
     }
 }
 
@@ -295,7 +299,8 @@ static QMUIAlbumContentType const kAlbumContentType = QMUIAlbumContentTypeAll;
         __weak __typeof(self)weakSelf = self;
        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {
-                self.successView.hidden = NO;
+                weakSelf.successView.hidden = NO;
+                weakSelf.otherAuthButton.hidden = YES;
             }else{
                 [QMUITips showError:message inView:weakSelf.view hideAfterDelay:2];
             }

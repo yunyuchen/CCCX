@@ -51,8 +51,8 @@
     }
     self.cardNameLabel.text = model.des;
     self.discountLabel.text = [NSString stringWithFormat:@"%.1f折",model.discount];
-    self.timeLabel.text = [NSString stringWithFormat:@"%ld天内到期",model.cycle];
-    [self.priceButton setTitle:[NSString stringWithFormat:@"¥ %.0f",model.price] forState:UIControlStateNormal];
+    self.timeLabel.text = [NSString stringWithFormat:@"%ld天内享受",model.cycle];
+    [self.priceButton setTitle:[NSString stringWithFormat:@"¥ %.2f",model.price] forState:UIControlStateNormal];
     
 }
 

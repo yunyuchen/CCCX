@@ -10,6 +10,6 @@
 
 @interface YYScoreViewController : QMUICommonViewController
 
-@property(nonatomic, assign) NSInteger score;
+@property(nonatomic, assign) CGFloat score;
 
 @end

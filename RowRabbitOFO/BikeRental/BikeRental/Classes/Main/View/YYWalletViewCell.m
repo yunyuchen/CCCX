@@ -38,7 +38,7 @@
     
     self.desLabel.text = model.des;
     self.timeLabel.text = model.ctime;
-    self.moneyLabel.text = [NSString stringWithFormat:@"%@元",model.money];
+    self.moneyLabel.text = [NSString stringWithFormat:@"%.2f元",model.money];
 }
 
 @end

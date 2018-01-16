@@ -34,4 +34,6 @@
 
 @property(nonatomic, assign) CGFloat money;
 
+@property(nonatomic, assign) CGFloat weekcut;
+
 @end

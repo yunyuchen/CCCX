@@ -16,6 +16,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *desLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *shareTitleImageView;
+
+
 @end
 
 @implementation YYRegisterHBView
@@ -27,6 +30,9 @@
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
         self.layer.cornerRadius = 4;
         self.layer.masksToBounds = YES;
+        if (self.fromLogin) {
+            self.shareTitleImageView.image = [UIImage imageNamed:@"注册成功"];
+        }
     }
     return self;
 }
@@ -39,6 +45,15 @@
         self.block();
     }
     
+}
+
+-(void)setFromLogin:(BOOL)fromLogin
+{
+    _fromLogin = fromLogin;
+    
+    if (fromLogin) {
+        self.shareTitleImageView.image = [UIImage imageNamed:@"注册成功"];
+    }
 }
 
 -(void)setPrice:(CGFloat)price

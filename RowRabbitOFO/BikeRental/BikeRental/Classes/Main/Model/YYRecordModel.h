@@ -16,7 +16,7 @@
 
 @property (nonatomic,copy) NSString *des;
 
-@property (nonatomic,copy) NSString *money;
+@property (nonatomic,assign) CGFloat money;
 
 @property (nonatomic,copy) NSString *ctime;
 
