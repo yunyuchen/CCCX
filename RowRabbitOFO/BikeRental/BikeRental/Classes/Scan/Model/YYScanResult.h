@@ -32,4 +32,8 @@
 
 @property (nonatomic,assign) NSInteger sid;
 
+@property(nonatomic, copy) NSString *red;
+
+@property(nonatomic, copy) NSString *redmoney;
+
 @end

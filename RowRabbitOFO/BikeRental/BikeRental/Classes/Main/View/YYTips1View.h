@@ -26,4 +26,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *movebikeLabel;
+
+
 @end

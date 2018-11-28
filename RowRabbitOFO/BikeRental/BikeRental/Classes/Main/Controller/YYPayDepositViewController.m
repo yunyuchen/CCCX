@@ -55,7 +55,7 @@
     
     [NSNotificationCenter addObserver:self action:@selector(wechatPaySuccessAction:) name:kWeChatPayNotifacation];
 
-    self.tipsLabel.text = [NSString stringWithFormat:@"您的芝麻信用分低于%@，为确保合规用车，需缴纳押金，可随时退回付款账号",[YYFileCacheManager readUserDataForKey:@"config"][@"zmscore"]];
+    self.tipsLabel.text = [NSString stringWithFormat:@"您的芝麻信用分低于%@，为确保合规用车，需缴纳押金，可在1~3个工作日内退还",[YYFileCacheManager readUserDataForKey:@"config"][@"zmscore"]];
     
     [WXApi registerApp:@"wx535feea77188fcab"];
 }

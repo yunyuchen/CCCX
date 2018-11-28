@@ -13,7 +13,7 @@
 
 @interface YYWarmPromptView()
 
-@property (weak, nonatomic) IBOutlet UIImageView *tipsLabel;
+
 
 @end
 

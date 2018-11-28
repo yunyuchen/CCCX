@@ -54,6 +54,8 @@
 		0B2909231EE652510027DA83 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091B1EE652510027DA83 /* WXApiRequestHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0B2909241EE652510027DA83 /* WXApiResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091D1EE652510027DA83 /* WXApiResponseHandler.m */; };
 		0B2909251EE652510027DA83 /* WXMediaMessage+messageConstruct.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B29091F1EE652510027DA83 /* WXMediaMessage+messageConstruct.m */; };
+		0B2FC8A721AD0E1500163C7A /* YYSiteInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2FC8A621AD0E1500163C7A /* YYSiteInfoView.m */; };
+		0B2FC8A921AD0E2400163C7A /* YYSiteInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B2FC8A821AD0E2400163C7A /* YYSiteInfoView.xib */; };
 		0B3063D21F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3063D01F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m */; };
 		0B3063D51F8DB7330075372A /* YYCollegeAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3063D41F8DB7330075372A /* YYCollegeAuthRequest.m */; };
 		0B3232BC1FB29DC000D3F951 /* XHLaunchAdManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B3232BA1FB29DC000D3F951 /* XHLaunchAdManager.m */; };
@@ -111,7 +113,6 @@
 		0B4137D61ECFCE510086D569 /* MZTimerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B4137D41ECFCE510086D569 /* MZTimerLabel.m */; };
 		0B4137D91ECFE48F0086D569 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B4137D71ECFE48F0086D569 /* AlipaySDK.bundle */; };
 		0B4137DA1ECFE48F0086D569 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4137D81ECFE48F0086D569 /* AlipaySDK.framework */; };
-		0B4137DC1ECFE4B80086D569 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4137DB1ECFE4B80086D569 /* libc++.tbd */; };
 		0B4137DE1ECFE4C10086D569 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4137DD1ECFE4C10086D569 /* libz.tbd */; };
 		0B4137E01ECFE4CE0086D569 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4137DF1ECFE4CE0086D569 /* SystemConfiguration.framework */; };
 		0B4137E21ECFE4D70086D569 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4137E11ECFE4D70086D569 /* CoreTelephony.framework */; };
@@ -164,6 +165,13 @@
 		0B5B5F811EFA04AF00EA3C54 /* YYRecomendListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B5B5F801EFA04AF00EA3C54 /* YYRecomendListView.xib */; };
 		0B5B5F851EFA3E6A00EA3C54 /* YYRecommendViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B5F831EFA3E6A00EA3C54 /* YYRecommendViewCell.m */; };
 		0B5B5F861EFA3E6A00EA3C54 /* YYRecommendViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B5B5F841EFA3E6A00EA3C54 /* YYRecommendViewCell.xib */; };
+		0B620B1B21AE3E920094E529 /* YYMyAppointmentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B1A21AE3E920094E529 /* YYMyAppointmentRequest.m */; };
+		0B620B1E21AE400F0094E529 /* YYAppointmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B1D21AE400F0094E529 /* YYAppointmentModel.m */; };
+		0B620B2121AE5A310094E529 /* YYAppointmentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B2021AE5A310094E529 /* YYAppointmentRequest.m */; };
+		0B620B2421AE62290094E529 /* YYCancelAppointmentRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B2321AE62290094E529 /* YYCancelAppointmentRequest.m */; };
+		0B620B2821AE66240094E529 /* YYReturnFeedbackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B620B2621AE66230094E529 /* YYReturnFeedbackView.xib */; };
+		0B620B2921AE66240094E529 /* YYReturnFeedbackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B2721AE66240094E529 /* YYReturnFeedbackView.m */; };
+		0B620B2F21AE6BA40094E529 /* YYInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B620B2E21AE6BA40094E529 /* YYInformationController.m */; };
 		0B6727D41EC698F000056F01 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6727CB1EC698F000056F01 /* AppDelegate.m */; };
 		0B6727D51EC698F000056F01 /* YYBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6727CF1EC698F000056F01 /* YYBaseModel.m */; };
 		0B6728241EC6993F00056F01 /* NSData+CRC32.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6727D81EC6993F00056F01 /* NSData+CRC32.m */; };
@@ -224,6 +232,8 @@
 		0B9704871EDFFA2700B7DE90 /* YYFeedBackRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9704861EDFFA2700B7DE90 /* YYFeedBackRequest.m */; };
 		0B97048A1EDFFDBA00B7DE90 /* YYContractUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9704891EDFFDBA00B7DE90 /* YYContractUsViewController.m */; };
 		0B9911491EF36707000A0723 /* YYReturnViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9911481EF36707000A0723 /* YYReturnViewController.m */; };
+		0B9C7D5921AE224E00DBD19E /* YYBikeInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9C7D5821AE224E00DBD19E /* YYBikeInfoView.m */; };
+		0B9C7D5B21AE225D00DBD19E /* YYBikeInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B9C7D5A21AE225D00DBD19E /* YYBikeInfoView.xib */; };
 		0B9CA0CE1FC54C5600E79EAD /* YYBuyMemberCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CA0CD1FC54C5600E79EAD /* YYBuyMemberCardViewController.m */; };
 		0B9CA0D11FC54CB700E79EAD /* YYMemberCardViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CA0D01FC54CB700E79EAD /* YYMemberCardViewCell.m */; };
 		0B9CA0D81FC5545800E79EAD /* YYCouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B9CA0D71FC5545800E79EAD /* YYCouponViewController.m */; };
@@ -280,6 +290,12 @@
 		0BCF1AD51EC19CF2001550DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BCF1AD31EC19CF2001550DC /* LaunchScreen.storyboard */; };
 		0BCF1AE01EC19CF2001550DC /* BikeRentalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCF1ADF1EC19CF2001550DC /* BikeRentalTests.m */; };
 		0BCF1AEB1EC19CF2001550DC /* BikeRentalUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCF1AEA1EC19CF2001550DC /* BikeRentalUITests.m */; };
+		0BD51E0221A78AEC00791537 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E0121A78AEB00791537 /* HMSegmentedControl.m */; };
+		0BD51E0521A7D20400791537 /* YYInformViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E0421A7D20400791537 /* YYInformViewController.m */; };
+		0BD51E0821A7D3FD00791537 /* YYFeedbackModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E0721A7D3FD00791537 /* YYFeedbackModel.m */; };
+		0BD51E0B21A7D4B200791537 /* YYFeedbackViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E0A21A7D4B200791537 /* YYFeedbackViewCell.m */; };
+		0BD51E0E21A7DC6E00791537 /* YYArroundAreaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E0D21A7DC6E00791537 /* YYArroundAreaRequest.m */; };
+		0BD51E1121A7DD6000791537 /* YYBikeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BD51E1021A7DD6000791537 /* YYBikeModel.m */; };
 		0BDD508F1F0F5A2000723378 /* YYNavScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDD508E1F0F5A2000723378 /* YYNavScrollView.m */; };
 		0BDD50921F0F5A4600723378 /* YYSiteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDD50911F0F5A4600723378 /* YYSiteView.m */; };
 		0BDD50941F0F5A5400723378 /* YYSiteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BDD50931F0F5A5400723378 /* YYSiteView.xib */; };
@@ -309,6 +325,8 @@
 		0BF505E01EC98A40003F24E2 /* YYFreightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505DF1EC98A40003F24E2 /* YYFreightViewController.m */; };
 		0BF505E31EC98A56003F24E2 /* YYAboutUSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */; };
 		0BF505E61EC98A63003F24E2 /* YYFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */; };
+		0BFD5B1621A8F08B00754130 /* EnvelopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFD5B1521A8F08B00754130 /* EnvelopeView.m */; };
+		0BFD5B1821A8F09800754130 /* EnvelopeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFD5B1721A8F09800754130 /* EnvelopeView.xib */; };
 		7B685DE0D3D9092CF456850C /* Pods_BikeRental.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B26A69AD0DF36855E000A3 /* Pods_BikeRental.framework */; };
 /* End PBXBuildFile section */
 
@@ -416,6 +434,9 @@
 		0B29091D1EE652510027DA83 /* WXApiResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiResponseHandler.m; sourceTree = "<group>"; };
 		0B29091E1EE652510027DA83 /* WXMediaMessage+messageConstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WXMediaMessage+messageConstruct.h"; sourceTree = "<group>"; };
 		0B29091F1EE652510027DA83 /* WXMediaMessage+messageConstruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WXMediaMessage+messageConstruct.m"; sourceTree = "<group>"; };
+		0B2FC8A521AD0E1500163C7A /* YYSiteInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSiteInfoView.h; sourceTree = "<group>"; };
+		0B2FC8A621AD0E1500163C7A /* YYSiteInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSiteInfoView.m; sourceTree = "<group>"; };
+		0B2FC8A821AD0E2400163C7A /* YYSiteInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYSiteInfoView.xib; sourceTree = "<group>"; };
 		0B3063D01F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QDSingleImagePickerPreviewViewController.m; sourceTree = "<group>"; };
 		0B3063D11F8DAF980075372A /* QDSingleImagePickerPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QDSingleImagePickerPreviewViewController.h; sourceTree = "<group>"; };
 		0B3063D31F8DB7330075372A /* YYCollegeAuthRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCollegeAuthRequest.h; sourceTree = "<group>"; };
@@ -606,6 +627,19 @@
 		0B5B5F821EFA3E6A00EA3C54 /* YYRecommendViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYRecommendViewCell.h; sourceTree = "<group>"; };
 		0B5B5F831EFA3E6A00EA3C54 /* YYRecommendViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYRecommendViewCell.m; sourceTree = "<group>"; };
 		0B5B5F841EFA3E6A00EA3C54 /* YYRecommendViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYRecommendViewCell.xib; sourceTree = "<group>"; };
+		0B620B1921AE3E920094E529 /* YYMyAppointmentRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYMyAppointmentRequest.h; sourceTree = "<group>"; };
+		0B620B1A21AE3E920094E529 /* YYMyAppointmentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYMyAppointmentRequest.m; sourceTree = "<group>"; };
+		0B620B1C21AE400F0094E529 /* YYAppointmentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYAppointmentModel.h; sourceTree = "<group>"; };
+		0B620B1D21AE400F0094E529 /* YYAppointmentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYAppointmentModel.m; sourceTree = "<group>"; };
+		0B620B1F21AE5A310094E529 /* YYAppointmentRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYAppointmentRequest.h; sourceTree = "<group>"; };
+		0B620B2021AE5A310094E529 /* YYAppointmentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYAppointmentRequest.m; sourceTree = "<group>"; };
+		0B620B2221AE62290094E529 /* YYCancelAppointmentRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCancelAppointmentRequest.h; sourceTree = "<group>"; };
+		0B620B2321AE62290094E529 /* YYCancelAppointmentRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYCancelAppointmentRequest.m; sourceTree = "<group>"; };
+		0B620B2521AE66230094E529 /* YYReturnFeedbackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYReturnFeedbackView.h; sourceTree = "<group>"; };
+		0B620B2621AE66230094E529 /* YYReturnFeedbackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYReturnFeedbackView.xib; sourceTree = "<group>"; };
+		0B620B2721AE66240094E529 /* YYReturnFeedbackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYReturnFeedbackView.m; sourceTree = "<group>"; };
+		0B620B2D21AE6BA40094E529 /* YYInformationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYInformationController.h; sourceTree = "<group>"; };
+		0B620B2E21AE6BA40094E529 /* YYInformationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYInformationController.m; sourceTree = "<group>"; };
 		0B6727CA1EC698F000056F01 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0B6727CB1EC698F000056F01 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0B6727CE1EC698F000056F01 /* YYBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYBaseModel.h; sourceTree = "<group>"; };
@@ -724,6 +758,9 @@
 		0B9704891EDFFDBA00B7DE90 /* YYContractUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYContractUsViewController.m; sourceTree = "<group>"; };
 		0B9911471EF36707000A0723 /* YYReturnViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYReturnViewController.h; sourceTree = "<group>"; };
 		0B9911481EF36707000A0723 /* YYReturnViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYReturnViewController.m; sourceTree = "<group>"; };
+		0B9C7D5721AE224E00DBD19E /* YYBikeInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYBikeInfoView.h; sourceTree = "<group>"; };
+		0B9C7D5821AE224E00DBD19E /* YYBikeInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYBikeInfoView.m; sourceTree = "<group>"; };
+		0B9C7D5A21AE225D00DBD19E /* YYBikeInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYBikeInfoView.xib; sourceTree = "<group>"; };
 		0B9CA0CC1FC54C5600E79EAD /* YYBuyMemberCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYBuyMemberCardViewController.h; sourceTree = "<group>"; };
 		0B9CA0CD1FC54C5600E79EAD /* YYBuyMemberCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYBuyMemberCardViewController.m; sourceTree = "<group>"; };
 		0B9CA0CF1FC54CB700E79EAD /* YYMemberCardViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYMemberCardViewCell.h; sourceTree = "<group>"; };
@@ -831,6 +868,18 @@
 		0BCF1AE61EC19CF2001550DC /* BikeRentalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BikeRentalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BCF1AEA1EC19CF2001550DC /* BikeRentalUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BikeRentalUITests.m; sourceTree = "<group>"; };
 		0BCF1AEC1EC19CF2001550DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0BD51E0021A78AEB00791537 /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
+		0BD51E0121A78AEB00791537 /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
+		0BD51E0321A7D20400791537 /* YYInformViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYInformViewController.h; sourceTree = "<group>"; };
+		0BD51E0421A7D20400791537 /* YYInformViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYInformViewController.m; sourceTree = "<group>"; };
+		0BD51E0621A7D3FD00791537 /* YYFeedbackModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYFeedbackModel.h; sourceTree = "<group>"; };
+		0BD51E0721A7D3FD00791537 /* YYFeedbackModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYFeedbackModel.m; sourceTree = "<group>"; };
+		0BD51E0921A7D4B100791537 /* YYFeedbackViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFeedbackViewCell.h; sourceTree = "<group>"; };
+		0BD51E0A21A7D4B200791537 /* YYFeedbackViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFeedbackViewCell.m; sourceTree = "<group>"; };
+		0BD51E0C21A7DC6E00791537 /* YYArroundAreaRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYArroundAreaRequest.h; sourceTree = "<group>"; };
+		0BD51E0D21A7DC6E00791537 /* YYArroundAreaRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYArroundAreaRequest.m; sourceTree = "<group>"; };
+		0BD51E0F21A7DD6000791537 /* YYBikeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYBikeModel.h; sourceTree = "<group>"; };
+		0BD51E1021A7DD6000791537 /* YYBikeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYBikeModel.m; sourceTree = "<group>"; };
 		0BDD508D1F0F5A2000723378 /* YYNavScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYNavScrollView.h; sourceTree = "<group>"; };
 		0BDD508E1F0F5A2000723378 /* YYNavScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYNavScrollView.m; sourceTree = "<group>"; };
 		0BDD50901F0F5A4600723378 /* YYSiteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSiteView.h; sourceTree = "<group>"; };
@@ -879,6 +928,9 @@
 		0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYAboutUSViewController.m; sourceTree = "<group>"; };
 		0BF505E41EC98A63003F24E2 /* YYFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFeedBackViewController.h; sourceTree = "<group>"; };
 		0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFeedBackViewController.m; sourceTree = "<group>"; };
+		0BFD5B1421A8F08B00754130 /* EnvelopeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeView.h; sourceTree = "<group>"; };
+		0BFD5B1521A8F08B00754130 /* EnvelopeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnvelopeView.m; sourceTree = "<group>"; };
+		0BFD5B1721A8F09800754130 /* EnvelopeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnvelopeView.xib; sourceTree = "<group>"; };
 		2ABC45822C3B2C1B543D48BD /* Pods-BikeRental.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BikeRental.release.xcconfig"; path = "Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.release.xcconfig"; sourceTree = "<group>"; };
 		750D077D9754BAFFAD96EA03 /* Pods-BikeRental.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BikeRental.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -899,7 +951,6 @@
 				0B4137E21ECFE4D70086D569 /* CoreTelephony.framework in Frameworks */,
 				0B4137E01ECFE4CE0086D569 /* SystemConfiguration.framework in Frameworks */,
 				0B4137DE1ECFE4C10086D569 /* libz.tbd in Frameworks */,
-				0B4137DC1ECFE4B80086D569 /* libc++.tbd in Frameworks */,
 				0B4137DA1ECFE48F0086D569 /* AlipaySDK.framework in Frameworks */,
 				7B685DE0D3D9092CF456850C /* Pods_BikeRental.framework in Frameworks */,
 			);
@@ -972,6 +1023,14 @@
 				0BE8396C1FCBF21C00159104 /* YYGetCouponRequest.m */,
 				0B36547B1FCD390A008FC7AC /* YYCompanyAuthRequest.h */,
 				0B36547C1FCD390A008FC7AC /* YYCompanyAuthRequest.m */,
+				0BD51E0C21A7DC6E00791537 /* YYArroundAreaRequest.h */,
+				0BD51E0D21A7DC6E00791537 /* YYArroundAreaRequest.m */,
+				0B620B1921AE3E920094E529 /* YYMyAppointmentRequest.h */,
+				0B620B1A21AE3E920094E529 /* YYMyAppointmentRequest.m */,
+				0B620B1F21AE5A310094E529 /* YYAppointmentRequest.h */,
+				0B620B2021AE5A310094E529 /* YYAppointmentRequest.m */,
+				0B620B2221AE62290094E529 /* YYCancelAppointmentRequest.h */,
+				0B620B2321AE62290094E529 /* YYCancelAppointmentRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1073,6 +1132,7 @@
 		0B3232BD1FB29EFC00D3F951 /* XHLaunchAd */ = {
 			isa = PBXGroup;
 			children = (
+				0BEF13301F8F467400B3BA0B /* KKPopTooltip */,
 				0B3232BE1FB29EFC00D3F951 /* Lib */,
 				0B3232C41FB29EFC00D3F951 /* XHLaunchAd */,
 			);
@@ -1157,8 +1217,8 @@
 		0B4137D01ECFCE480086D569 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				0BD51DFF21A78AEB00791537 /* HMSegmentedControl */,
 				0B3232BD1FB29EFC00D3F951 /* XHLaunchAd */,
-				0BEF13301F8F467400B3BA0B /* KKPopTooltip */,
 				0B4B3FF21EFB920C004E1638 /* XWImagePicker */,
 				0B2909121EE652510027DA83 /* WXHelper */,
 				0BCB7CA01ED6B05F000DA476 /* XWTransition */,
@@ -1627,6 +1687,10 @@
 				0B3654761FCD3088008FC7AC /* YYOtherAuthViewController.m */,
 				0B3654781FCD356A008FC7AC /* YYReAuthViewController1.h */,
 				0B3654791FCD356A008FC7AC /* YYReAuthViewController1.m */,
+				0BD51E0321A7D20400791537 /* YYInformViewController.h */,
+				0BD51E0421A7D20400791537 /* YYInformViewController.m */,
+				0B620B2D21AE6BA40094E529 /* YYInformationController.h */,
+				0B620B2E21AE6BA40094E529 /* YYInformationController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1634,6 +1698,8 @@
 		0B6728561EC6ADFD00056F01 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0BD51E0F21A7DD6000791537 /* YYBikeModel.h */,
+				0BD51E1021A7DD6000791537 /* YYBikeModel.m */,
 				0B3E61A01ED81B32008B28B6 /* LineDashPolyline.h */,
 				0B3E61A11ED81B32008B28B6 /* LineDashPolyline.m */,
 				0B3E61A21ED81B32008B28B6 /* MANaviAnnotation.h */,
@@ -1666,6 +1732,10 @@
 				0B33693F1FA8418F00D5474A /* YYChargeItemModel.m */,
 				0BBC54831FD7B98F001F6133 /* YYFeedCfgModel.h */,
 				0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */,
+				0BD51E0621A7D3FD00791537 /* YYFeedbackModel.h */,
+				0BD51E0721A7D3FD00791537 /* YYFeedbackModel.m */,
+				0B620B1C21AE400F0094E529 /* YYAppointmentModel.h */,
+				0B620B1D21AE400F0094E529 /* YYAppointmentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1673,6 +1743,11 @@
 		0B6728571EC6ADFD00056F01 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0B620B2521AE66230094E529 /* YYReturnFeedbackView.h */,
+				0B620B2721AE66240094E529 /* YYReturnFeedbackView.m */,
+				0B620B2621AE66230094E529 /* YYReturnFeedbackView.xib */,
+				0BD51E0921A7D4B100791537 /* YYFeedbackViewCell.h */,
+				0BD51E0A21A7D4B200791537 /* YYFeedbackViewCell.m */,
 				0B4B3FE91EFB918F004E1638 /* YYPhotoCell.h */,
 				0B4B3FEA1EFB918F004E1638 /* YYPhotoCell.m */,
 				0B4B3FEB1EFB918F004E1638 /* YYPhotoCell.xib */,
@@ -1735,6 +1810,15 @@
 				0B1C04241FC6A976007510CE /* YYPayView.h */,
 				0B1C04251FC6A976007510CE /* YYPayView.m */,
 				0B1C04271FC6A989007510CE /* YYPayView.xib */,
+				0BFD5B1421A8F08B00754130 /* EnvelopeView.h */,
+				0BFD5B1521A8F08B00754130 /* EnvelopeView.m */,
+				0BFD5B1721A8F09800754130 /* EnvelopeView.xib */,
+				0B2FC8A521AD0E1500163C7A /* YYSiteInfoView.h */,
+				0B2FC8A621AD0E1500163C7A /* YYSiteInfoView.m */,
+				0B2FC8A821AD0E2400163C7A /* YYSiteInfoView.xib */,
+				0B9C7D5721AE224E00DBD19E /* YYBikeInfoView.h */,
+				0B9C7D5821AE224E00DBD19E /* YYBikeInfoView.m */,
+				0B9C7D5A21AE225D00DBD19E /* YYBikeInfoView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2083,6 +2167,15 @@
 			path = BikeRentalUITests;
 			sourceTree = "<group>";
 		};
+		0BD51DFF21A78AEB00791537 /* HMSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				0BD51E0021A78AEB00791537 /* HMSegmentedControl.h */,
+				0BD51E0121A78AEB00791537 /* HMSegmentedControl.m */,
+			);
+			path = HMSegmentedControl;
+			sourceTree = "<group>";
+		};
 		0BEF13301F8F467400B3BA0B /* KKPopTooltip */ = {
 			isa = PBXGroup;
 			children = (
@@ -2278,6 +2371,8 @@
 				0B199BCF1FC7A3870010A9F5 /* 还车成功.wav in Resources */,
 				0B5B5F861EFA3E6A00EA3C54 /* YYRecommendViewCell.xib in Resources */,
 				0B0B31601FBD776C0038D4CD /* Launch.storyboard in Resources */,
+				0B620B2821AE66240094E529 /* YYReturnFeedbackView.xib in Resources */,
+				0B9C7D5B21AE225D00DBD19E /* YYBikeInfoView.xib in Resources */,
 				0B4B402A1EFB920C004E1638 /* MImaCell.xib in Resources */,
 				0B3614781F0E068E00E4DCCA /* image4.jpg in Resources */,
 				0B3614761F0E068E00E4DCCA /* image2.jpg in Resources */,
@@ -2285,12 +2380,14 @@
 				0BB090D41F05EF81007049D3 /* YYShareHBView.xib in Resources */,
 				0B36147B1F0E068E00E4DCCA /* video0.mp4 in Resources */,
 				0BCB7CE41ED6B05F000DA476 /* line.png in Resources */,
+				0BFD5B1821A8F09800754130 /* EnvelopeView.xib in Resources */,
 				0B7C11F41EF3AFC300F99E1F /* YYTips1View.xib in Resources */,
 				0B3614721F0E068E00E4DCCA /* image0.jpg in Resources */,
 				0B3614791F0E068E00E4DCCA /* LaunchImageAd.json in Resources */,
 				0BB090CF1F05EAA8007049D3 /* YYRegisterHBView.xib in Resources */,
 				0BCF1AD21EC19CF2001550DC /*  Assets.xcassets in Resources */,
 				0BDD50941F0F5A5400723378 /* YYSiteView.xib in Resources */,
+				0B2FC8A921AD0E2400163C7A /* YYSiteInfoView.xib in Resources */,
 				0B4B40281EFB920C004E1638 /* MGroupCell.xib in Resources */,
 				0B4B3FED1EFB918F004E1638 /* YYPhotoCell.xib in Resources */,
 				0B4137D91ECFE48F0086D569 /* AlipaySDK.bundle in Resources */,
@@ -2379,15 +2476,19 @@
 				0BEF133B1F8F47E500B3BA0B /* KKPopTooltip.m in Sources */,
 				0B12D5A21F7263BA001EC43F /* UILabel+UILabel_ChangeLineSpaceAndWordSpace_h.h in Sources */,
 				0B12D5A31F7263BA001EC43F /* UILabel+UILabel_ChangeLineSpaceAndWordSpace_h.m in Sources */,
+				0B620B2921AE66240094E529 /* YYReturnFeedbackView.m in Sources */,
 				0BCB7C951ED67C3F000DA476 /* YYReturnResultModel.m in Sources */,
 				0B67282D1EC6993F00056F01 /* NSNotificationCenter+Addition.m in Sources */,
 				0BCB7CE11ED6B05F000DA476 /* UIViewController+XWTransition.m in Sources */,
+				0BD51E1121A7DD6000791537 /* YYBikeModel.m in Sources */,
 				0B6728381EC6993F00056F01 /* UIBarButtonItem+Item.m in Sources */,
 				0B3232E61FB29EFD00D3F951 /* XHLaunchAdCache.m in Sources */,
 				0B3232E41FB29EFD00D3F951 /* XHLaunchAdImageView+XHLaunchAdCache.m in Sources */,
 				0B9CA0DB1FC5549F00E79EAD /* YYEnabledCouponViewController.m in Sources */,
 				0B1079F61ECC38F5003A0914 /* YYPayDepositViewController.m in Sources */,
 				0B6728281EC6993F00056F01 /* NSDictionary+Addition.m in Sources */,
+				0B620B2121AE5A310094E529 /* YYAppointmentRequest.m in Sources */,
+				0BD51E0E21A7DC6E00791537 /* YYArroundAreaRequest.m in Sources */,
 				0BE253A71F04E9BB00CCD752 /* YYGetBikeRequest1.m in Sources */,
 				0B7685C01ED584AB00BEDD1B /* YYReturnBikeRequest.m in Sources */,
 				0B4B40291EFB920C004E1638 /* MImaCell.m in Sources */,
@@ -2397,6 +2498,7 @@
 				0B3E619C1ED807FE008B28B6 /* CLRollLabel.m in Sources */,
 				0B2909221EE652510027DA83 /* WXApiManager.m in Sources */,
 				0B4B40251EFB920C004E1638 /* JJPhotoManeger.m in Sources */,
+				0BFD5B1621A8F08B00754130 /* EnvelopeView.m in Sources */,
 				0BF505E61EC98A63003F24E2 /* YYFeedBackViewController.m in Sources */,
 				0B4B40371EFB992C004E1638 /* YYGuideViewController.m in Sources */,
 				0BCB7CFA1ED6B05F000DA476 /* XWFilterAnimator.m in Sources */,
@@ -2431,6 +2533,7 @@
 				0BF505DD1EC98A1D003F24E2 /* YYUserNeedsViewController.m in Sources */,
 				0BA8148E1ED926B800570BA3 /* YYDriveHisModel.m in Sources */,
 				0BCB7CE91ED6B05F000DA476 /* XWCoolAnimator+XWFold.m in Sources */,
+				0BD51E0521A7D20400791537 /* YYInformViewController.m in Sources */,
 				0B7685B61ED52BDE00BEDD1B /* YYRecordModel.m in Sources */,
 				0B1B7F031F72356600EE28D7 /* YYCardListViewController.m in Sources */,
 				0B6728241EC6993F00056F01 /* NSData+CRC32.m in Sources */,
@@ -2462,6 +2565,7 @@
 				0B493E921ED425CE00C5C913 /* YYUserAuthRequest.m in Sources */,
 				0B1B7F091F724CEC00EE28D7 /* YYPayViewController.m in Sources */,
 				0BB090CD1F05EA94007049D3 /* YYRegisterHBView.m in Sources */,
+				0BD51E0B21A7D4B200791537 /* YYFeedbackViewCell.m in Sources */,
 				0BEF22E81F10CC0600F5F36E /* YYMsgModel.m in Sources */,
 				0BCF1AC71EC19CF2001550DC /* main.m in Sources */,
 				0BDD50921F0F5A4600723378 /* YYSiteView.m in Sources */,
@@ -2511,6 +2615,7 @@
 				0B3063D21F8DAF980075372A /* QDSingleImagePickerPreviewViewController.m in Sources */,
 				0B6728371EC6993F00056F01 /* NSURL+Parameters.m in Sources */,
 				0BF505D41EC9415F003F24E2 /* YYVerticalDashView.m in Sources */,
+				0B620B2F21AE6BA40094E529 /* YYInformationController.m in Sources */,
 				0B2263861ECD2ED4008BEEB1 /* YYCertificationViewController.m in Sources */,
 				0B7C11F21EF3AFB900F99E1F /* YYTips1View.m in Sources */,
 				0B4137D61ECFCE510086D569 /* MZTimerLabel.m in Sources */,
@@ -2526,15 +2631,19 @@
 				0B1FAEC91EF23296008D14C2 /* YYYSiteModel.m in Sources */,
 				0B3E61AA1ED81B32008B28B6 /* MANaviPolyline.m in Sources */,
 				0BE8396A1FCBA1DC00159104 /* YYFaultWarrantyController.m in Sources */,
+				0B620B1B21AE3E920094E529 /* YYMyAppointmentRequest.m in Sources */,
 				0B5188091EF0FA1100061C06 /* YYControlBikeViewController.m in Sources */,
 				0BCB7C981ED6802A000DA476 /* YYPayOrderRequest.m in Sources */,
+				0BD51E0821A7D3FD00791537 /* YYFeedbackModel.m in Sources */,
 				0B0E1A391EF37D7F00334956 /* YYScrollAddressView.m in Sources */,
+				0BD51E0221A78AEC00791537 /* HMSegmentedControl.m in Sources */,
 				0B3F37FA1F21D5CD005FDCBB /* YYActViewCell.m in Sources */,
 				0B3232BC1FB29DC000D3F951 /* XHLaunchAdManager.m in Sources */,
 				0B6CC0DC1F2323BE00A09837 /* StyleDIY.m in Sources */,
 				0B4B402D1EFB920C004E1638 /* MShowGroupAllSet.m in Sources */,
 				0B3E61A81ED81B32008B28B6 /* LineDashPolyline.m in Sources */,
 				0B3232E11FB29EFD00D3F951 /* XHLaunchAd.m in Sources */,
+				0B620B1E21AE400F0094E529 /* YYAppointmentModel.m in Sources */,
 				0B2909231EE652510027DA83 /* WXApiRequestHandler.m in Sources */,
 				0B4B40271EFB920C004E1638 /* MGroupCell.m in Sources */,
 				0B3E619F1ED8089A008B28B6 /* CFDynamicLabel.m in Sources */,
@@ -2563,6 +2672,7 @@
 				0B4B402B1EFB920C004E1638 /* MImaLibTool.m in Sources */,
 				0B2263891ECD46B2008BEEB1 /* YYFinishedViewController.m in Sources */,
 				0B67283E1EC6993F00056F01 /* UIImage+TYLaunchImage.m in Sources */,
+				0B9C7D5921AE224E00DBD19E /* YYBikeInfoView.m in Sources */,
 				0B9911491EF36707000A0723 /* YYReturnViewController.m in Sources */,
 				0B5B5F7F1EFA04A000EA3C54 /* YYRecomendListView.m in Sources */,
 				0BCB7CE71ED6B05F000DA476 /* XWCircleSpreadAnimator.m in Sources */,
@@ -2572,6 +2682,7 @@
 				0BCB7CE01ED6B05F000DA476 /* UINavigationController+XWTransition.m in Sources */,
 				0B6728441EC6993F00056F01 /* UIView+YYExtension.m in Sources */,
 				0B4B40211EFB920C004E1638 /* MHeadImaView.m in Sources */,
+				0B2FC8A721AD0E1500163C7A /* YYSiteInfoView.m in Sources */,
 				0B7685BA1ED569B200BEDD1B /* YYCreateOrderReuquest.m in Sources */,
 				0BCB7CF41ED6B05F000DA476 /* XWFilterAnimator+XWFlash.m in Sources */,
 				0B36547D1FCD390A008FC7AC /* YYCompanyAuthRequest.m in Sources */,
@@ -2602,6 +2713,7 @@
 				0BE8396D1FCBF21C00159104 /* YYGetCouponRequest.m in Sources */,
 				0B67282C1EC6993F00056F01 /* NSFileManager+Paths.m in Sources */,
 				0BCB7CEB1ED6B05F000DA476 /* XWCoolAnimator+XWMiddlePageFlip.m in Sources */,
+				0B620B2421AE62290094E529 /* YYCancelAppointmentRequest.m in Sources */,
 				0B1FAEC61EF22D56008D14C2 /* YYGetYBikeRequest.m in Sources */,
 				0BCB7CF11ED6B05F000DA476 /* XWFilterAnimator+XWBarSwipe.m in Sources */,
 				0B4137F31ED00B640086D569 /* YYReturnBikeViewController.m in Sources */,
@@ -2777,7 +2889,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = BikeRental/Others/PrefixHeader.pch;
 				INFOPLIST_FILE = BikeRental/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2806,7 +2918,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = BikeRental/Others/PrefixHeader.pch;
 				INFOPLIST_FILE = BikeRental/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

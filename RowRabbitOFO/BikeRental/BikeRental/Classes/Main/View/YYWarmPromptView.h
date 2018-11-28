@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface YYWarmPromptView : UIView
-
+@property (weak, nonatomic) IBOutlet UIImageView *tipsLabel;
 @end

@@ -47,14 +47,6 @@
     self.flashButton.spacingBetweenImageAndTitle = 10;
     self.inputView.layer.cornerRadius = 24;
     self.inputView.layer.masksToBounds = YES;
-    
-    
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)confirmButtonClick:(id)sender {
@@ -77,9 +69,7 @@
     WEAK_REF(self);
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
-            //NSLog(response);
             weak_self.result = [YYScanResult modelWithDictionary:response];
-            
             YYShowBikeView *showBikeView = [[YYShowBikeView alloc] init];
             showBikeView.delegate = self;
             showBikeView.result = weak_self.result;
@@ -89,6 +79,19 @@
             modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
             [modalViewController showWithAnimated:YES completion:nil];
             self.modalPrentViewController = modalViewController;
+//            if (weak_self.result.red == nil) {
+//
+//            }else{
+//                YYShowBikeView *showBikeView = [[YYShowBikeView alloc] init];
+//                showBikeView.delegate = self;
+//                showBikeView.result = weak_self.result;
+//                QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
+//                modalViewController.contentView = showBikeView;
+//                modalViewController.maximumContentViewWidth = kScreenWidth;
+//                modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
+//                [modalViewController showWithAnimated:YES completion:nil];
+//                self.modalPrentViewController = modalViewController;
+//            }
         }else{
             QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
             QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
@@ -170,40 +173,19 @@
     {
         if (!self.lightON) {
             [device lockForConfiguration:nil];
-            
             [device setTorchMode:AVCaptureTorchModeOn];
-            
             [device unlockForConfiguration];
-            
             self.lightON = YES;
-            
             [self.flashButton setImage:[UIImage imageNamed:@"手电筒2"] forState:UIControlStateNormal];
-            
         }else{
-            
             [device lockForConfiguration:nil];
-            
             [device setTorchMode: AVCaptureTorchModeOff];
-            
             [device unlockForConfiguration];
-            
             self.lightON = NO;
-            
             [self.flashButton setImage:[UIImage imageNamed:@"手电筒"] forState:UIControlStateNormal];
         }
     }
 }
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -18,8 +18,7 @@
 #import "YYNavigationController.h"
 #import "YYReturnViewController.h"
 #import "YYRentalModel.h"
-#import "XSPopoverView.h"
-#import "KKPopTooltip.h"
+#import "NSNotificationCenter+Addition.h"
 #import <DateTools/DateTools.h>
 #import <QMUIKit/QMUIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -41,12 +40,8 @@
 @property (strong,nonatomic) CBPeripheral *currPeripheral;
 //当前的服务
 @property (nonatomic,strong) CBCharacteristic *currCharacteristic;
-//开始按钮
-@property (weak, nonatomic) IBOutlet UIButton *startButton;
 //蓝牙按钮
 @property (weak, nonatomic) IBOutlet UIButton *bluetoothButton;
-
-@property (weak, nonatomic) IBOutlet UILabel *tipsLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *animatingLabel;
 
@@ -64,15 +59,15 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *bikeNameLabel;
 
-@property (nonatomic,strong) XSPopoverView *popView;
-
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
-
-@property (nonatomic,strong) KKPopTooltip *tooltipView;
 
 @property (weak, nonatomic) IBOutlet UIView *bluetoothTipsView;
 
 @property (weak, nonatomic) IBOutlet UIButton *moreButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *middleViewAspectCons;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *middleImageViewTopCons;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *returnButtonCons;
 
 @end
 
@@ -89,7 +84,7 @@
     self.middleView.layer.masksToBounds = YES;
     self.deviceLabel.text = [NSString stringWithFormat:@"ID:%ld",(long)self.deviceid];
     self.last_mileageLabek.text = [NSString stringWithFormat:@"%.1f",self.last_mileage];
-    self.bikeNameLabel.text = self.name; 
+    self.bikeNameLabel.text = self.name;
     self.driveTimeLabel.timeFormat = @"HH mm";
     self.driveTimeLabel.shouldCountBeyondHHLimit = YES;
     if (self.ctime != nil) {
@@ -99,7 +94,15 @@
     }
     [self.driveTimeLabel start];
     
-  
+    if (IS_58INCH_SCREEN) {
+        self.middleViewAspectCons.constant = -50;
+        self.middleImageViewTopCons.constant = 80;
+    }
+    if(IS_40INCH_SCREEN){
+        self.middleViewAspectCons.constant = 30;
+        self.middleImageViewTopCons.constant = 12;
+        self.returnButtonCons.constant = 2;
+    }
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     animation.fromValue = [NSNumber numberWithFloat:1.0f];
@@ -112,52 +115,43 @@
     animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     [self.animatingLabel.layer addAnimation:animation forKey:nil];
     
-    if (kScreenHeight <= 568) {
-        self.startButtonWidthCons.constant = 150;
-        self.startButtonHeightCons.constant = 150;
-    }
-    
     self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@YES}];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buttonClickAction:) name:kClickStartButtonNotifaction object:nil];
-    
+    [NSNotificationCenter addObserver:self action:@selector(connectAction) name:@"connect"];
+    [NSNotificationCenter addObserver:self action:@selector(shutdown) name:@"shutdown"];
     //添加通知(处理从后台进来后的情况)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveBackgroundNoti) name:UIApplicationWillEnterForegroundNotification object:nil];
     [self.view bringSubviewToFront:self.moreButton];
 }
 
+- (void) connectAction
+{
+    self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@YES}];
+}
+
+- (void) shutdown
+{
+    NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"02"];
+    sendStr = [self getStrByData:sendStr];
+    sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
+    [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (self.tooltipView != nil) {
-        return;
-    }
-    if ([[YYFileCacheManager readUserDataForKey:kBikeStateKey] isEqualToString:@"0"] || [YYFileCacheManager readUserDataForKey:kBikeStateKey] == nil) {
-        self.startButton.selected = YES;
-        self.tipsLabel.text = @"已开启";
-        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
-        
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
-    }else{
-        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
-        self.startButton.selected = NO;
-        self.tipsLabel.text = @"已上锁";
-        
-        self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
-    }
 }
 
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-
     
- 
 }
 
 -(void) buttonClickAction:(NSNotification *)noti
 {
-    [self startButtonClick:self.startButton];
+    [self startButtonClick:nil];
 }
 
 -(void) receiveBackgroundNoti
@@ -178,7 +172,7 @@
                 if (weak_self.currPeripheral != nil) {
                     [weak_self.manager  cancelPeripheralConnection:weak_self.currPeripheral];
                 }
-      
+                
                 [weak_self.navigationController popToRootViewControllerAnimated:YES];
             }
             weak_self.deviceLabel.text = [NSString stringWithFormat:@"ID:%ld",(long)weak_self.rentalModel.deviceid];
@@ -187,12 +181,7 @@
     } error:^(NSError *error) {
         
     }];
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 
@@ -228,31 +217,18 @@
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message){
         [tips hideAnimated:YES];
         if (success) {
-           
-            if ([op isEqualToString:OPENOP]) {
-                self.startButton.selected = YES;
-                self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
-                self.tipsLabel.text = @"已开启";
-                [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
-            }else{
-                self.startButton.selected = NO;
-                self.tipsLabel.text = @"已上锁";
-                self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
-                [YYFileCacheManager saveUserData:@"1" forKey:kBikeStateKey];
-            }
+            
+            [QMUITips showSucceed:message inView:self.view hideAfterDelay:1.5];
         }else{
-            [QMUITips showError:message inView:self.view hideAfterDelay:2];
+            [QMUITips showError:message inView:self.view hideAfterDelay:1.5];
         }
         
-
+        
     } error:^(NSError *error) {
         [tips hideAnimated:YES];
     }];
 }
 
-- (IBAction)netStartButtonClick:(UIButton *)sender {
-    
-}
 
 //一键还车按钮点击
 - (IBAction)returnButtonClick:(UIButton *)sender {
@@ -266,53 +242,40 @@
 
 //启动按钮点击
 - (IBAction)startButtonClick:(UIButton *)sender {
-    if (sender.selected) {
-        [self.tooltipView removeFromSuperview];
-        self.tooltipView = nil;
-         self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可启动车辆" arrowPosition:TooltipArrowPositionTop];
-        if (self.bluetoothButton.selected) {
-            if (self.currPeripheral == nil || self.currCharacteristic == nil) {
-                return;
-            }
-            sender.selected = !sender.selected;
-            self.tipsLabel.text = @"已上锁";
-            self.tipsLabel.textColor = [UIColor colorWithHexString:@"#404040"];
-            NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"08"];
-            sendStr = [self getStrByData:sendStr];
-            sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
-            [YYFileCacheManager saveUserData:@"1" forKey:kBikeStateKey];
-            [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
-        }else{
-            [self operateBike:CLOSEOP];
-        }
-        
-    }else{
-        [self.tooltipView removeFromSuperview];
-        self.tooltipView = nil;
-         self.tooltipView =  [KKPopTooltip showPointing:CGPointMake(self.view.width / 2, CGRectGetMaxY(self.startButton.frame)) inView:self.middleView message:@"再次点击可临时停车" arrowPosition:TooltipArrowPositionTop];
-        if (!self.bluetoothButton.selected) {
-            [self operateBike:OPENOP];
-            return;
-        }
-        
-        if (self.currPeripheral == nil || self.currCharacteristic == nil) {
-            return;
-        }
-        sender.selected = !sender.selected;
-        self.tipsLabel.textColor = [UIColor colorWithHexString:@"#FDD001"];
-        self.tipsLabel.text = @"已开启";
-        NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"05"];
-        sendStr = [self getStrByData:sendStr];
-        sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
-        [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
-        [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
-        
+    if (!self.bluetoothButton.selected) {
+        [self operateBike:OPENOP];
+        return;
     }
+    
+    if (self.currPeripheral == nil || self.currCharacteristic == nil) {
+        return;
+    }
+    NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"05"];
+    sendStr = [self getStrByData:sendStr];
+    sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
+    [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
+    [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
     
 }
 
-- (IBAction)soundButtonClick:(id)sender {
+- (IBAction)lockButtonClick:(id)sender {
+    if (self.bluetoothButton.selected) {
+        if (self.currPeripheral == nil || self.currCharacteristic == nil) {
+            return;
+        }
+        NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"08"];
+        sendStr = [self getStrByData:sendStr];
+        sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
+        [YYFileCacheManager saveUserData:@"1" forKey:kBikeStateKey];
+        [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+    }else{
+        [self operateBike:CLOSEOP];
+    }
+}
 
+
+- (IBAction)soundButtonClick:(id)sender {
+    
     YYBaseRequest *request = [[YYBaseRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFindBikeAPI];
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message){
@@ -367,7 +330,7 @@
         case CBCentralManagerStatePoweredOn:
             NSLog(@">>>CBCentralManagerStatePoweredOn");
             self.bluetoothTipsView.hidden = YES;
-             [self.manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FF00"]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(YES)}];
+            [self.manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FF00"]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(YES)}];
             break;
     }
 }
@@ -513,6 +476,7 @@
             //更改按钮状态
             //[self.bluetoothButton setTitle:@" 已连接" forState:UIControlStateNormal];
             self.bluetoothButton.selected = YES;
+            [NSNotificationCenter postNotification:@"connectSuccess"];
         }
     }
     

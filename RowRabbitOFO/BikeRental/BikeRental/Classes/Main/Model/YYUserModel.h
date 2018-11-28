@@ -46,4 +46,8 @@
 
 @property(nonatomic, assign) BOOL vipstate;
 
+@property(nonatomic, assign) NSInteger abid;
+
+@property(nonatomic, copy) NSString *aouttime;
+
 @end

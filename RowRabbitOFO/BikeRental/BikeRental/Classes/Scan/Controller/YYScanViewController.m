@@ -103,11 +103,6 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)flashButtonClick:(id)sender {
     [self openOrCloseFlash];
 }
@@ -151,18 +146,21 @@
     WEAK_REF(self);
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
-            //NSLog(response);
             weak_self.result = [YYScanResult modelWithDictionary:response];
             
-            YYShowBikeView *showBikeView = [[YYShowBikeView alloc] init];
-            showBikeView.delegate = self;
-            showBikeView.result = weak_self.result;
-            QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-            modalViewController.contentView = showBikeView;
-            modalViewController.maximumContentViewWidth = kScreenWidth;
-            modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
-            [modalViewController showWithAnimated:YES completion:nil];
-            self.modalPrentViewController = modalViewController;
+            if (weak_self.result.red == nil) {
+                
+            }else{
+                YYShowBikeView *showBikeView = [[YYShowBikeView alloc] init];
+                showBikeView.delegate = self;
+                showBikeView.result = weak_self.result;
+                QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
+                modalViewController.contentView = showBikeView;
+                modalViewController.maximumContentViewWidth = kScreenWidth;
+                modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
+                [modalViewController showWithAnimated:YES completion:nil];
+                self.modalPrentViewController = modalViewController;
+            }
         }else{
             QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
             QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;

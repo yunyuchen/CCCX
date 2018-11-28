@@ -77,7 +77,7 @@
 -(void)setModel:(YYSiteModel *)model
 {
     _model = model;
-    self.nearLabel.hidden = !model.nearest;
+    //self.nearLabel.hidden = !model.nearest;
     self.siteNameLabel.text = model.name;
     self.siteDistanceLabel.text = [NSString stringWithFormat:@"%.2f",model.distance];
     self.siteBikeCountLabel.text = [NSString stringWithFormat:@"%ld",(long)model.count];

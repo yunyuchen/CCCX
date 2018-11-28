@@ -47,6 +47,7 @@ UIKIT_EXTERN NSString *const kGetTokenAPI;
 UIKIT_EXTERN NSString *const kSendCodeAPI;
 //周边站点
 UIKIT_EXTERN NSString *const kAroundSiteAPI;
+UIKIT_EXTERN NSString *const kArroundBikeAPI;
 //获取站点车辆信息
 UIKIT_EXTERN NSString *const kGetBikeBysidAPI;
 //创建押金付款订单
@@ -111,11 +112,13 @@ UIKIT_EXTERN NSString *const kUserinfoAPI;
 UIKIT_EXTERN NSString *const kMyPointAPI;
 //我的优惠券
 UIKIT_EXTERN NSString *const kMyCouponsAPI;
-
 UIKIT_EXTERN NSString *const kGetCouponAPI;
-
 UIKIT_EXTERN NSString *const kCompanyAuthAPI;
-
 UIKIT_EXTERN NSString *const kFeedcfgAPI;
-
+//预约车辆
+UIKIT_EXTERN NSString *const kAppointmentAPI;
+//取消预约车辆
+UIKIT_EXTERN NSString *const kCancelAppointmentAPI;
+//我的预约车辆
+UIKIT_EXTERN NSString *const kMyAppointmentAPI;
 @end

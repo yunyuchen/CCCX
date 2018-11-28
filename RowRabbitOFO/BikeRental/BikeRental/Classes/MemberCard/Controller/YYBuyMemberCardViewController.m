@@ -48,16 +48,6 @@
     return _models;
 }
 
-- (void)didInitialized {
-    [super didInitialized];
-    // init 时做的事情请写在这里
-}
-
-- (void)initSubviews {
-    [super initSubviews];
-    // 对 subviews 的初始化写在这里
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -79,23 +69,6 @@
     [self getUserInfo];
 }
 
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-}
 
 - (void)setNavigationItemsIsInEditMode:(BOOL)isInEditMode animated:(BOOL)animated {
     [super setNavigationItemsIsInEditMode:isInEditMode animated:animated];

@@ -36,4 +36,16 @@
 
 @property(nonatomic, assign) CGFloat weekcut;
 
+@property(nonatomic, assign) CGFloat movebike;
+
+@property(nonatomic, assign) CGFloat insurance;
+
+@property(nonatomic, assign) NSInteger reds;
+
+@property(nonatomic, assign) CGFloat redSite;
+
+@property(nonatomic, assign) NSInteger red;
+
+@property(nonatomic, assign) CGFloat redBike;
+
 @end

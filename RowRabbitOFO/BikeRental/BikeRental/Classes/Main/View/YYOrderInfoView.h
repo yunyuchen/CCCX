@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "YYUserModel.h"
+#import <QMUIKit/QMUIKit.h>
 
 @class YYOrderInfoView,YYReturnResultModel;
 @protocol OrderInfoViewDelegate <NSObject>
@@ -45,5 +46,7 @@
 @property (nonatomic,assign) NSInteger error;
 
 -(void) reload;
+@property (weak, nonatomic) IBOutlet QMUIFillButton *confirmButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *connectTips;
 @end

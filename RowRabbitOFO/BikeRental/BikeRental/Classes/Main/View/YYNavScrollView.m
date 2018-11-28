@@ -39,9 +39,9 @@
     
     _imageCount = models.count;
     
-    if (_imageCount > 0) {
-        _models[0].nearest = YES;
-    }
+//    if (_imageCount > 0) {
+//        _models[0].nearest = YES;
+//    }
     
     [self setDefaultInfo];
 }

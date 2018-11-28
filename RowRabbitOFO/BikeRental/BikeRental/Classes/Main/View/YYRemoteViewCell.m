@@ -41,7 +41,7 @@
     self.siteNameLabel.text = model.name;
     self.distanceLabel.text = [NSString stringWithFormat:@"%.2fM",model.distance];
     [self.imageView1 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,model.img1]]];
-    [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,model.img2]]];
+//    [self.imageView2 sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,model.img2]]];
 }
 
 - (IBAction)returnButtonClick:(id)sender {

@@ -20,4 +20,8 @@
 
 @property(nonatomic, assign) NSInteger cid;
 
+@property(nonatomic, assign) NSInteger ble;
+
+@property(nonatomic, strong) NSString *img;
+
 @end

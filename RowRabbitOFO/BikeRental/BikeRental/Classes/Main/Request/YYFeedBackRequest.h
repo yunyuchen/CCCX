@@ -20,4 +20,8 @@
 
 @property(nonatomic, copy) NSString *ids;
 
+@property(nonatomic, assign) CGFloat lat;
+
+@property(nonatomic, assign) CGFloat lng;
+
 @end

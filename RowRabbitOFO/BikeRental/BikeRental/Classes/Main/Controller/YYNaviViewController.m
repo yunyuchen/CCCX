@@ -31,7 +31,6 @@
 #import "YYShareHBView.h"
 #import "YYRegisterHBView.h"
 #import "YYGuideView.h"
-#import "YYNavScrollView.h"
 #import "YYMessageViewController.h"
 #import "YYWarmPromptView.h"
 #import "YYGuideViewController.h"
@@ -40,6 +39,18 @@
 #import "YYGetCouponRequest.h"
 #import "YYReAuthViewController1.h"
 #import "YYOtherAuthViewController.h"
+#import "HMSegmentedControl.h"
+#import "YYArroundAreaRequest.h"
+#import "YYBikeModel.h"
+#import "YYSiteInfoView.h"
+#import "YYBikeInfoView.h"
+#import "YYMyAppointmentRequest.h"
+#import "YYAppointmentModel.h"
+#import "YYAppointmentRequest.h"
+#import "MZTimerLabel.h"
+#import "YYCancelAppointmentRequest.h"
+#import "YYInformationController.h"
+#import "YYBuyMemberCardViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
 #import <WZLBadge/WZLBadgeImport.h>
@@ -47,20 +58,14 @@
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+#import <Masonry/Masonry.h>
 #import <QMUIKit/QMUIKit.h>
 
 #define ButtonXMargin 20
 #define ButtonHeight 44
 //static const NSInteger RoutePlanningPaddingEdge  = 20;
 
-typedef enum {
-    MoreOperationTagShareWechat,
-    MoreOperationTagShareMoment,
-    MoreOperationTagShareQzone,
-    MoreOperationTagShareWeibo,
-} MoreOperationTag;
-
-@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,NavScrollViewDelegate>
+@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,YYBikeInfoViewDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -72,26 +77,17 @@ typedef enum {
 
 @property (weak, nonatomic) IBOutlet UIView *topView;
 
-@property (weak, nonatomic) IBOutlet UIView *directView;
-
 @property (weak, nonatomic) IBOutlet UIButton *gpsButton;
 
 @property (nonatomic, strong) NSMutableArray *annotations;
 
 @property (nonatomic,strong) AMapSearchAPI *search;
-
 /* 终点经纬度. */
 @property (nonatomic) CLLocationCoordinate2D destinationCoordinate;
 
 @property (nonatomic,retain) NSArray *pathPolylines;
 
-@property (weak, nonatomic) IBOutlet UIButton *searchButton;
-
 @property (nonatomic,strong) UIImageView *pickImageView;
-
-@property (weak, nonatomic) IBOutlet UILabel *bikeCountLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 
 @property (nonatomic,strong) NSArray<YYSiteModel *> *models;
 
@@ -100,8 +96,6 @@ typedef enum {
 @property (nonatomic,strong) YYUserModel *userModel;
 
 @property (nonatomic,strong) YYRentalModel *rentalModel;
-
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 
 @property (nonatomic, strong) MAPointAnnotation *startAnnotation;
 
@@ -117,29 +111,17 @@ typedef enum {
 
 @property (nonatomic,copy) NSString *city;
 
-@property (weak, nonatomic) IBOutlet UILabel *siteNameLabel;
-
 @property (nonatomic,assign) NSInteger flag;
 
 @property (weak, nonatomic) IBOutlet QMUIFillButton *rentalButton;
 
 @property (nonatomic,strong) YYRecomendListView *listView;
 
-@property (nonatomic,strong) YYNavScrollView *navScrollView;
-
 @property (nonatomic,strong) QMUIModalPresentationViewController *modalPrentViewController;
 
 @property (nonatomic,strong)  QMUIMoreOperationController *moreOperationController;
 
-@property (weak, nonatomic) IBOutlet UIButton *messageButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *pCenterButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *activityButton;
-
-@property (weak, nonatomic) IBOutlet UIView *nearestView;
-
-@property (weak, nonatomic) IBOutlet UILabel *siteNameLabel1;
 
 @property (nonatomic,assign) BOOL firstLoad;
 
@@ -156,6 +138,16 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIButton *noticeButton;
 
 @property(nonatomic, assign) CGRect tmpFrame;
+
+@property(nonatomic, strong) HMSegmentedControl *segmentedControl;
+
+@property (nonatomic, strong) NSArray *polygons;
+
+@property(nonatomic, strong) NSArray<YYBikeModel *> *bikeModels;
+
+@property(nonatomic, strong) YYSiteInfoView *siteView;
+
+@property(nonatomic, strong) YYBikeInfoView *bikeInfoView;
 
 @end
 
@@ -175,8 +167,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [super viewDidLoad];
     //初始化地图
     [self initMap];
-    //初始化控件
-    [self setUpControls];
     //检测更新
     [self checkUpdate];
     //初始化搜索
@@ -191,6 +181,117 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     //标题
     CGRect NavRect=self.navigationController.navigationBar.frame;
     self.topViewHeightCons.constant = StatusRect.size.height + NavRect.size.height;
+    
+    HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"电单车", @"还车点"]];
+    segmentedControl.frame = CGRectMake(0, CGRectGetMaxY(self.topView.frame), SCREEN_WIDTH, 44);
+    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    segmentedControl.selectionIndicatorColor = [UIColor qmui_colorWithHexString:@"#F08300"];
+    segmentedControl.selectionIndicatorHeight = 2;
+    segmentedControl.selectedTitleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15],NSForegroundColorAttributeName:[UIColor qmui_colorWithHexString:@"#F08300"]};
+    [segmentedControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+    segmentedControl.titleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15]};
+    [self.view addSubview:segmentedControl];
+    [segmentedControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(44);
+        make.top.equalTo(self.topView.mas_bottom).offset(0);
+        make.left.mas_equalTo(self.view);
+        make.right.mas_equalTo(self.view);
+    }];
+    self.segmentedControl = segmentedControl;
+}
+
+- (void) segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl
+{
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        [self getAroundSiteRequest];
+        //[self loadUserArea];
+    }else{
+        [self getArroundAreaData];
+    }
+}
+
+- (void) getArroundAreaData
+{
+    YYArroundAreaRequest *request = [[YYArroundAreaRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kAroundSiteAPI];
+    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
+    request.lat = coordinate.latitude;
+    request.lng = coordinate.longitude;
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            NSLog(@"%@",response);
+            weakSelf.lastPostion = coordinate;
+            [weakSelf.mapView removeAnnotations:weakSelf.annotations];
+            [weakSelf.mapView removeOverlays:weakSelf.polygons];
+            weakSelf.models = [YYSiteModel modelArrayWithDictArray:response];
+            [weakSelf.annotations removeAllObjects];
+            NSMutableArray *arr = [NSMutableArray array];
+            NSArray *models = response;
+            for (int i = 0; i < models.count; i++) {
+                NSArray *areas = models[i][@"area"];
+                MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+                a1.coordinate = CLLocationCoordinate2DMake([models[i][@"latitude"] doubleValue], [models[i][@"longitude"] doubleValue]);
+                a1.title = [NSString stringWithFormat:@"%d",i];
+                //a1.title      = [NSString stringWithFormat:@"%@_%@_%@", models[i][@"name"],models[i][@"distance"],models[i][@"img1"]];
+                a1.subtitle   = @"2";
+                [weakSelf.annotations addObject:a1];
+                CLLocationCoordinate2D coordinates[areas.count];
+                for (int index = 0; index < areas.count; index ++) {
+                    coordinates[index].longitude = [areas[index][0] doubleValue];
+                    coordinates[index].latitude = [areas[index][1] doubleValue];
+                }
+                MAPolygon *polygon = [MAPolygon polygonWithCoordinates:coordinates count:areas.count];
+                [arr addObject:polygon];
+                
+            }
+            [weakSelf.mapView addAnnotations:weakSelf.annotations];
+            [weakSelf.mapView removeOverlays:weakSelf.polygons];
+            weakSelf.polygons = [NSArray arrayWithArray:arr];
+            [weakSelf.mapView addOverlays:weakSelf.polygons];
+        }
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+-(void) getAroundSiteRequest
+{
+    YYAroundSiteRequest *request = [[YYAroundSiteRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kArroundBikeAPI];
+    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
+    request.lat = coordinate.latitude;
+    request.lng = coordinate.longitude;
+    WEAK_REF(self);
+    [QMUITips showLoadingInView:self.view];
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [QMUITips hideAllToastInView:weak_self.view animated:YES];
+        if (success) {
+            [weak_self.mapView removeAnnotations:weak_self.annotations];
+            [weak_self.mapView removeOverlays:weak_self.polygons];
+            weak_self.lastPostion = coordinate;
+            weak_self.bikeModels = [YYBikeModel modelArrayWithDictArray:response];
+            [weak_self.mapView removeAnnotations:weak_self.annotations];
+            weak_self.annotations = [NSMutableArray array];
+            
+            for (int i = 0; i < weak_self.bikeModels.count; ++i)
+            {
+                MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+                a1.coordinate = CLLocationCoordinate2DMake(weak_self.bikeModels[i].lat, weak_self.bikeModels[i].lon);
+                a1.title      = [NSString stringWithFormat:@"%d", i];
+                a1.subtitle   =  [NSString stringWithFormat:@"%ld",(long)weak_self.bikeModels[i].discount];
+                if ([weak_self.bikeModels[i].last_percent floatValue] < 0.2 || weak_self.bikeModels[i].isonline == NO) {
+                    a1.subtitle = [NSString stringWithFormat:@"%d",3];
+                }
+                [weak_self.annotations addObject:a1];
+            }
+            [weak_self.mapView addAnnotations:weak_self.annotations];
+            
+            //[weak_self getArroundAreaData];
+        }
+    } error:^(NSError *error) {
+        [QMUITips hideAllToastInView:weak_self.view animated:YES];
+    }];
     
 }
 
@@ -221,6 +322,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYGuideViewController *guideViewController = [[YYGuideViewController alloc] init];
     [self.navigationController pushViewController:guideViewController animated:YES];
 }
+
+- (IBAction)YYInformationController:(id)sender {
+    YYInformationController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"information"];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
 
 - (IBAction)faultRepairButtonClick:(UIButton *)sender {
     if (![YYUserManager isHaveLogin]) {
@@ -515,40 +622,31 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 
 
--(void) setUpControls
-{
-    self.searchButton.layer.borderColor = [UIColor colorWithHexString:@"#A5A5A5"].CGColor;
-    self.searchButton.layer.borderWidth = 0.5;
-    self.searchButton.layer.cornerRadius = 13;
-    self.searchButton.layer.masksToBounds = YES;
-    
-    UIButton *bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    bottomButton.layer.cornerRadius = 4;
-    bottomButton.layer.masksToBounds = YES;
-    [bottomButton setTitle:@"进入站点租车" forState:UIControlStateNormal];
-    [bottomButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bottomButton setBackgroundColor:[UIColor colorWithHexString:@"#00A32E"]];
-    bottomButton.frame = CGRectMake(ButtonXMargin, kScreenHeight + ButtonHeight + ButtonXMargin, kScreenWidth - 2 * ButtonXMargin, ButtonHeight);
-    [bottomButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:bottomButton];
-    self.bottomButton = bottomButton;
-    
-    self.directView.layer.cornerRadius = 5;
-    self.directView.layer.masksToBounds = YES;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     self.flag = 0;
-    
-    
     //用户登录的情况下获取用户状态
     if ([YYUserManager isHaveLogin]) {
         [self getUserInfoRequest];
+        
+        //[self loadMyAppoinmentBikes];
     }
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void) loadMyAppoinmentBikes {
+    YYMyAppointmentRequest *request = [YYMyAppointmentRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kMyAppointmentAPI]];
+    request.lat = self.userLocationAnnotationView.annotation.coordinate.latitude;
+    request.lng = self.userLocationAnnotationView.annotation.coordinate.longitude;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            YYAppointmentModel *model = [YYAppointmentModel modelWithDictionary:response];
+            self.bikeInfoView.appModel = model;
+            NSLog(@"%@",response);
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -582,14 +680,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (IBAction)ddd:(id)sender {
     AMapWalkingRouteSearchRequest *navi = [[AMapWalkingRouteSearchRequest alloc] init];
-    
-    /* 出发点. */
     navi.origin = [AMapGeoPoint locationWithLatitude:self.mapView.userLocation.coordinate.latitude
                                            longitude:self.mapView.userLocation.coordinate.longitude];
-    /* 目的地. */
     navi.destination = [AMapGeoPoint locationWithLatitude:self.destinationCoordinate.latitude
                                                 longitude:self.destinationCoordinate.longitude];
-    
     [self.search AMapWalkingRouteSearch:navi];
 }
 
@@ -714,15 +808,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     if ([YYFileCacheManager readUserDataForKey:@"config"][@"chargerule"] != nil) {
           self.noticeLabel.text = [YYFileCacheManager readUserDataForKey:@"config"][@"chargerule"];
     }
-  
-    
-    YYNavScrollView *addressView = [[YYNavScrollView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 130, kScreenWidth, 120)];
-    addressView.delegate = self;
-    [self.view addSubview:addressView];
-    [self.view bringSubviewToFront:addressView];
-    self.navScrollView = addressView;
-    self.navScrollView.hidden = YES;
-    self.nearestView.hidden = YES;
 }
 
 # pragma mark 测试初始化点
@@ -775,49 +860,49 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 }
 
--(void) getAroundSiteRequest
-{
-    YYAroundSiteRequest *request = [[YYAroundSiteRequest alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kAroundSiteAPI];
-    
-    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
-    
-    request.lat = coordinate.latitude;
-    request.lng = coordinate.longitude;
-    
-    WEAK_REF(self);
-    [QMUITips showLoadingInView:self.view];
-    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-        [QMUITips hideAllToastInView:weak_self.view animated:YES];
-        if (success) {
-            
-            weak_self.lastPostion = coordinate;
-            weak_self.models = [YYSiteModel modelArrayWithDictArray:response];
-            [weak_self.mapView removeAnnotations:weak_self.annotations];
-            weak_self.annotations = [NSMutableArray array];
-            weak_self.navScrollView.models = weak_self.models;
-          
-            for (int i = 0; i < weak_self.models.count; ++i)
-            {
-                MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-                a1.coordinate = CLLocationCoordinate2DMake(weak_self.models[i].latitude, weak_self.models[i].longitude);
-                a1.title      = [NSString stringWithFormat:@"%d", i];
-                a1.subtitle = weak_self.models[i].address;
-                [weak_self.annotations addObject:a1];
-                
-            }
-            if (weak_self.annotations.count > 0) {
-               
-                [weak_self.mapView addAnnotations:self.annotations];
-              
-            }
-          
-        }
-    } error:^(NSError *error) {
-        [QMUITips hideAllToastInView:weak_self.view animated:YES];
-    }];
-    
-}
+//-(void) getAroundSiteRequest
+//{
+//    YYAroundSiteRequest *request = [[YYAroundSiteRequest alloc] init];
+//    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kAroundSiteAPI];
+//
+//    CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
+//
+//    request.lat = coordinate.latitude;
+//    request.lng = coordinate.longitude;
+//
+//    WEAK_REF(self);
+//    [QMUITips showLoadingInView:self.view];
+//    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//        [QMUITips hideAllToastInView:weak_self.view animated:YES];
+//        if (success) {
+//
+//            weak_self.lastPostion = coordinate;
+//            weak_self.models = [YYSiteModel modelArrayWithDictArray:response];
+//            [weak_self.mapView removeAnnotations:weak_self.annotations];
+//            weak_self.annotations = [NSMutableArray array];
+//            weak_self.navScrollView.models = weak_self.models;
+//
+//            for (int i = 0; i < weak_self.models.count; ++i)
+//            {
+//                MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
+//                a1.coordinate = CLLocationCoordinate2DMake(weak_self.models[i].latitude, weak_self.models[i].longitude);
+//                a1.title      = [NSString stringWithFormat:@"%d", i];
+//                a1.subtitle = weak_self.models[i].address;
+//                [weak_self.annotations addObject:a1];
+//
+//            }
+//            if (weak_self.annotations.count > 0) {
+//
+//                [weak_self.mapView addAnnotations:self.annotations];
+//
+//            }
+//
+//        }
+//    } error:^(NSError *error) {
+//        [QMUITips hideAllToastInView:weak_self.view animated:YES];
+//    }];
+//
+//}
 
 //路线解析
 - (NSArray *)polylinesForPath:(AMapPath *)path
@@ -935,13 +1020,28 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
                                                                 reuseIdentifier:reuseIndetifier];
         }
-        annotationView.image = [UIImage imageNamed:@"07车辆"];
+        if (self.segmentedControl.selectedSegmentIndex == 0) {
+            YYBikeModel *model = self.bikeModels[[annotation.title integerValue]];
+            if (model.red == 1) {
+                annotationView.image = [UIImage imageNamed:@"红包车"];
+            }else{
+                annotationView.image = [UIImage imageNamed:@"07车辆"];
+            }
+            
+        }else{
+            YYSiteModel *model = self.models[[annotation.title integerValue]];
+            if (model.red == 1) {
+                annotationView.image = [UIImage imageNamed:@"红包站点"];
+            }else{
+                annotationView.image = [UIImage imageNamed:@"站点"];
+            }
+        }
+        
        
         if ([annotation isKindOfClass:[MAUserLocation class]]){
             annotationView.image = [UIImage imageNamed:@"08定位02"];
         }
        
-
         // 设置为NO，用以调用自定义的calloutView
         annotationView.canShowCallout = NO;
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
@@ -956,15 +1056,31 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
     self.listView.hidden = YES;
-    self.navScrollView.hidden = YES;
-    self.nearestView.hidden = YES;
+    if (self.siteView) {
+        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+        animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 184)];
+        animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT - 184 - 12, SCREEN_WIDTH, 184)];
+        [self.siteView.layer pop_addAnimation:animation forKey:nil];
+        animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            [self.siteView removeFromSuperview];
+            self.siteView = nil;
+        };
+    }
+    if (self.bikeInfoView) {
+        POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+        animation.toValue = [NSValue valueWithCGRect:CGRectMake(0,  -263, SCREEN_WIDTH, 263)];
+        [self.bikeInfoView.layer pop_addAnimation:animation forKey:nil];
+        animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+            [self.bikeInfoView removeFromSuperview];
+            self.bikeInfoView = nil;
+        };
+    }
 }
 
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
     if (![view.annotation isKindOfClass:[MAUserLocation class]]) {
-        
         CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.y"];
         CGFloat currentTx = view.transform.ty;
         animation.duration = 1.0;
@@ -974,70 +1090,87 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         [view.layer addAnimation:animation forKey:@"kViewShakerAnimationKey"];
         self.destinationCoordinate = view.annotation.coordinate;
-        
-        [self ddd:nil];
-        YYGetYBikeRequest *request = [[YYGetYBikeRequest alloc] init];
-        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetBikeBysidAPI];
-        //CLLocationCoordinate2D coordinate = [self.mapView convertPoint:self.pickImageView.center toCoordinateFromView:self.mapView];
-        request.sid = self.models[[view.annotation.title integerValue]].ID;
-        //request.lat = coordinate.latitude;
-        //request.lon = coordinate.longitude;
-        [self.mapView deselectAnnotation:view.annotation
-                                animated:NO];
-        if([view.annotation.title integerValue] == 0){
-            self.nearestView.hidden = YES;
-        }else{
-           self.nearestView.hidden = NO;
-            self.siteNameLabel1.text = self.models[0].name;
-        }
-        WEAK_REF(self);
-        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-            if (success) {
-                NSArray *arr = [YYRentalModel modelArrayWithDictArray:response];
-                if (arr.count > 0) {
-                    if (weak_self.listView) {
-                        [weak_self.listView removeFromSuperview];
-                        weak_self.listView = nil;
-                    }
-                    weak_self.navScrollView.hidden = NO;
-                    weak_self.listView.hidden = NO;
-                    [weak_self.navScrollView setInfoByCurrentModelIndex:[view.annotation.title integerValue]];
-                    YYRecomendListView *listView = [[YYRecomendListView alloc] initWithFrame:weak_self.view.bounds];
-                    listView.top = 70;
-                    listView.width = kScreenWidth - 20;
-                    listView.delegate = weak_self;
-                    listView.centerX = kScreenWidth * 0.5;
-                    listView.height = 130;
-                    [weak_self.view addSubview:listView];
-                    [weak_self.view bringSubviewToFront:listView];
-                    listView.siteName = weak_self.models[[view.annotation.title integerValue]].name;
-                    listView.distance = weak_self.models[[view.annotation.title integerValue]].distance;
-                    weak_self.listView = listView;
-                    weak_self.listView.array = arr;
-                }else{
-                    weak_self.navScrollView.hidden = NO;
-                    [weak_self.navScrollView setInfoByCurrentModelIndex:[view.annotation.title integerValue]];
-                    QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                    contentView.minimumSize = CGSizeMake(300, 100);
-                    [tips showWithText:@"最近站点车辆被使用完毕,拖动地图换个站点试试" hideAfterDelay:2];
-                    weak_self.listView.hidden = YES;
-                }
-              
-            }else{
-                weak_self.navScrollView.hidden = NO;
-                [weak_self.navScrollView setInfoByCurrentModelIndex:[view.annotation.title integerValue]];
-                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(300, 100);
-                [tips showWithText:message hideAfterDelay:2];
-                weak_self.listView.hidden = YES;
-                
-            }
-        } error:^(NSError *error) {
-            
-        }];
     }
+    [self.mapView deselectAnnotation:view.annotation animated:NO];
+    if ([view.annotation.subtitle isEqualToString:@"2"]){
+        if (self.siteView == nil) {
+            YYSiteInfoView *siteView = [[YYSiteInfoView alloc] init];
+            siteView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 184);
+            self.siteView = siteView;
+            [self.view addSubview:self.siteView];
+            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 184)];
+            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT - 184 - 12, SCREEN_WIDTH, 184)];
+            [self.siteView.layer pop_addAnimation:animation forKey:nil];
+        }
+        self.siteView.model = self.models[[view.annotation.title integerValue]];
+    }else{
+        if (self.bikeInfoView == nil) {
+            YYBikeInfoView *bikeInfoView = [[YYBikeInfoView alloc] init];
+            bikeInfoView.delegate = self;
+            bikeInfoView.frame = CGRectMake(0, -263, SCREEN_WIDTH, 263);
+            self.bikeInfoView = bikeInfoView;
+            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, -263, SCREEN_WIDTH, 263)];
+            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, CGRectGetMaxY(self.topView.frame), SCREEN_WIDTH, 263)];
+            [self.bikeInfoView.layer pop_addAnimation:animation forKey:nil];
+            [self.view addSubview:self.bikeInfoView];
+        }
+        if (self.userModel.abid > 0) {
+            [self loadMyAppoinmentBikes];
+        }else{
+            self.bikeInfoView.model = self.bikeModels[[view.annotation.title integerValue]];
+        }
+      
+      
+    }
+//    if ([view.annotation.subtitle isEqualToString:@"2"]){
+//        self.siteInfoView.hidden = NO;
+//        self.rentalButton.hidden = self.gpsButton.hidden = self.refreshButton.hidden = self.alarmButton.hidden = self.serviceButton.hidden = !self.siteInfoView.hidden;
+//        NSArray *info = [view.annotation.title componentsSeparatedByString:@"_"];
+//        self.siteNameLabel.text = info[0];
+//        self.distanceLabel.text = [NSString stringWithFormat:@"%.2f",[info[1] doubleValue]];
+//        [self.siteImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,info[2]]]];
+//    } else{
+//        self.siteInfoView.hidden = YES;
+//        self.rentalButton.hidden = self.gpsButton.hidden = self.refreshButton.hidden = self.alarmButton.hidden = self.serviceButton.hidden = !self.siteInfoView.hidden;
+//        NSString *deviceID = [NSString stringWithFormat:@"%ld",(long)self.bikeModels[[[view.annotation title] integerValue]].did];
+//        YYScanCodeRequest *request = [[YYScanCodeRequest alloc] init];
+//        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kScanCodeAPI];
+//        request.code = deviceID;
+//        __weak __typeof(self)weakSelf = self;
+//        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//            if (success) {
+//                YYBikeModel *model = [YYBikeModel modelWithDictionary:response];
+//                model.userLon = weakSelf.mapView.userLocation.coordinate.longitude;
+//                model.userLat = weakSelf.mapView.userLocation.coordinate.latitude;
+//                AMapWalkingRouteSearchRequest *navi = [[AMapWalkingRouteSearchRequest alloc] init];
+//                navi.origin = [AMapGeoPoint locationWithLatitude:weakSelf.mapView.userLocation.coordinate.latitude
+//                                                       longitude:weakSelf.mapView.userLocation.coordinate.longitude];
+//                navi.destination = [AMapGeoPoint locationWithLatitude:model.lat
+//                                                            longitude:model.lon];
+//                
+//                [weakSelf.search AMapWalkingRouteSearch:navi];
+//                if (weakSelf.bikeInfoView == nil) {
+//                    YYBikeInfoView *bikeInfoView = [[YYBikeInfoView alloc] init];
+//                    bikeInfoView.delegate = weakSelf;
+//                    bikeInfoView.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height + weakSelf.navigationController.navigationBar.frame.size.height + 1, SCREEN_WIDTH, bikeInfoView.qmui_height);
+//                    [weakSelf.view addSubview:bikeInfoView];
+//                    weakSelf.bikeInfoView = bikeInfoView;
+//                    weakSelf.segmentedControl.hidden = YES;
+//                }
+//                weakSelf.bikeInfoView.model = model;
+//            }else{
+//                QMUITips *tips = [QMUITips createTipsToView:weakSelf.view];
+//                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+//                contentView.minimumSize = CGSizeMake(100, 100);
+//                [tips showWithText:message hideAfterDelay:2];
+//            }
+//        } error:^(NSError *error) {
+//            
+//        }];
+//        
+//    }
     
 }
 
@@ -1149,11 +1282,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     MANaviAnnotationType type = MANaviAnnotationTypeWalking;
     self.naviRoute = [MANaviRoute naviRouteForPath:self.route.paths[self.currentCourse] withNaviType:type showTraffic:YES startPoint:[AMapGeoPoint locationWithLatitude:self.mapView.userLocation.coordinate.latitude longitude:self.mapView.userLocation.coordinate.longitude ] endPoint:[AMapGeoPoint locationWithLatitude:self.destinationCoordinate.latitude longitude:self.destinationCoordinate.longitude]];
     [self.naviRoute addToMapView:self.mapView];
-    
-    /* 缩放地图使其适应polylines的展示. */
-//    [self.mapView setVisibleMapRect:[CommonUtility mapRectForOverlays:self.naviRoute.routePolylines]
-//                        edgePadding:UIEdgeInsetsMake(RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge, RoutePlanningPaddingEdge)
-//                           animated:YES];
 }
 
 - (void)updateTotal
@@ -1173,12 +1301,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 -(void) YYRecomendListView:(YYRecomendListView *)recomendListView didClickCloseButton:(UIButton *)closeButton
 {
     [self.listView removeFromSuperview];
-    
     self.listView = nil;
-    
-    self.nearestView.hidden = YES;
-    
-    self.navScrollView.hidden = YES;
 }
 
 -(void)YYRecomendListView:(YYRecomendListView *)recomendListView didClickUseButton:(UIButton *)useButton
@@ -1259,7 +1382,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 }];
                 QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:
                                             QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
-                    weak_self.navScrollView.hidden = YES;
                     YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
                     request.sid = recomendListView.selectedModel.sid;
                     request.bid = recomendListView.selectedModel.ID;
@@ -1282,7 +1404,6 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                             [YYFileCacheManager saveUserData:recomendListView.selectedModel.bleid forKey:KBLEIDKey];
                             [weak_self.listView removeFromSuperview];
                             weak_self.listView = nil;
-                            weak_self.nearestView.hidden = YES;
                             [self.navigationController pushViewController:controlBikeViewController animated:YES];
                         }else{
                             QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
@@ -1348,35 +1469,8 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
          
         }
     }];
-//    QMUIMoreOperationController *moreOperationController = [[QMUIMoreOperationController alloc] init];
-//    self.moreOperationController = moreOperationController;
-//    self.moreOperationController.delegate = self;
-//    
-//    [self.moreOperationController addItemWithTitle:@"微信好友" image:UIImageMake(@"icon_moreOperation_shareFriend") type:QMUIMoreOperationItemTypeImportant tag:MoreOperationTagShareWechat];
-//    
-//    [self.moreOperationController addItemWithTitle:@"朋友圈" image:UIImageMake(@"icon_moreOperation_shareMoment") type:QMUIMoreOperationItemTypeImportant tag:MoreOperationTagShareMoment];
-//    // 显示更多操作面板
-//    [self.moreOperationController showFromBottom];
 }
 
-- (void)moreOperationController:(QMUIMoreOperationController *)moreOperationController didSelectItemAtTag:(NSInteger)tag {
-    QMUIMoreOperationItemView *itemView = [moreOperationController itemAtTag:tag];
-    NSString *tipString = itemView.titleLabel.text;
-    switch (tag) {
-        case MoreOperationTagShareWechat:
-            break;
-        case MoreOperationTagShareMoment:
-            break;
-        case MoreOperationTagShareWeibo:
-            break;
-        case MoreOperationTagShareQzone:
-            break;
-        default:
-            break;
-    }
-    [QMUITips showWithText:tipString inView:self.view hideAfterDelay:0.5];
-    [moreOperationController hideToBottom];
-}
 
 -(void)YYRegisterHBView:(YYRegisterHBView *)registerHBView didClickOKButton:(UIButton *)okButton
 {
@@ -1401,21 +1495,84 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
 }
 
--(void)navScrollView:(YYNavScrollView *)navScrollView didSelectCurrentModel:(YYSiteModel *)model
+- (void)YYBikeInfoView:(YYBikeInfoView *)bikeView didClickSearchButton:(UIButton *)button
 {
-    for (int i = 0; i < self.annotations.count; i++) {
-        if ([((MAPointAnnotation *)self.annotations[i]).subtitle isEqualToString:model.address]) {
-            if (i > 0) {
-                self.siteNameLabel1.text = self.models[0].name;
-                self.nearestView.hidden = NO;
-            }else{
-                self.nearestView.hidden = YES;
-            }
-          
-            [self.mapView selectAnnotation:self.annotations[i] animated:YES];
-            break;
-        }
+    if (![YYUserManager isHaveLogin]) {
+        UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
+        [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:loginViewController] animated:YES completion:nil];
+        return;
     }
+    
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFindBikeAPI];
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message){
+        
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+- (void)YYBikeInfoView:(YYBikeInfoView *)bikeView didClickAppointmentButton:(UIButton *)button
+{
+    if (![YYUserManager isHaveLogin]) {
+        UIStoryboard *storyborad = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        YYLoginViewController *loginViewController = [storyborad instantiateViewControllerWithIdentifier:@"login"];
+        [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:loginViewController] animated:YES completion:nil];
+        return;
+    }
+    
+    if (!self.userModel.vipstate) {
+        QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+        }];
+        QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+            YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
+            [self.navigationController pushViewController:memberCardViewController animated:YES];
+        }];
+        QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"提示" message:@"您暂时还不是VIP，如需预约请前去购买" preferredStyle:QMUIAlertControllerStyleAlert];
+        [alertController addAction:action1];
+        [alertController addAction:action2];
+        [alertController showWithAnimated:YES];
+    }
+    
+    if (bikeView.countDownLabel.counting) {
+        YYCancelAppointmentRequest *request = [YYCancelAppointmentRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kCancelAppointmentAPI]];
+        __weak __typeof(self)weakSelf = self;
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            if (success) {
+                [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:1.5];
+                bikeView.countDownHeightCons.constant = 44;
+                bikeView.countDownView.hidden = NO;
+            }else{
+                [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:1.5];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }else{
+        YYAppointmentRequest *request = [YYAppointmentRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kAppointmentAPI]];
+        request.bid = bikeView.model.ID;
+        __weak __typeof(self)weakSelf = self;
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//            [bikeView.countDownLabel setCountDownTime:10];
+//            [bikeView.countDownLabel start];
+//            
+//            bikeView.countDownHeightCons.constant = 44;
+//            bikeView.countDownView.hidden = NO;
+            if (success) {
+                bikeView.countDownHeightCons.constant = 44;
+                bikeView.countDownView.hidden = NO;
+                [bikeView.appoimentButton setTitle:@"取消预约" forState:UIControlStateNormal];
+                [bikeView.countDownLabel setCountDownTime:60 * [response integerValue]];
+                [bikeView.countDownLabel start];
+            }else{
+                [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:1.5];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }
+  
 }
 
 
