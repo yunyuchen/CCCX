@@ -121,4 +121,12 @@ UIKIT_EXTERN NSString *const kAppointmentAPI;
 UIKIT_EXTERN NSString *const kCancelAppointmentAPI;
 //我的预约车辆
 UIKIT_EXTERN NSString *const kMyAppointmentAPI;
+//资讯
+UIKIT_EXTERN NSString *const kInformationAPI;
+//通知
+UIKIT_EXTERN NSString *const kNotificationAPI;
+//签到
+UIKIT_EXTERN NSString *const kSignAPI;
+
+UIKIT_EXTERN NSString *const kFindBikeAPI1;
 @end

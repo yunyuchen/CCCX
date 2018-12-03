@@ -104,6 +104,17 @@
     }];
     
 }
+- (IBAction)signButtonClick:(id)sender {
+    YYBaseRequest *request = [YYBaseRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kSignAPI]];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+            [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:1.5];
+        }else{
+            [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:1.5];
+        }
+    }];
+}
 
 - (IBAction)scoreButtonClick:(id)sender {
     YYScoreViewController *scoreViewController = [[UIStoryboard storyboardWithName:@"Score" bundle:nil] instantiateViewControllerWithIdentifier:@"score"];

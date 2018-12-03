@@ -36,4 +36,6 @@
 
 @property(nonatomic, assign) NSInteger red;
 
+@property(nonatomic, copy) NSString *redsite;
+
 @end

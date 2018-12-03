@@ -23,6 +23,7 @@
 
 -(void) orderInfoView:(YYOrderInfoView *)orderView didClickCouponButton:(UIButton *)sender;
 
+-(void) orderInfoView:(YYOrderInfoView *)orderView didClickInstructionButton:(UIButton *)sender;
 
 -(void) orderInfoView:(YYOrderInfoView *)orderView didClickFeeButton:(UIButton *)sender;
 

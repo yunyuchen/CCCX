@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, assign) CGFloat cellHeight;
 
+@property(nonatomic, copy) NSString *content;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -35,22 +35,19 @@
         self.countDownView.hidden = YES;
         self.countDownHeightCons.constant = 0;
         self.countDownLabel.timerType = MZTimerLabelTypeTimer;
-        self.countDownLabel.delegate = self;
+        //self.countDownLabel.delegate = self;
         [self.countDownLabel setTimeFormat:@"mm:ss"];
     }
     return self;
 }
 
--(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime{
-    self.countDownView.hidden = YES;
-    self.countDownHeightCons.constant = 0;
-}
 
 -(void)setModel:(YYBikeModel *)model
 {
     _model = model;
     self.discountView.hidden = model.red == 0;
     self.bikeIdLabel.text = [NSString stringWithFormat:@"ID:%ld",model.deviceid];
+    self.estimateTripLabel.text = [NSString stringWithFormat:@"%.2f",[model.last_mileage floatValue]];
     self.distanceLabel.text = model.last_mileage;
 }
 
@@ -73,7 +70,7 @@
 
 - (IBAction)searchButtonClick:(id)sender {
     if ([self.delegate respondsToSelector:@selector(YYBikeInfoView:didClickSearchButton:)]) {
-        [self.delegate YYBikeInfoView:self didClickAppointmentButton:sender];
+        [self.delegate YYBikeInfoView:self didClickSearchButton:sender];
     }
 }
 

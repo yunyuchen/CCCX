@@ -44,7 +44,7 @@ NSString *const kGetTokenAPI = @"open/get?module=CodeService.getToken";
 
 NSString *const kSendCodeAPI = @"open/get?module=CodeService.sendCodeByToken";
 
-NSString *const kAroundSiteAPI = @"open/get?module=SiteService.arroundSite";
+NSString *const kAroundSiteAPI = @"open/get?module=SiteService.arroundArea";
 NSString *const kArroundBikeAPI = @"open/get?module=SiteService.arroundBike";
 
 NSString *const kGetBikeBysidAPI = @"open/get?module=BikeService.getBikeBysid";
@@ -80,6 +80,7 @@ NSString *const kGetYBikeBysidAPI1 = @"open/get?module=BikeService.getYBikeBysid
 NSString *const KCreatePayBalanceAPI = @"get?module=PayService.createPayBalance";
 
 NSString *const kFindBikeAPI = @"get?module=BikeService.findbike";
+NSString *const kFindBikeAPI1 = @"get?module=BikeService.findbikeByid";
 
 NSString *const kUploadPhotoAPI = @"upload";
 
@@ -111,7 +112,7 @@ NSString *const kMyPointAPI = @"get?module=UserService.myPoint";
 
 NSString *const kMyCouponsAPI = @"get?module=UserService.myCoupon";
 
-NSString *const kGetCouponAPI = @"get?module=UserService.getCoupon";
+NSString *const kGetCouponAPI = @"get?module=UserService.addPoint";
 
 NSString *const kCompanyAuthAPI = @"get?module=UserService.companyAuth";
 
@@ -122,4 +123,10 @@ NSString *const kAppointmentAPI = @"get?module=BikeService.addAppointment";
 NSString *const kMyAppointmentAPI = @"get?module=BikeService.myAppointment";
 
 NSString *const kCancelAppointmentAPI = @"get?module=BikeService.cancelAppointment";
+
+NSString *const kInformationAPI = @"get?module=UserService.news";
+
+NSString *const kNotificationAPI = @"get?module=UserService.inform";
+
+NSString *const kSignAPI = @"get?module=UserService.sign";
 @end

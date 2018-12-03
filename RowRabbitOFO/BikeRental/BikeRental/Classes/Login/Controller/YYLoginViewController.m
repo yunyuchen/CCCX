@@ -162,32 +162,32 @@
             //[JPUSHService setAlias:[NSString stringWithFormat:@"%@",response[@"id"]] callbackSelector:nil object:nil];
             [JPUSHService setAlias:[NSString stringWithFormat:@"%@",response[@"id"]] completion:nil seq:0];
             
-            if ([response[@"register"] boolValue] == YES) {
-                YYRegisterHBView *registerHBView = [[YYRegisterHBView alloc] init];
-                registerHBView.fromLogin = YES;
-                QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
-                modalViewController.contentView = registerHBView;
-                modalViewController.maximumContentViewWidth = kScreenWidth;
-                modalViewController.animationStyle = QMUIModalPresentationAnimationStylePopup;
-                [modalViewController showWithAnimated:YES completion:nil];
-                self.modalPrentViewController = modalViewController;
-                registerHBView.block = ^{
-                    YYGetCouponRequest *request = [[YYGetCouponRequest alloc] init];
-                    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetCouponAPI];
-                    request.type = 0;
-                    __weak __typeof(self)weakSelf = self;
-                    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                        [QMUITips hideAllToastInView:weakSelf.view animated:YES];
-                        if (success) {
-                            [QMUITips showSucceed:message inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
-                            [weakSelf.modalPrentViewController hideWithAnimated:YES completion:nil];
-                        }else{
-                            [QMUITips showWithText:message inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
-                        }
-                    }];
-                    [modalViewController hideWithAnimated:YES completion:nil];
-                };
-            }
+//            if ([response[@"register"] boolValue] == YES) {
+//                YYRegisterHBView *registerHBView = [[YYRegisterHBView alloc] init];
+//                registerHBView.fromLogin = YES;
+//                QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
+//                modalViewController.contentView = registerHBView;
+//                modalViewController.maximumContentViewWidth = kScreenWidth;
+//                modalViewController.animationStyle = QMUIModalPresentationAnimationStylePopup;
+//                [modalViewController showWithAnimated:YES completion:nil];
+//                self.modalPrentViewController = modalViewController;
+//                registerHBView.block = ^{
+//                    YYGetCouponRequest *request = [[YYGetCouponRequest alloc] init];
+//                    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetCouponAPI];
+//                    request.type = 0;
+//                    __weak __typeof(self)weakSelf = self;
+//                    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//                        [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+//                        if (success) {
+//                            [QMUITips showSucceed:message inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
+//                            [weakSelf.modalPrentViewController hideWithAnimated:YES completion:nil];
+//                        }else{
+//                            [QMUITips showWithText:message inView:[UIApplication sharedApplication].keyWindow hideAfterDelay:2];
+//                        }
+//                    }];
+//                    [modalViewController hideWithAnimated:YES completion:nil];
+//                };
+//            }
             
             YYBaseRequest *request = [[YYBaseRequest alloc] init];
             

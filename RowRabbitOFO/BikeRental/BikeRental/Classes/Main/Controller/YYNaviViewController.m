@@ -51,6 +51,8 @@
 #import "YYCancelAppointmentRequest.h"
 #import "YYInformationController.h"
 #import "YYBuyMemberCardViewController.h"
+#import "YYFindBikeRequest.h"
+#import <DateTools/DateTools.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
 #import <WZLBadge/WZLBadgeImport.h>
@@ -65,7 +67,7 @@
 #define ButtonHeight 44
 //static const NSInteger RoutePlanningPaddingEdge  = 20;
 
-@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,YYBikeInfoViewDelegate>
+@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,YYBikeInfoViewDelegate,MZTimerLabelDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -149,6 +151,8 @@
 
 @property(nonatomic, strong) YYBikeInfoView *bikeInfoView;
 
+@property(nonatomic, assign) BOOL Renting;
+
 @end
 
 static NSString *reuseIndetifier = @"annotationReuseIndetifier";
@@ -198,6 +202,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         make.right.mas_equalTo(self.view);
     }];
     self.segmentedControl = segmentedControl;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self loadMyAppoinmentBikes];
+    });
 }
 
 - (void) segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl
@@ -205,6 +213,16 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     if (segmentedControl.selectedSegmentIndex == 0) {
         [self getAroundSiteRequest];
         //[self loadUserArea];
+        if (self.siteView) {
+            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 184)];
+            animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT - 184 - 12, SCREEN_WIDTH, 184)];
+            [self.siteView.layer pop_addAnimation:animation forKey:nil];
+            animation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+                [self.siteView removeFromSuperview];
+                self.siteView = nil;
+            };
+        }
     }else{
         [self getArroundAreaData];
     }
@@ -231,7 +249,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             for (int i = 0; i < models.count; i++) {
                 NSArray *areas = models[i][@"area"];
                 MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-                a1.coordinate = CLLocationCoordinate2DMake([models[i][@"latitude"] doubleValue], [models[i][@"longitude"] doubleValue]);
+                a1.coordinate = CLLocationCoordinate2DMake([models[i][@"lat"] doubleValue], [models[i][@"lng"] doubleValue]);
                 a1.title = [NSString stringWithFormat:@"%d",i];
                 //a1.title      = [NSString stringWithFormat:@"%@_%@_%@", models[i][@"name"],models[i][@"distance"],models[i][@"img1"]];
                 a1.subtitle   = @"2";
@@ -327,6 +345,23 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYInformationController *controller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"information"];
     [self.navigationController pushViewController:controller animated:YES];
 }
+
+- (IBAction)refreshButtonClick:(UIButton *)sender {
+    CABasicAnimation *animation =  [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    animation.fromValue = [NSNumber numberWithFloat:0.f];
+    animation.toValue =  [NSNumber numberWithFloat: M_PI *2];
+    animation.duration  = 1;
+    animation.autoreverses = NO;
+    animation.fillMode =kCAFillModeForwards;
+    animation.repeatCount = 3;
+    [sender.layer addAnimation:animation forKey:nil];
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        [self getAroundSiteRequest];
+    }else{
+        [self getArroundAreaData];
+    }
+}
+
 
 
 - (IBAction)faultRepairButtonClick:(UIButton *)sender {
@@ -640,11 +675,27 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYMyAppointmentRequest *request = [YYMyAppointmentRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kMyAppointmentAPI]];
     request.lat = self.userLocationAnnotationView.annotation.coordinate.latitude;
     request.lng = self.userLocationAnnotationView.annotation.coordinate.longitude;
+    __weak __typeof(self)weakSelf = self;
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
             YYAppointmentModel *model = [YYAppointmentModel modelWithDictionary:response];
-            self.bikeInfoView.appModel = model;
-            NSLog(@"%@",response);
+            YYBikeInfoView *bikeInfoView = [[YYBikeInfoView alloc] init];
+           
+            bikeInfoView.delegate = weakSelf;
+            bikeInfoView.frame = CGRectMake(0, -263, SCREEN_WIDTH, 263);
+            weakSelf.bikeInfoView = bikeInfoView;
+            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+            animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, -263, SCREEN_WIDTH, 263)];
+            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, CGRectGetMaxY(weakSelf.topView.frame), SCREEN_WIDTH, 263)];
+            [weakSelf.bikeInfoView.layer pop_addAnimation:animation forKey:nil];
+            [weakSelf.view addSubview:self.bikeInfoView];
+            DTTimePeriod *period = [DTTimePeriod timePeriodWithStartDate:[NSDate date] endDate:[NSDate dateWithString:model.outtime formatString:@"yyyy-MM-dd hh:mm:ss"]];
+            [weakSelf.bikeInfoView.countDownLabel setCountDownTime:[period durationInSeconds]];
+            weakSelf.bikeInfoView.appModel = model;
+            bikeInfoView.countDownHeightCons.constant = 44;
+            bikeInfoView.countDownLabel.hidden = NO;
+            weakSelf.Renting = YES;
+            //NSLog(@"%@",response);
         }
     }];
 }
@@ -795,10 +846,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     _mapView.cameraDegree = 0;
     _mapView.userTrackingMode            = MAUserTrackingModeFollow;
     _mapView.rotateCameraEnabled       = NO;
-    _mapView.skyModelEnable              = YES;
     _mapView.showsCompass                = NO;
     _mapView.showsScale                  = NO;
     _mapView.rotateEnabled               = NO;
+    _mapView.minZoomLevel = 3;
     [_mapView setZoomLevel:16.5 animated:YES];
     [self.view insertSubview:_mapView atIndex:0];
 
@@ -1022,11 +1073,16 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         }
         if (self.segmentedControl.selectedSegmentIndex == 0) {
             YYBikeModel *model = self.bikeModels[[annotation.title integerValue]];
-            if (model.red == 1) {
-                annotationView.image = [UIImage imageNamed:@"红包车"];
+            if (model.isonline == 0 || [model.last_percent floatValue] < 0.2) {
+                annotationView.image = [UIImage imageNamed:@"车辆(不可用)"];
             }else{
-                annotationView.image = [UIImage imageNamed:@"07车辆"];
+                if (model.red == 1) {
+                    annotationView.image = [UIImage imageNamed:@"红包车"];
+                }else{
+                    annotationView.image = [UIImage imageNamed:@"07车辆"];
+                }
             }
+         
             
         }else{
             YYSiteModel *model = self.models[[annotation.title integerValue]];
@@ -1055,6 +1111,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
+    if (self.Renting) {
+        return;
+    }
     self.listView.hidden = YES;
     if (self.siteView) {
         POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
@@ -1080,6 +1139,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view
 {
+    if (self.Renting) {
+        return;
+    }
     if (![view.annotation isKindOfClass:[MAUserLocation class]]) {
         CAKeyframeAnimation * animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.y"];
         CGFloat currentTx = view.transform.ty;
@@ -1116,13 +1178,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             [self.bikeInfoView.layer pop_addAnimation:animation forKey:nil];
             [self.view addSubview:self.bikeInfoView];
         }
-        if (self.userModel.abid > 0) {
-            [self loadMyAppoinmentBikes];
-        }else{
-            self.bikeInfoView.model = self.bikeModels[[view.annotation.title integerValue]];
-        }
-      
-      
+        self.bikeInfoView.model = self.bikeModels[[view.annotation.title integerValue]];
     }
 //    if ([view.annotation.subtitle isEqualToString:@"2"]){
 //        self.siteInfoView.hidden = NO;
@@ -1245,7 +1301,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     [self.pickImageView.layer addAnimation:animation forKey:@"kViewShakerAnimationKey"];
     
-    [self getAroundSiteRequest];
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        [self getAroundSiteRequest];
+    }else{
+        [self getArroundAreaData];
+    }
    
     AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
     
@@ -1446,7 +1507,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     //创建网页内容对象
     UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:[YYFileCacheManager readUserDataForKey:@"config"][@"shareTitle"] descr:@"" thumImage:[UIImage imageNamed:@"1024"]];
     //设置网页地址
-    shareObject.webpageUrl =@"http://zc.51xytu.com/htm/share.htm";
+    shareObject.webpageUrl = [YYFileCacheManager readUserDataForKey:@"config"][@"shareUrl"];
    
     //分享消息对象设置分享内容对象
     messageObject.shareObject = shareObject;
@@ -1457,6 +1518,11 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             NSLog(@"************Share fail with error %@*********",error);
         }else{
             NSLog(@"response data is %@",data);
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+            
+                UMSocialLogInfo(@"response message is %@",resp.message);
+            }
             [self.modalPrentViewController hideWithAnimated:YES completion:nil];
             YYRegisterHBView *registerHBView = [[YYRegisterHBView alloc] init];
             registerHBView.delegate = self;
@@ -1477,11 +1543,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [QMUITips showLoadingInView:self.view];
     YYGetCouponRequest *request = [[YYGetCouponRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kGetCouponAPI];
-    if (registerHBView.fromLogin) {
-        request.type = 0;
-    }else{
-        request.type = 2;
-    }
+//    if (registerHBView.fromLogin) {
+//        request.type = 0;
+//    }else{
+//        request.type = 2;
+//    }
+    request.type = 3;
     __weak __typeof(self)weakSelf = self;
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         [QMUITips hideAllToastInView:weakSelf.view animated:YES];
@@ -1504,8 +1571,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         return;
     }
     
-    YYBaseRequest *request = [[YYBaseRequest alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFindBikeAPI];
+    YYFindBikeRequest *request = [[YYFindBikeRequest alloc] init];
+    request.deviceid = bikeView.model.deviceid;
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFindBikeAPI1];
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message){
         
     } error:^(NSError *error) {
@@ -1533,6 +1601,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         [alertController addAction:action1];
         [alertController addAction:action2];
         [alertController showWithAnimated:YES];
+        return;
     }
     
     if (bikeView.countDownLabel.counting) {
@@ -1540,9 +1609,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         __weak __typeof(self)weakSelf = self;
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {
+                weakSelf.Renting = NO;
                 [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:1.5];
-                bikeView.countDownHeightCons.constant = 44;
-                bikeView.countDownView.hidden = NO;
+                [bikeView.appoimentButton setTitle:@"预约（VIP专享）" forState:UIControlStateNormal];
+                bikeView.countDownHeightCons.constant = 0;
+                bikeView.countDownView.hidden = YES;
+                [bikeView.countDownLabel setCountDownTime:0];
             }else{
                 [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:1.5];
             }
@@ -1560,6 +1632,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 //            bikeView.countDownHeightCons.constant = 44;
 //            bikeView.countDownView.hidden = NO;
             if (success) {
+                weakSelf.Renting = YES;
                 bikeView.countDownHeightCons.constant = 44;
                 bikeView.countDownView.hidden = NO;
                 [bikeView.appoimentButton setTitle:@"取消预约" forState:UIControlStateNormal];
@@ -1573,6 +1646,13 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         }];
     }
   
+}
+
+
+-(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime{
+    self.bikeInfoView.countDownView.hidden = YES;
+    self.bikeInfoView.countDownHeightCons.constant = 0;
+    self.Renting = NO;
 }
 
 

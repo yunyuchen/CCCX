@@ -44,6 +44,8 @@
 @property (weak, nonatomic) IBOutlet UIView *discountView;
 @property (weak, nonatomic) IBOutlet UILabel *discountLabel;
 
+
+
 @end
 
 
@@ -105,21 +107,22 @@
     self.totalTimeLabel.text = [NSString stringWithFormat:@"%ld时%ld分钟（行驶时长）",hour,minute];
     self.cid = resultModel.cid;
     if (resultModel.reds || resultModel.red) {
-        self.discountView.hidden = YES;
-    }else{
+        self.discountView.hidden = NO;
         if (self.resultModel.red) {
-            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%.1f元",resultModel.redBike];
+            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redBike];
         }
         if (self.resultModel.reds) {
-            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%.1f元",resultModel.redSite];
+            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redSite];
         }
+    }else{
+        self.discountView.hidden = YES;
     }
     if (resultModel.vip  > 1) {
         if (resultModel.weekcut > 1) {
-             self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 * self.resultModel.weekcut / 10 - resultModel.money];
+             self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 * self.resultModel.weekcut / 10 - resultModel.money + self.resultModel.insurance];
             self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.insurance];
         }else{
-            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 - resultModel.money];
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10 - resultModel.money + self.resultModel.insurance];
              self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.insurance];
         }
         self.totalPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip / 10];
@@ -127,10 +130,10 @@
     }else{
         self.extPrriceLabel.hidden = YES;
         if (resultModel.weekcut > 1) {
-            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip * self.resultModel.weekcut / 10- resultModel.money];
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip * self.resultModel.weekcut / 10- resultModel.money + self.resultModel.insurance];
             self.actLabel.text =  [NSString stringWithFormat:@"¥%.2f",self.resultModel.insurance];
         }else{
-            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money];
+            self.totalFeeLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.price * self.resultModel.vip - resultModel.money + self.resultModel.insurance];
             self.actLabel.text = [NSString stringWithFormat:@"¥%.2f",self.resultModel.insurance];
         }
      
@@ -203,6 +206,12 @@
     }
     if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickCouponButton:)]) {
         [self.delegate orderInfoView:self didClickCouponButton:sender];
+    }
+}
+
+- (IBAction)instructionButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(orderInfoView:didClickInstructionButton:)]) {
+        [self.delegate orderInfoView:self didClickInstructionButton:sender];
     }
 }
 

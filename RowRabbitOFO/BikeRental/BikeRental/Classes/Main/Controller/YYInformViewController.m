@@ -10,6 +10,7 @@
 #import "YYBaseRequest.h"
 #import "YYFeedbackModel.h"
 #import "YYFeedbackViewCell.h"
+#import "YYFeedbackDetailViewController.h"
 
 @interface YYInformViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -31,25 +32,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title = @"通知";
     [self requestFeedbackList];
 }
 
 - (void) requestFeedbackList
 {
-//    YYBaseRequest *request = [YYBaseRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kFeedbackListAPI]];
-//    __weak __typeof(self)weakSelf = self;
-//    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-//        if (success) {
-//            QMUILog(@"kFeedbackListAPI",@"%@",response);
-//            weakSelf.models  = [YYFeedbackModel modelArrayWithDictArray:response];
-//            [weakSelf.tableView reloadData];
-//        }else{
-//            [QMUITips showError:message inView:weakSelf.view hideAfterDelay:1.5];
-//        }
-//    } error:^(NSError *error) {
-//
-//    }];
+    YYBaseRequest *request = [YYBaseRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kNotificationAPI]];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        if (success) {
+           // QMUILog(@"kFeedbackListAPI",@"%@",response);
+            weakSelf.models  = [YYFeedbackModel modelArrayWithDictArray:response];
+            [weakSelf.tableView reloadData];
+        }else{
+            [QMUITips showError:message inView:weakSelf.view hideAfterDelay:1.5];
+        }
+    } error:^(NSError *error) {
+
+    }];
 }
 
 
@@ -83,13 +84,13 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView qmui_clearsSelection];
-    //[self performSegueWithIdentifier:@"detail" sender:self.models[indexPath.row]];
+    [self performSegueWithIdentifier:@"detail" sender:self.models[indexPath.row]];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    YYFeedbackDetailViewController *vc = segue.destinationViewController;
-//    vc.model = sender;
+    YYFeedbackDetailViewController *vc = segue.destinationViewController;
+    vc.model = sender;
 }
 
 

@@ -29,6 +29,9 @@
         
     }];
     UIAlertAction *actionCamera = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"拍照"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (self.arrSelected.count >= 1) {
+            return;
+        }
         if (!imaPic) {
             imaPic = [[UIImagePickerController alloc] init];
         }

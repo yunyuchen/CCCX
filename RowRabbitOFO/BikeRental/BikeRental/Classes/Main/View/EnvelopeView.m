@@ -8,6 +8,14 @@
 
 #import "EnvelopeView.h"
 
+@interface EnvelopeView()
+
+@property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
+
+
+
+@end
+
 @implementation EnvelopeView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -26,6 +34,12 @@
         self = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:nil options:nil].firstObject;
     }
     return self;
+}
+
+-(void)setMoney:(NSString *)money
+{
+    _money = money;
+    self.moneyLabel.text = money;
 }
 
 @end

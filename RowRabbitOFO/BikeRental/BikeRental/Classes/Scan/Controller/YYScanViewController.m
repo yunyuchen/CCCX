@@ -14,6 +14,7 @@
 #import "YYShowBikeView.h"
 #import "YYControlBikeViewController.h"
 #import "YYFileCacheManager.h"
+#import "EnvelopeView.h"
 #import <QMUIKit/QMUIKit.h>
 
 @interface YYScanViewController ()<ShowBikeViewDelegate>
@@ -147,9 +148,15 @@
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
             weak_self.result = [YYScanResult modelWithDictionary:response];
-            
-            if (weak_self.result.red == nil) {
-                
+            if (weak_self.result.red != nil) {
+                EnvelopeView *envelopeView = [[EnvelopeView alloc] init];
+                envelopeView.money = weak_self.result.redmoney;
+                QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
+                modalViewController.contentView = envelopeView;
+                modalViewController.maximumContentViewWidth = kScreenWidth;
+                modalViewController.animationStyle = QMUIModalPresentationAnimationStyleFade;
+                [modalViewController showWithAnimated:YES completion:nil];
+                self.modalPrentViewController = modalViewController;
             }else{
                 YYShowBikeView *showBikeView = [[YYShowBikeView alloc] init];
                 showBikeView.delegate = self;

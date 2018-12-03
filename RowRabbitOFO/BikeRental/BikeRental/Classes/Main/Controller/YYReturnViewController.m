@@ -30,6 +30,7 @@
 #import "YYWarmPromptView.h"
 #import "YYReturnFeedbackView.h"
 #import "UIImage+Size.h"
+#import "CCWebViewController.h"
 #import <TZImagePickerController/TZImagePickerController.h>
 #import <zlib.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -113,6 +114,8 @@
 @property(nonatomic, assign) int bleFlag;
 
 @property(nonatomic, assign) NSInteger rsid;
+@property (weak, nonatomic) IBOutlet UIView *discountView;
+@property (weak, nonatomic) IBOutlet UILabel *discountLabel;
 
 @end
 
@@ -255,14 +258,16 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     __weak __typeof(self)weakSelf = self;
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
-            NSLog(@"%@",response);
+            //NSLog(@"%@",response);
             NSMutableArray *arr = [NSMutableArray array];
             NSArray *models = response;
+            weakSelf.models = [YYSiteModel modelArrayWithDictArray:response];
             for (int i = 0; i < models.count; i++) {
                 NSArray *areas = models[i][@"area"];
                 MAPointAnnotation *a1 = [[MAPointAnnotation alloc] init];
-                a1.coordinate = CLLocationCoordinate2DMake([models[i][@"latitude"] doubleValue], [models[i][@"longitude"] doubleValue]);
-                a1.title      = [NSString stringWithFormat:@"%@_%@_%@_%@", models[i][@"name"],models[i][@"distance"],models[i][@"img1"],models[i][@"id"]];
+                a1.coordinate = CLLocationCoordinate2DMake([models[i][@"lat"] doubleValue], [models[i][@"lng"] doubleValue]);
+                //a1.title      = [NSString stringWithFormat:@"%@_%@_%@_%@", models[i][@"name"],models[i][@"distance"],models[i][@"img1"],models[i][@"id"]];
+                a1.title = [NSString stringWithFormat:@"%d",i];
                 a1.subtitle   = @"2";
                 [weakSelf.annotations addObject:a1];
                 CLLocationCoordinate2D coordinates[areas.count];
@@ -289,6 +294,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             [weakSelf.mapView removeOverlays:weakSelf.polygons];
             weakSelf.polygons = [NSArray arrayWithArray:arr];
             [weakSelf.mapView addOverlays:weakSelf.polygons];
+            
+            if (weakSelf.annotations.count > 0) {
+                [weakSelf.mapView selectAnnotation:weakSelf.annotations[0] animated:YES];
+                [weakSelf returnButtonClick:nil];
+            }
+           
         }
     } error:^(NSError *error) {
         
@@ -389,7 +400,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
     orderInfoView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 473);
     orderInfoView.delegate = self;
-    
+    self.orderInfoView = orderInfoView;
     YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
     request.lat = self.mapView.userLocation.coordinate.latitude;
     request.lng = self.mapView.userLocation.coordinate.longitude;
@@ -493,7 +504,16 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             annotationView = [[MAAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:reuseIndetifier];
         }
-        annotationView.image = [UIImage imageNamed:@"站点"];
+        //annotationView.image = [UIImage imageNamed:@"站点"];
+        if (self.models.count > 0) {
+            YYSiteModel *model = self.models[[annotation.title integerValue]];
+            if (model.red == 1) {
+                annotationView.image = [UIImage imageNamed:@"红包站点"];
+            }else{
+                annotationView.image = [UIImage imageNamed:@"站点"];
+            }
+        }
+        
         if ([annotation isKindOfClass:[MAUserLocation class]]){
             annotationView.image = [UIImage imageNamed:@"08定位02"];
             annotationView.imageView.hidden = NO;
@@ -524,12 +544,15 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     if ([view.annotation.subtitle isEqualToString:@"2"]){
         self.siteInfoView.hidden = NO;
         //self.rentalButton.hidden = self.gpsButton.hidden = self.refreshButton.hidden = self.alarmButton.hidden = self.serviceButton.hidden = !self.siteInfoView.hidden;
+        YYSiteModel *model = self.models[[view.annotation.title integerValue]];
+        self.discountView.hidden = model.red == 0;
+        self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",model.redsite];
         self.selectedAnnotation = view;
-        NSArray *info = [view.annotation.title componentsSeparatedByString:@"_"];
-        self.siteNameLabel.text = info[0];
-        self.rsid = [info[3] integerValue];
-        self.distanceLabel.text = [NSString stringWithFormat:@"%.2f",[info[1] doubleValue]];
-        [self.siteImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,info[2]]]];
+        //NSArray *info = [view.annotation.title componentsSeparatedByString:@"_"];
+        self.siteNameLabel.text = model.name;
+        self.rsid = model.ID;
+        self.distanceLabel.text = [NSString stringWithFormat:@"%.2f",model.distance];
+        [self.siteImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,model.img1]]];
     }
 }
 
@@ -744,6 +767,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
     request.lat = self.mapView.userLocation.coordinate.latitude;
     request.lng = self.mapView.userLocation.coordinate.longitude;
+    request.rsid = self.rsid;
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderPriceAPI];
     __weak __typeof(self)weakSelf = self;
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
@@ -764,7 +788,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     YYReturnBikeRequest *request = [[YYReturnBikeRequest alloc] init];
                     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kReturnBikeAPI];
-                    request.rsid = orderView.rsid;
+                    request.rsid =self.rsid;
                     request.lng = self.mapView.userLocation.coordinate.longitude;
                     request.lat = self.mapView.userLocation.coordinate.latitude;
                     request.cid = orderView.cid;
@@ -953,6 +977,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 -(void)YYTips1View:(YYTips1View *)tipsView didClickCloseButton:(UIButton *)closeButton
 {
     self.tipsView.hidden = YES;
+    
+}
+
+-(void)orderInfoView:(YYOrderInfoView *)orderView didClickInstructionButton:(UIButton *)sender
+{
+    CCWebViewController *webViewController = [[CCWebViewController alloc] init];
+    webViewController.url = [YYFileCacheManager readUserDataForKey:@"config"][@"insuranceUrl"];
+    [self.navigationController pushViewController:webViewController animated:YES];
     
 }
 

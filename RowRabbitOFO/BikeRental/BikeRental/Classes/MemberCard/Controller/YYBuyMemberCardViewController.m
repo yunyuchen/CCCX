@@ -119,22 +119,27 @@
     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
         if (success) {
             weakSelf.models = [YYCardModel modelArrayWithDictArray:response];
-            YYCardModel *tmpModel = nil;
-            for (YYCardModel *model in weakSelf.models) {
-                if (tmpModel == nil) {
-                    tmpModel = model;
-                }else{
-                    if (tmpModel.discount > model.discount) {
-                        tmpModel = model;
-                    }
+//            YYCardModel *tmpModel = nil;
+//            for (YYCardModel *model in weakSelf.models) {
+//                if (tmpModel == nil) {
+//                    tmpModel = model;
+//                }else{
+//                    if (tmpModel.discount > model.discount) {
+//                        tmpModel = model;
+//                    }
+//                }
+//            }
+//            for (YYCardModel *model in weakSelf.models) {
+//                if (model.ID == tmpModel.ID) {
+//                    model.recommend = YES;
+//                    break;
+//                }
+//            }
+            [weakSelf.models enumerateObjectsUsingBlock:^(YYCardModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (idx == 0) {
+                    obj.recommend = YES;
                 }
-            }
-            for (YYCardModel *model in weakSelf.models) {
-                if (model.ID == tmpModel.ID) {
-                    model.recommend = YES;
-                    break;
-                }
-            }
+            }];
             
             [weakSelf.tableView reloadData];
             QMUILog(@"%@",response);
@@ -234,6 +239,7 @@
 #pragma mark - payViewDelegate
 -(void)YYPayView:(YYPayView *)payView didClickPayButton:(UIButton *)sender
 {
+    [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
     YYCreateVipRequest *request = [[YYCreateVipRequest alloc] init];
     request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayVip];
     if (payView.payType == 0) {

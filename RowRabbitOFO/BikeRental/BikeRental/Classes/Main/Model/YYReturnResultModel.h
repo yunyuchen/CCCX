@@ -42,10 +42,10 @@
 
 @property(nonatomic, assign) NSInteger reds;
 
-@property(nonatomic, assign) CGFloat redSite;
+@property(nonatomic, copy) NSString *redSite;
 
 @property(nonatomic, assign) NSInteger red;
 
-@property(nonatomic, assign) CGFloat redBike;
+@property(nonatomic, copy) NSString * redBike;
 
 @end

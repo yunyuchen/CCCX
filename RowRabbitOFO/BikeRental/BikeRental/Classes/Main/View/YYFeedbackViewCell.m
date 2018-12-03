@@ -37,7 +37,7 @@
     
     self.titleLabel.text = model.title;
     self.timeLabel.text = model.ctime;
-    self.contentLabel.text = model.des;
+    self.contentLabel.text = model.content;
     self.stateLabel.text = model.stateStr;
 }
 
