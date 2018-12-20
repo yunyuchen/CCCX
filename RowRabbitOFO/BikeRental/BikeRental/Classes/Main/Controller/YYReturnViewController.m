@@ -31,6 +31,7 @@
 #import "YYReturnFeedbackView.h"
 #import "UIImage+Size.h"
 #import "CCWebViewController.h"
+#import "YYReturnScheduleView.h"
 #import <TZImagePickerController/TZImagePickerController.h>
 #import <zlib.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -40,7 +41,7 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 
 
-@interface YYReturnViewController ()<MAMapViewDelegate,AMapSearchDelegate,AddressViewDelegate,OrderInfoViewDelegate,Tips1ViewDelegate,ScrollAddressViewDelegate,AVAudioPlayerDelegate,TZImagePickerControllerDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface YYReturnViewController ()<MAMapViewDelegate,AMapSearchDelegate,AddressViewDelegate,OrderInfoViewDelegate,Tips1ViewDelegate,ScrollAddressViewDelegate,AVAudioPlayerDelegate,TZImagePickerControllerDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,YYReturnScheduleViewDelegate>
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -113,6 +114,8 @@
 
 @property(nonatomic, assign) int bleFlag;
 
+@property(nonatomic, strong) YYReturnScheduleView *scheduleView;
+
 @property(nonatomic, assign) NSInteger rsid;
 @property (weak, nonatomic) IBOutlet UIView *discountView;
 @property (weak, nonatomic) IBOutlet UILabel *discountLabel;
@@ -135,7 +138,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [super viewDidLoad];
     self.title = @"目的站点查询";
     [self initMap];
-    [self initAnnotations];
+    
     
     self.search = [[AMapSearchAPI alloc] init];
     self.search.delegate = self;
@@ -154,11 +157,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopScanAction) name:@"stopScan" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectSuccessAction) name:@"connectSuccess" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shutDownAction) name:@"shutdownSuccess" object:nil];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        
-        //[self getAroundSiteRequest];
-        
+        [self.mapView setCenterCoordinate:self.mapView.userLocation.location.coordinate animated:NO];
+        [self initAnnotations];
         [self getArroundAreaData];
     });
 }
@@ -182,6 +184,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"connectSuccess" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stopScan" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"shutdownSuccess" object:nil];
 }
 
 - (void) checkLBSAuth
@@ -228,15 +231,17 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [self.view bringSubviewToFront:self.gpsButton];
     [self.view bringSubviewToFront:self.tipsView];
     [self.view bringSubviewToFront:self.siteInfoView];
-    YYScrollAddressView *addressView = [[YYScrollAddressView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 130, kScreenWidth, 120)];
-    [self.view addSubview:addressView];
-    [self.view bringSubviewToFront:addressView];
-    addressView.imgVLeft.delegate = self;
-    addressView.imgVRight.delegate = self;
-    addressView.imgVCenter.delegate = self;
-    addressView.delegate = self;
-    self.addressView = addressView;
-    self.addressView.hidden = YES;
+//    YYScrollAddressView *addressView = [[YYScrollAddressView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 130, kScreenWidth, 120)];
+//    [self.view addSubview:addressView];
+//    [self.view bringSubviewToFront:addressView];
+//    addressView.imgVLeft.delegate = self;
+//    addressView.imgVRight.delegate = self;
+//    addressView.imgVCenter.delegate = self;
+//    addressView.delegate = self;
+//    self.addressView = addressView;
+//    self.addressView.hidden = YES;
+    
+    
 }
 
 - (void)initAnnotations
@@ -546,13 +551,15 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         //self.rentalButton.hidden = self.gpsButton.hidden = self.refreshButton.hidden = self.alarmButton.hidden = self.serviceButton.hidden = !self.siteInfoView.hidden;
         YYSiteModel *model = self.models[[view.annotation.title integerValue]];
         self.discountView.hidden = model.red == 0;
-        self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",model.redsite];
+        //self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",model.redsite];
         self.selectedAnnotation = view;
         //NSArray *info = [view.annotation.title componentsSeparatedByString:@"_"];
         self.siteNameLabel.text = model.name;
         self.rsid = model.ID;
         self.distanceLabel.text = [NSString stringWithFormat:@"%.2f",model.distance];
         [self.siteImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,model.img1]]];
+        self.destinationCoordinate = CLLocationCoordinate2DMake(view.annotation.coordinate.latitude, view.annotation.coordinate.longitude);
+        [self showRoute];
     }
 }
 
@@ -783,7 +790,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 
                 if (self.bleFlag) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"shutdown" object:nil];
-                    
+                    return;
                 }
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     YYReturnBikeRequest *request = [[YYReturnBikeRequest alloc] init];
@@ -797,26 +804,25 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                     }
                     request.ble = self.bleFlag;
                     WEAK_REF(self);
-                    QMUITips *tips = [QMUITips createTipsToView:self.view];
-                    QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                    contentView.minimumSize = CGSizeMake(100, 100);
-                    [tips showLoading];
+                  
+                    if (!self.scheduleView) {
+                        YYReturnScheduleView *scheduleView = [[YYReturnScheduleView alloc] init];
+                        scheduleView.delegate = self;
+                        self.scheduleView = scheduleView;
+                    }
+                    if (self.bleFlag == 0 && self.modalPrentViewController.contentView != self.scheduleView) {
+                        QMUIModalPresentationViewController *modalController = [[QMUIModalPresentationViewController alloc] init];
+                        self.modalPrentViewController = modalController;
+                        self.modalPrentViewController.contentView = self.scheduleView;
+                        [self.modalPrentViewController showWithAnimated:YES completion:nil];
+                   
+                    }
+                    
+                   
                     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-                        [tips hideAnimated:YES];
-                        [weak_self.shadeView removeFromSuperview];
-                        weak_self.shadeView = nil;
-                        
-                        
+
                         if (success) {
-                            POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
-                            
-                            animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight, kScreenWidth, 473)];
-                            animation.beginTime = CACurrentMediaTime();
-                            animation.duration = 0.5;
-                            [animation setCompletionBlock:^(POPAnimation *anim, BOOL finished) {
-                                [orderView removeFromSuperview];
-                            }];
-                            [orderView pop_addAnimation:animation forKey:kPOPViewFrame];
+                            [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
                             weak_self.resultModel = [YYReturnResultModel modelWithDictionary:response];
                             QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
                             QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
@@ -840,28 +846,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                                     self.tipsView.hidden = NO;
                                 }
                             }else{
-                                //orderView.confirmButton.userInteractionEnabled = NO;
+                                self.scheduleView.failureView.hidden = NO;
                                 [QMUITips showError:message inView:self.view hideAfterDelay:2];
-                                [orderView.confirmButton setTitle:@"点击连接" forState:UIControlStateNormal];
-                                NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"网络不好？通过手机蓝牙连接还车"];
-                                [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor qmui_colorWithHexString:@"#218E02"] range:NSMakeRange(9, 6)];
-                                orderView.connectTips.attributedText = attrStr;
-                                orderView.connectTips.userInteractionEnabled = YES;
-                                weak_self.bleFlag = 1;
-                                
                             }
                             
                             
                         }
                     } error:^(NSError *error) {
-                        [orderView.confirmButton setTitle:@"点击连接" forState:UIControlStateNormal];
-                        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"网络不好？通过手机蓝牙连接还车"];
-                        [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor qmui_colorWithHexString:@"#218E02"] range:NSMakeRange(9, 6)];
-                        orderView.connectTips.attributedText = attrStr;
-                        orderView.connectTips.userInteractionEnabled = YES;
-                        weak_self.bleFlag = 1;
-                        //[QMUITips showError:message inView:self.view hideAfterDelay:2];
-                        [tips hideAnimated:YES];
+                        self.scheduleView.failureView.hidden = NO;
                     }];
                 });
             }else{
@@ -893,6 +885,73 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
     
     
+}
+
+- (void) shutDownAction
+{
+    YYReturnBikeRequest *request = [[YYReturnBikeRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kReturnBikeAPI];
+    request.rsid =self.rsid;
+    request.lng = self.mapView.userLocation.coordinate.longitude;
+    request.lat = self.mapView.userLocation.coordinate.latitude;
+    request.cid = self.orderInfoView.cid;
+    if (self.orderInfoView.error > 0) {
+        request.error = self.orderInfoView.error;
+    }
+    request.ble = self.bleFlag;
+    WEAK_REF(self);
+    
+    if (!self.scheduleView) {
+        YYReturnScheduleView *scheduleView = [[YYReturnScheduleView alloc] init];
+        scheduleView.delegate = self;
+        self.scheduleView = scheduleView;
+    }
+    if (self.bleFlag == 0 && self.modalPrentViewController.contentView != self.scheduleView) {
+        QMUIModalPresentationViewController *modalController = [[QMUIModalPresentationViewController alloc] init];
+        self.modalPrentViewController = modalController;
+        self.modalPrentViewController.contentView = self.scheduleView;
+        [self.modalPrentViewController showWithAnimated:YES completion:nil];
+        
+    }
+    
+    
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        
+        if (success) {
+            [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+            weak_self.resultModel = [YYReturnResultModel modelWithDictionary:response];
+            QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+            QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+            contentView.minimumSize = CGSizeMake(200, 100);
+            [tips showSucceed:@"还车成功" hideAfterDelay:2];
+            [YYFileCacheManager removeUserDataForkey:KBLEIDKey];
+            [YYFileCacheManager saveUserData:@"0" forKey:kBikeStateKey];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kReturnSuccessNotification object:nil];
+            [weak_self.navigationController popToRootViewControllerAnimated:YES];
+        }else{
+            
+            if ([message isEqualToString:@"车辆不在站点, 请到指定站点还车"]) {
+                if (self.models.count > 0) {
+                    //1.将两个经纬度点转成投影点
+                    MAMapPoint point1 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.models[weak_self.selectedId].latitude,weak_self.models[weak_self.selectedId].longitude));
+                    MAMapPoint point2 = MAMapPointForCoordinate(CLLocationCoordinate2DMake(weak_self.mapView.userLocation.coordinate.latitude,weak_self.mapView.userLocation.coordinate.longitude));
+                    //2.计算距离
+                    CLLocationDistance distance = MAMetersBetweenMapPoints(point1,point2);
+                    self.tipsView.distanceLabel.text = [NSString stringWithFormat:@"%.0f",distance];
+                    self.tipsView.addressLabel.text = [NSString stringWithFormat:@"您还未到还车点 %@ 无法还车",weak_self.models[weak_self.selectedId].name] ;;
+                    self.tipsView.hidden = NO;
+                }
+            }else{
+                self.scheduleView.failureView.hidden = NO;
+                [QMUITips showError:message inView:self.view hideAfterDelay:2];
+            }
+            
+            
+        }
+    } error:^(NSError *error) {
+        self.scheduleView.failureView.hidden = NO;
+    }];
+
 }
 
 - (void) showWarmView
@@ -1051,6 +1110,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 request.lng = self.mapView.userLocation.coordinate.longitude;
                 request.lat = self.mapView.userLocation.coordinate.latitude;
                 request.img = response;
+                request.rsid = self.rsid;
                 WEAK_REF(self);
                 [QMUITips showLoadingInView:self.view];
                 [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
@@ -1102,6 +1162,37 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(void)YYReturnScheduleView:(YYReturnScheduleView *)scheduleView didClickBluetoothButton:(UIButton *)button
+{
+    [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+    [self.orderInfoView.confirmButton setTitle:@"点击连接" forState:UIControlStateNormal];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"网络不好？通过手机蓝牙连接还车"];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor qmui_colorWithHexString:@"#218E02"] range:NSMakeRange(9, 6)];
+    self.orderInfoView.connectTips.attributedText = attrStr;
+    self.orderInfoView.connectTips.userInteractionEnabled = YES;
+    self.bleFlag = 1;
+}
+
+-(void)YYReturnScheduleView:(YYReturnScheduleView *)scheduleView didClickRetryButton:(UIButton *)button
+{
+    //[QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+    scheduleView.failureView.hidden = YES;
+    [scheduleView reset];
+    [self orderInfoView:self.orderInfoView didClickOKButton:nil];
+    //[self returnButtonClick:nil];
+}
+
+- (IBAction)telAction:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"0596-2671066" message:[NSString stringWithFormat:@"%@",@""] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"呼叫" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",@"0596-2671066"]]];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 
 @end

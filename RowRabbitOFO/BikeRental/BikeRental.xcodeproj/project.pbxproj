@@ -331,6 +331,10 @@
 		0BF505E01EC98A40003F24E2 /* YYFreightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505DF1EC98A40003F24E2 /* YYFreightViewController.m */; };
 		0BF505E31EC98A56003F24E2 /* YYAboutUSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */; };
 		0BF505E61EC98A63003F24E2 /* YYFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */; };
+		0BF5EF3F21B4F92E00E5F742 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5EF3B21B4F92E00E5F742 /* DALabeledCircularProgressView.m */; };
+		0BF5EF4021B4F92E00E5F742 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5EF3C21B4F92E00E5F742 /* DACircularProgressView.m */; };
+		0BF5EF4321B4F97B00E5F742 /* YYReturnScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF5EF4221B4F97B00E5F742 /* YYReturnScheduleView.m */; };
+		0BF5EF4521B4F99100E5F742 /* YYReturnScheduleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BF5EF4421B4F99100E5F742 /* YYReturnScheduleView.xib */; };
 		0BFD5B1621A8F08B00754130 /* EnvelopeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BFD5B1521A8F08B00754130 /* EnvelopeView.m */; };
 		0BFD5B1821A8F09800754130 /* EnvelopeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFD5B1721A8F09800754130 /* EnvelopeView.xib */; };
 		7B685DE0D3D9092CF456850C /* Pods_BikeRental.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B26A69AD0DF36855E000A3 /* Pods_BikeRental.framework */; };
@@ -945,6 +949,13 @@
 		0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYAboutUSViewController.m; sourceTree = "<group>"; };
 		0BF505E41EC98A63003F24E2 /* YYFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFeedBackViewController.h; sourceTree = "<group>"; };
 		0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFeedBackViewController.m; sourceTree = "<group>"; };
+		0BF5EF3B21B4F92E00E5F742 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		0BF5EF3C21B4F92E00E5F742 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		0BF5EF3D21B4F92E00E5F742 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		0BF5EF3E21B4F92E00E5F742 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		0BF5EF4121B4F97B00E5F742 /* YYReturnScheduleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYReturnScheduleView.h; sourceTree = "<group>"; };
+		0BF5EF4221B4F97B00E5F742 /* YYReturnScheduleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYReturnScheduleView.m; sourceTree = "<group>"; };
+		0BF5EF4421B4F99100E5F742 /* YYReturnScheduleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYReturnScheduleView.xib; sourceTree = "<group>"; };
 		0BFD5B1421A8F08B00754130 /* EnvelopeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnvelopeView.h; sourceTree = "<group>"; };
 		0BFD5B1521A8F08B00754130 /* EnvelopeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnvelopeView.m; sourceTree = "<group>"; };
 		0BFD5B1721A8F09800754130 /* EnvelopeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EnvelopeView.xib; sourceTree = "<group>"; };
@@ -1236,6 +1247,7 @@
 		0B4137D01ECFCE480086D569 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				0BF5EF3A21B4F92E00E5F742 /* DACircularProgress */,
 				0BD51DFF21A78AEB00791537 /* HMSegmentedControl */,
 				0B3232BD1FB29EFC00D3F951 /* XHLaunchAd */,
 				0B4B3FF21EFB920C004E1638 /* XWImagePicker */,
@@ -1847,6 +1859,9 @@
 				0B9C7D5A21AE225D00DBD19E /* YYBikeInfoView.xib */,
 				0B496BFB21AF7F5A00380C73 /* YYInfomationViewCell.h */,
 				0B496BFC21AF7F5A00380C73 /* YYInfomationViewCell.m */,
+				0BF5EF4121B4F97B00E5F742 /* YYReturnScheduleView.h */,
+				0BF5EF4221B4F97B00E5F742 /* YYReturnScheduleView.m */,
+				0BF5EF4421B4F99100E5F742 /* YYReturnScheduleView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2227,6 +2242,17 @@
 			path = Tool;
 			sourceTree = "<group>";
 		};
+		0BF5EF3A21B4F92E00E5F742 /* DACircularProgress */ = {
+			isa = PBXGroup;
+			children = (
+				0BF5EF3B21B4F92E00E5F742 /* DALabeledCircularProgressView.m */,
+				0BF5EF3C21B4F92E00E5F742 /* DACircularProgressView.m */,
+				0BF5EF3D21B4F92E00E5F742 /* DALabeledCircularProgressView.h */,
+				0BF5EF3E21B4F92E00E5F742 /* DACircularProgressView.h */,
+			);
+			path = DACircularProgress;
+			sourceTree = "<group>";
+		};
 		4A1960413DDC114EE4470884 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2391,6 +2417,7 @@
 				0B36147C1F0E068E00E4DCCA /* video1.mp4 in Resources */,
 				0BCB7CE61ED6B05F000DA476 /* restrictedshine.tiff in Resources */,
 				0B199BCE1FC7A3870010A9F5 /* 启动成功.wav in Resources */,
+				0BF5EF4521B4F99100E5F742 /* YYReturnScheduleView.xib in Resources */,
 				0B0B43511F8C588A00577331 /* YYWarmPromptView.xib in Resources */,
 				0B5B5F811EFA04AF00EA3C54 /* YYRecomendListView.xib in Resources */,
 				0B3614731F0E068E00E4DCCA /* image1.jpg in Resources */,
@@ -2515,6 +2542,7 @@
 				0B3232E61FB29EFD00D3F951 /* XHLaunchAdCache.m in Sources */,
 				0B3232E41FB29EFD00D3F951 /* XHLaunchAdImageView+XHLaunchAdCache.m in Sources */,
 				0B9CA0DB1FC5549F00E79EAD /* YYEnabledCouponViewController.m in Sources */,
+				0BF5EF4321B4F97B00E5F742 /* YYReturnScheduleView.m in Sources */,
 				0B1079F61ECC38F5003A0914 /* YYPayDepositViewController.m in Sources */,
 				0B6728281EC6993F00056F01 /* NSDictionary+Addition.m in Sources */,
 				0B620B2121AE5A310094E529 /* YYAppointmentRequest.m in Sources */,
@@ -2627,6 +2655,7 @@
 				0BCB7CFB1ED6B05F000DA476 /* XWFilterTransitionView.m in Sources */,
 				0B7C11F71EF3B0AB00F99E1F /* YYTips2View.m in Sources */,
 				0B4B40241EFB920C004E1638 /* JJPhoto.m in Sources */,
+				0BF5EF3F21B4F92E00E5F742 /* DALabeledCircularProgressView.m in Sources */,
 				0B3E61A91ED81B32008B28B6 /* MANaviAnnotation.m in Sources */,
 				0B6728251EC6993F00056F01 /* NSData+Base64.m in Sources */,
 				0BCB7CF31ED6B05F000DA476 /* XWFilterAnimator+XWCopyMachine.m in Sources */,
@@ -2634,6 +2663,7 @@
 				0B67282A1EC6993F00056F01 /* NSDictionary+JSON.m in Sources */,
 				0B3F37F41F21CCCA005FDCBB /* YYActListViewController.m in Sources */,
 				0B3654711FCD2C4F008FC7AC /* YYScoreIntroViewController.m in Sources */,
+				0BF5EF4021B4F92E00E5F742 /* DACircularProgressView.m in Sources */,
 				0B0B434F1F8C587900577331 /* YYWarmPromptView.m in Sources */,
 				0B67283F1EC6993F00056F01 /* UIImage+YYExtension.m in Sources */,
 				0BA814881ED909AC00570BA3 /* YYDriveHisViewController.m in Sources */,

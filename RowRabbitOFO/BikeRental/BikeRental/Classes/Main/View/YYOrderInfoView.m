@@ -108,12 +108,12 @@
     self.cid = resultModel.cid;
     if (resultModel.reds || resultModel.red) {
         self.discountView.hidden = NO;
-        if (self.resultModel.red) {
-            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redBike];
-        }
-        if (self.resultModel.reds) {
-            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redSite];
-        }
+//        if (self.resultModel.red) {
+//            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redBike];
+//        }
+//        if (self.resultModel.reds) {
+//            self.discountLabel.text = [NSString stringWithFormat:@"付款成功后可获得红包%@元",resultModel.redSite];
+//        }
     }else{
         self.discountView.hidden = YES;
     }

@@ -132,7 +132,7 @@
 
 - (void) shutdown
 {
-    NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"02"];
+    NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"08"];
     sendStr = [self getStrByData:sendStr];
     sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
     [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
@@ -477,6 +477,8 @@
             //[self.bluetoothButton setTitle:@" 已连接" forState:UIControlStateNormal];
             self.bluetoothButton.selected = YES;
             [NSNotificationCenter postNotification:@"connectSuccess"];
+        }else if ([hexStr hasPrefix:@"06b1"] /*命令返回*/){
+            [NSNotificationCenter postNotification:@"shutdownSuccess"];
         }
     }
     
