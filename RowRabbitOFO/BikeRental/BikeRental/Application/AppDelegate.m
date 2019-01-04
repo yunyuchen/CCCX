@@ -18,6 +18,7 @@
 #import "CALayer+Transition.h"
 #import "WXApiManager.h"
 #import "YYBaseRequest.h"
+#import "YYClientInfoRequest.h"
 #import "QMUIConfigurationTemplate.h"
 #import <UMSocialCore/UMSocialCore.h>
 #import <Bugly/Bugly.h>
@@ -53,6 +54,8 @@
         
     }];
     
+    [self uploadDeviceInfo];
+    
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     
@@ -61,6 +64,18 @@
     return YES;
 }
 
+
+- (void) uploadDeviceInfo
+{
+    YYClientInfoRequest *request = [YYClientInfoRequest nh_requestWithUrl:[NSString stringWithFormat:@"%@%@",kBaseURL,kClientInfoAPI]];
+    request.model = UIDevice.currentDevice.model;
+    request.osver = [NSString stringWithFormat:@"%@ %@", UIDevice.currentDevice.systemName,UIDevice.currentDevice.systemVersion];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    request.appver = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        
+    }];
+}
 
 //设置全局的键盘监控
 -(void) configKeyboardManager

@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet BEMCheckBox *aliCheckBox;
 
 @property (nonatomic,strong) BEMCheckBox *currentCheckBox;
+@property (weak, nonatomic) IBOutlet UILabel *tips1Label;
 
 @end
 
@@ -55,7 +56,7 @@
     
     [NSNotificationCenter addObserver:self action:@selector(wechatPaySuccessAction:) name:kWeChatPayNotifacation];
 
-    self.tipsLabel.text = [NSString stringWithFormat:@"您的芝麻信用分低于%@，为确保合规用车，需缴纳押金，可在1~3个工作日内退还",[YYFileCacheManager readUserDataForKey:@"config"][@"zmscore"]];
+    //self.tipsLabel.text = [NSString stringWithFormat:@"您的芝麻信用分低于%@，为确保合规用车，需缴纳押金，可在1~3个工作日内退还",[YYFileCacheManager readUserDataForKey:@"config"][@"zmscore"]];
     
     [WXApi registerApp:@"wx535feea77188fcab"];
 }
@@ -84,6 +85,13 @@
     [self.currentCheckBox setOn:NO animated:NO];
     [sender setOn:YES animated:YES];
     self.currentCheckBox = sender;
+    if (self.currentCheckBox == self.wechatCheckBox) {
+        self.tipsLabel.text = @"为确保合规用车，需缴纳押金，微信支付可随时退回付款账号";
+        self.tips1Label.text = @"（即时退款）";
+    }else{
+        self.tipsLabel.text = @"为确保合规用车，需缴纳押金，支付宝支付3~7个工作日可退回付款账号";
+         self.tips1Label.text = @"（3-7个工作日退还）";
+    }
 }
 
 -(void) paySuccessAction:(NSNotification *)noti
@@ -277,25 +285,63 @@
 }
 
 - (IBAction)chargeButtonClick:(id)sender {
-    YYPayDepositRequest *request = [[YYPayDepositRequest alloc] init];
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayDepositAPI];
-    __weak __typeof(self)weakSelf = self;
     if (self.currentCheckBox == self.aliCheckBox) {
-        request.ptype = 0;
-        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-            if (success) {
-                NSString *appScheme = @"chengchePay";
-                NSString *orderString = [NSString stringWithFormat:@"%@",response];
-                [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-                    NSLog(@"reslut = %@",resultDic);
-                }];
-            }else{
-                [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
-            }
-        } error:^(NSError *error) {
-            
+        QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"支付宝" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+            YYPayDepositRequest *request = [[YYPayDepositRequest alloc] init];
+            request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayDepositAPI];
+            __weak __typeof(self)weakSelf = self;
+            request.ptype = 0;
+            [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+                if (success) {
+                    NSString *appScheme = @"chengchePay";
+                    NSString *orderString = [NSString stringWithFormat:@"%@",response];
+                    [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+                        NSLog(@"reslut = %@",resultDic);
+                    }];
+                }else{
+                    [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+                }
+            } error:^(NSError *error) {
+                
+            }];
         }];
+        QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"微信" style:QMUIAlertActionStyleDefault handler:^(QMUIAlertAction *action) {
+            YYPayDepositRequest *request = [[YYPayDepositRequest alloc] init];
+            request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayDepositAPI];
+            __weak __typeof(self)weakSelf = self;
+            request.ptype = 1;
+            [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+                if (success) {
+                    PayReq* req  = [[PayReq alloc] init];
+                    req.partnerId  = response[@"partnerid"];
+                    req.prepayId            = response[@"prepayid"];
+                    req.nonceStr            = response[@"noncestr"];
+                    req.timeStamp           = [response[@"timestamp"] intValue];
+                    req.package             = response[@"package"];
+                    req.sign                = response[@"sign"];
+                    [WXApi sendReq:req];
+                }else{
+                    [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+                }
+            } error:^(NSError *error) {
+                
+            }];
+        }];
+        NSMutableAttributedString * mAttribute = [[NSMutableAttributedString alloc] initWithString:@"支付宝支付押金需3~7个工作日退还，微信支付押金可即时退，您确定要使用支付宝支付吗？"];
+        [mAttribute addAttribute:NSForegroundColorAttributeName
+                           value:[UIColor redColor]
+                           range:NSMakeRange(8, 7)];
+        [mAttribute addAttribute:NSForegroundColorAttributeName
+                           value:[UIColor redColor]
+                           range:NSMakeRange(25, 3)];
+        QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"温馨提示" message:mAttribute.string preferredStyle:QMUIAlertControllerStyleAlert];
+        [alertController addAction:action2];
+        [alertController addAction:action1];
+        [alertController showWithAnimated:YES];
     }else{
+        YYPayDepositRequest *request = [[YYPayDepositRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreatePayDepositAPI];
+        __weak __typeof(self)weakSelf = self;
         request.ptype = 1;
         [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
             if (success) {
@@ -316,17 +362,5 @@
     }
 }
 
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

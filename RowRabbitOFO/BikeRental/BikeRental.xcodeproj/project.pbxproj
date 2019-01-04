@@ -165,6 +165,7 @@
 		0B4ED78E1EEFC09100A78F9F /* YYPCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B4ED78D1EEFC09100A78F9F /* YYPCenterViewController.m */; };
 		0B5188091EF0FA1100061C06 /* YYControlBikeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5188081EF0FA1100061C06 /* YYControlBikeViewController.m */; };
 		0B51880A1EF1009100061C06 /* DINCond-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B33E6901EF0C4F600CE4E9C /* DINCond-Regular.otf */; };
+		0B5AB3B921D5AD5E00AF9B42 /* YYClientInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5AB3B821D5AD5E00AF9B42 /* YYClientInfoRequest.m */; };
 		0B5B5F7F1EFA04A000EA3C54 /* YYRecomendListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B5F7E1EFA04A000EA3C54 /* YYRecomendListView.m */; };
 		0B5B5F811EFA04AF00EA3C54 /* YYRecomendListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B5B5F801EFA04AF00EA3C54 /* YYRecomendListView.xib */; };
 		0B5B5F851EFA3E6A00EA3C54 /* YYRecommendViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B5B5F831EFA3E6A00EA3C54 /* YYRecommendViewCell.m */; };
@@ -639,6 +640,8 @@
 		0B4ED78D1EEFC09100A78F9F /* YYPCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPCenterViewController.m; sourceTree = "<group>"; };
 		0B5188071EF0FA1100061C06 /* YYControlBikeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYControlBikeViewController.h; sourceTree = "<group>"; };
 		0B5188081EF0FA1100061C06 /* YYControlBikeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYControlBikeViewController.m; sourceTree = "<group>"; };
+		0B5AB3B721D5AD5D00AF9B42 /* YYClientInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYClientInfoRequest.h; sourceTree = "<group>"; };
+		0B5AB3B821D5AD5E00AF9B42 /* YYClientInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYClientInfoRequest.m; sourceTree = "<group>"; };
 		0B5B5F7D1EFA04A000EA3C54 /* YYRecomendListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYRecomendListView.h; sourceTree = "<group>"; };
 		0B5B5F7E1EFA04A000EA3C54 /* YYRecomendListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYRecomendListView.m; sourceTree = "<group>"; };
 		0B5B5F801EFA04AF00EA3C54 /* YYRecomendListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYRecomendListView.xib; sourceTree = "<group>"; };
@@ -1015,6 +1018,8 @@
 		0B04F4481ED27A3B0038FCDD /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				0B5AB3B721D5AD5D00AF9B42 /* YYClientInfoRequest.h */,
+				0B5AB3B821D5AD5E00AF9B42 /* YYClientInfoRequest.m */,
 				0B04F4491ED27A4E0038FCDD /* YYAroundSiteRequest.h */,
 				0B04F44A1ED27A4E0038FCDD /* YYAroundSiteRequest.m */,
 				0BE8CAC01ED2DA79008DBF2C /* YYGetBikeRequest.h */,
@@ -2615,6 +2620,7 @@
 				0BF0549F1F1C5DEA00638074 /* YYActivityViewController.m in Sources */,
 				0B4B402F1EFB920C004E1638 /* SDLoopProgressView.m in Sources */,
 				0B3614641F0E036500E4DCCA /* MBProgressHUD.m in Sources */,
+				0B5AB3B921D5AD5E00AF9B42 /* YYClientInfoRequest.m in Sources */,
 				0BE8CAC21ED2DA79008DBF2C /* YYGetBikeRequest.m in Sources */,
 				0BBC54851FD7B98F001F6133 /* YYFeedCfgModel.m in Sources */,
 				0B4B3FE81EFB9178004E1638 /* YYPublishBaseViewController.m in Sources */,

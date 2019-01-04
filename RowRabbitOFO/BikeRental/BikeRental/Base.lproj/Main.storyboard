@@ -1779,13 +1779,13 @@
                                             <action selector="chargeButtonClick:" destination="ev5-U2-0ko" eventType="touchUpInside" id="rNM-Lq-nWb"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您的芝麻信用分低于650，为确保合规用车，需缴纳押金，可在1~3个工作日内退还" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gi6-T7-V5a">
-                                        <rect key="frame" x="20" y="43" width="240" height="29"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="240" id="Ctw-Xi-MaK"/>
-                                        </constraints>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gi6-T7-V5a">
+                                        <rect key="frame" x="20" y="51" width="335" height="43"/>
+                                        <string key="text">为确保合规用车，需缴纳押金，微信支付可随时退回付款账号
+
+</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="0.97254901960784312" green="0.32156862745098036" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-pn-Rh1">
@@ -1804,14 +1804,14 @@
                                                 <rect key="frame" x="23" y="125" width="30" height="30"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KXr-rP-FbW">
-                                                <rect key="frame" x="80" y="64" width="61.5" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                                <rect key="frame" x="80" y="58" width="49.5" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支付宝支付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VV7-ec-mUt">
-                                                <rect key="frame" x="80" y="131" width="76.5" height="18"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <rect key="frame" x="80" y="125" width="62" height="15"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -1862,24 +1862,66 @@
                                                     <action selector="selectButtonClick:" destination="ev5-U2-0ko" eventType="valueChanged" id="4QV-Ck-0Fw"/>
                                                 </connections>
                                             </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o6V-5m-N29">
+                                                <rect key="frame" x="80" y="76.5" width="159.5" height="12"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="使用微信充值，押金可">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <font key="NSFont" size="12" name=".PingFangSC-Regular"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="随时退">
+                                                        <attributes>
+                                                            <color key="NSColor" red="1" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <font key="NSFont" size="12" name=".PingFangSC-Regular"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYC-2i-hzn">
+                                                <rect key="frame" x="81" y="144" width="212" height="17"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="使用支付宝充值，押金">
+                                                        <attributes>
+                                                            <color key="NSColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" size="12" name="PingFangSC-Regular"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                    <fragment content="3~7个工作日退还">
+                                                        <attributes>
+                                                            <color key="NSColor" red="1" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <font key="NSFont" size="12" name="PingFangSC-Regular"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="VV7-ec-mUt" firstAttribute="top" secondItem="pfO-sj-UfW" secondAttribute="top" id="0ti-9B-ew9"/>
                                             <constraint firstItem="rWz-iV-cZc" firstAttribute="leading" secondItem="Cac-pn-Rh1" secondAttribute="leading" constant="23" id="1Hv-eQ-OBO"/>
                                             <constraint firstItem="uJJ-rR-7Ok" firstAttribute="top" secondItem="Cac-pn-Rh1" secondAttribute="top" constant="16" id="6S0-ny-gRL"/>
                                             <constraint firstAttribute="height" constant="176" id="FKz-Ck-fct"/>
                                             <constraint firstAttribute="trailing" secondItem="ixA-YU-LbL" secondAttribute="trailing" constant="20" id="GIh-Tl-1rH"/>
-                                            <constraint firstItem="KXr-rP-FbW" firstAttribute="centerY" secondItem="rWz-iV-cZc" secondAttribute="centerY" id="LAm-gk-AAS"/>
-                                            <constraint firstItem="KXr-rP-FbW" firstAttribute="leading" secondItem="rWz-iV-cZc" secondAttribute="trailing" constant="27" id="NAZ-Rq-32p"/>
-                                            <constraint firstItem="VV7-ec-mUt" firstAttribute="centerY" secondItem="pfO-sj-UfW" secondAttribute="centerY" id="Oai-ap-KlW"/>
+                                            <constraint firstItem="o6V-5m-N29" firstAttribute="top" secondItem="KXr-rP-FbW" secondAttribute="bottom" constant="4" id="TGj-Hk-M9m"/>
                                             <constraint firstItem="pfO-sj-UfW" firstAttribute="leading" secondItem="rWz-iV-cZc" secondAttribute="leading" id="UyD-7X-wYe"/>
-                                            <constraint firstItem="Rt4-3b-5Qo" firstAttribute="centerY" secondItem="KXr-rP-FbW" secondAttribute="centerY" id="ccJ-fl-kl6"/>
+                                            <constraint firstItem="KXr-rP-FbW" firstAttribute="leading" secondItem="rWz-iV-cZc" secondAttribute="trailing" constant="27" id="X3h-qw-cBy"/>
+                                            <constraint firstItem="Rt4-3b-5Qo" firstAttribute="centerY" secondItem="rWz-iV-cZc" secondAttribute="centerY" id="bZW-7P-I4q"/>
                                             <constraint firstItem="rWz-iV-cZc" firstAttribute="top" secondItem="uJJ-rR-7Ok" secondAttribute="bottom" constant="21" id="cwW-Ew-JDg"/>
+                                            <constraint firstItem="PYC-2i-hzn" firstAttribute="top" secondItem="VV7-ec-mUt" secondAttribute="bottom" constant="4" id="jr4-37-Zi8"/>
                                             <constraint firstItem="pfO-sj-UfW" firstAttribute="top" secondItem="rWz-iV-cZc" secondAttribute="bottom" constant="37" id="lU9-vo-AdN"/>
                                             <constraint firstAttribute="trailing" secondItem="Rt4-3b-5Qo" secondAttribute="trailing" constant="20" id="n67-Dq-KpF"/>
-                                            <constraint firstItem="ixA-YU-LbL" firstAttribute="centerY" secondItem="VV7-ec-mUt" secondAttribute="centerY" id="rGF-1i-mSE"/>
+                                            <constraint firstItem="KXr-rP-FbW" firstAttribute="top" secondItem="rWz-iV-cZc" secondAttribute="top" id="nhm-8q-euk"/>
+                                            <constraint firstItem="o6V-5m-N29" firstAttribute="leading" secondItem="KXr-rP-FbW" secondAttribute="leading" id="o4f-XS-SsC"/>
+                                            <constraint firstItem="PYC-2i-hzn" firstAttribute="leading" secondItem="VV7-ec-mUt" secondAttribute="leading" id="rSD-aQ-dRz"/>
+                                            <constraint firstItem="ixA-YU-LbL" firstAttribute="centerY" secondItem="pfO-sj-UfW" secondAttribute="centerY" id="s3Z-Pg-Spx"/>
                                             <constraint firstItem="uJJ-rR-7Ok" firstAttribute="leading" secondItem="Cac-pn-Rh1" secondAttribute="leading" constant="15" id="v0A-Y1-Tnf"/>
-                                            <constraint firstItem="VV7-ec-mUt" firstAttribute="leading" secondItem="KXr-rP-FbW" secondAttribute="leading" id="yZh-C3-dhX"/>
+                                            <constraint firstItem="VV7-ec-mUt" firstAttribute="leading" secondItem="KXr-rP-FbW" secondAttribute="leading" id="vib-In-G6S"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Wj-LJ-x8L">
@@ -1913,10 +1955,10 @@
                                             <segue destination="wz7-br-WWR" kind="show" id="yxY-fp-NLp"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（1~3个工作日内退还）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sx-Vn-4dn">
-                                        <rect key="frame" x="97" y="27" width="121" height="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（即时退款）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Sx-Vn-4dn">
+                                        <rect key="frame" x="97" y="27" width="67.5" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="1" green="0.098039215686274508" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1945,7 +1987,8 @@
                                     <constraint firstItem="3Wj-LJ-x8L" firstAttribute="leading" secondItem="5yv-zs-Vkn" secondAttribute="leading" constant="20" id="psb-WQ-4oL"/>
                                     <constraint firstItem="7Sx-Vn-4dn" firstAttribute="leading" secondItem="ilO-Cn-RCo" secondAttribute="trailing" constant="3" id="qre-CD-dd4"/>
                                     <constraint firstItem="3Wj-LJ-x8L" firstAttribute="top" secondItem="Cac-pn-Rh1" secondAttribute="bottom" id="sur-2Y-U69"/>
-                                    <constraint firstItem="gi6-T7-V5a" firstAttribute="top" secondItem="ilO-Cn-RCo" secondAttribute="bottom" constant="2" id="tBs-8M-UQE"/>
+                                    <constraint firstItem="gi6-T7-V5a" firstAttribute="top" secondItem="ilO-Cn-RCo" secondAttribute="bottom" constant="10" id="tBs-8M-UQE"/>
+                                    <constraint firstItem="gi6-T7-V5a" firstAttribute="trailing" secondItem="KwD-TG-hNK" secondAttribute="trailing" id="uXc-FV-p5R"/>
                                     <constraint firstAttribute="trailing" secondItem="Cac-pn-Rh1" secondAttribute="trailing" id="xZV-J9-m7P"/>
                                 </constraints>
                             </view>
@@ -1966,6 +2009,7 @@
                         <outlet property="accountLabel" destination="77P-c1-WFC" id="YmO-iT-CxR"/>
                         <outlet property="aliCheckBox" destination="ixA-YU-LbL" id="LsJ-a9-zTa"/>
                         <outlet property="despiteLabel" destination="KwD-TG-hNK" id="Zjg-D0-jCy"/>
+                        <outlet property="tips1Label" destination="7Sx-Vn-4dn" id="FR1-Il-WUl"/>
                         <outlet property="tipsLabel" destination="gi6-T7-V5a" id="MEo-za-Qgu"/>
                         <outlet property="topView" destination="fHH-KR-o7u" id="iVh-y6-ePJ"/>
                         <outlet property="wechatCheckBox" destination="Rt4-3b-5Qo" id="JjF-NU-P4u"/>
@@ -2253,7 +2297,7 @@
                                                             <constraint firstAttribute="height" constant="1" id="azH-tu-7mO"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请认真填写以上个人信息，并同意橙车出行检查您的芝麻分等信用信息,方便后面给你提供安全的服务。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lBr-af-yfY">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请认真填写以上个人信息，并同意橙车出行检查您的实名信息,方便后面给你提供安全的服务。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lBr-af-yfY">
                                                         <rect key="frame" x="18" y="146.5" width="337" height="29"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" red="0.97254901960784312" green="0.32156862745098036" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -2320,7 +2364,7 @@
                                             <constraint firstAttribute="height" constant="100" id="CeG-5X-ziX"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <state key="normal" title="芝麻信用认证" image="芝麻信用认证" backgroundImage="虚线框">
+                                        <state key="normal" title="实名认证" image="芝麻信用认证" backgroundImage="虚线框">
                                             <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
                                         </state>
                                         <state key="selected" backgroundImage="实线框"/>
@@ -5637,7 +5681,7 @@
         <segue reference="GHM-ge-9wl"/>
         <segue reference="tRa-9u-Wyj"/>
         <segue reference="yxY-fp-NLp"/>
-        <segue reference="MZK-oM-UBX"/>
+        <segue reference="TUD-Pn-H4z"/>
         <segue reference="eTF-CB-olb"/>
     </inferredMetricsTieBreakers>
 </document>

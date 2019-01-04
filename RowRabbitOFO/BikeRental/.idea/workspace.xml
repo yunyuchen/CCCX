@@ -2,73 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0972feb6-835f-49f8-a663-46968d11f685" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/站点.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/站点.imageset/站点@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/站点.imageset/站点@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包-1.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包-1.imageset/红包@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包-1.imageset/红包@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包.imageset/红包@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包.imageset/红包@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包站点.imageset/红包站点@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包站点.imageset/红包站点@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包车.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包车.imageset/红包车@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包车.imageset/红包车@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/车辆(不可用).imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/车辆(不可用).imageset/车辆（不可用）@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/车辆(不可用).imageset/车辆（不可用）@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/通知 .imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/通知 .imageset/通知 @2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/通知 .imageset/通知 @3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYInformViewController.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYInformViewController.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Model/YYBikeModel.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Model/YYBikeModel.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Model/YYFeedbackModel.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Model/YYFeedbackModel.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Request/YYArroundAreaRequest.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Request/YYArroundAreaRequest.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/EnvelopeView.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/EnvelopeView.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/EnvelopeView.xib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYFeedbackViewCell.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYFeedbackViewCell.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYSiteInfoView.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYSiteInfoView.m" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYSiteInfoView.xib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Libs/HMSegmentedControl/HMSegmentedControl.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BikeRental/Libs/HMSegmentedControl/HMSegmentedControl.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/LaunchImage.launchimage/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/LaunchImage.launchimage/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/无车站点08.imageset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/红包站点.imageset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/无车站点08.imageset/无车站点08@2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/ Assets.xcassets/无车站点08.imageset/无车站点08@3x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Base.lproj/Main.storyboard" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYControlBikeViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYControlBikeViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYNaviViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYNaviViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYPayDepositViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYPayDepositViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYSiteView.xib" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Main/View/YYSiteView.xib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/MemberCard/Controller/YYBuyMemberCardViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/MemberCard/Controller/YYBuyMemberCardViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Scan/Controller/YYInputCodeViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Scan/Controller/YYInputCodeViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Scan/Controller/YYScanViewController.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Scan/Controller/YYScanViewController.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Classes/Scan/Model/YYScanResult.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Classes/Scan/Model/YYScanResult.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/KKPopTooltip.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/KKPopTooltip.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/KKPopTooltip.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/KKPopTooltip.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/NSString+Category.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/NSString+Category.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/NSString+Category.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/NSString+Category.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/UIColor+Additions.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/UIColor+Additions.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/UIColor+Additions.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/UIColor+Additions.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/UIView+Size.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/UIView+Size.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Libs/KKPopTooltip/Tool/UIView+Size.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Libs/XHLaunchAd/KKPopTooltip/Tool/UIView+Size.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Others/YYCommonConstant.h" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Others/YYCommonConstant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BikeRental/Others/YYCommonConstant.m" beforeDir="false" afterPath="$PROJECT_DIR$/BikeRental/Others/YYCommonConstant.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/xcode.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xcode.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,23 +12,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_5ab7ecc418e0e621d2b0cea7f81dc83142c7bb3b" />
-  <component name="FUSProjectUsageTrigger">
-    <session id="-443623951">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="1" />
-          <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="1" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.appcode.build">
-        <counts>
-          <entry key="buildservice" value="2" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_" />
   <component name="FavoritesManager">
     <favorites_list name="BikeRental" />
   </component>
@@ -107,7 +27,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYMapFindViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
+            <state>
               <caret line="75" column="54" selection-start-line="75" selection-start-column="54" selection-end-line="75" selection-end-column="54" />
             </state>
           </provider>
@@ -115,15 +35,13 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BikeRental/Application/AppDelegate.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8" />
-          </provider>
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BikeRental/Application/AppDelegate.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
+            <state>
               <caret line="29" selection-start-line="29" selection-end-line="29" />
             </state>
           </provider>
@@ -132,8 +50,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYNaviViewController.m">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="206" column="60" selection-start-line="206" selection-start-column="60" selection-end-line="206" selection-end-column="60" />
+            <state relative-caret-position="411">
+              <caret line="65" selection-start-line="65" selection-end-line="65" />
             </state>
           </provider>
         </entry>
@@ -157,15 +75,9 @@
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="1440" />
-    <option name="y" value="-517" />
+    <option name="y" value="23" />
     <option name="width" value="2560" />
     <option name="height" value="1417" />
   </component>
@@ -229,13 +141,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Cidr.FilesView" />
       <pane id="Scope" />
+      <pane id="Cidr.FilesView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -250,207 +162,232 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.BikeRental">
-    <configuration name="AFNetworking" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="AFNetworking" CONFIG_NAME="Debug" SCHEME_NAME="AFNetworking" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="AFNetworking" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="AFNetworking" CONFIG_NAME="Debug" SCHEME_NAME="AFNetworking" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BEMCheckBox" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="BEMCheckBox" CONFIG_NAME="Debug" SCHEME_NAME="BEMCheckBox" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="BEMCheckBox" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="BEMCheckBox" CONFIG_NAME="Debug" SCHEME_NAME="BEMCheckBox" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BikeRental" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BikeRental" TARGET_NAME="BikeRental" CONFIG_NAME="Debug" SCHEME_NAME="BikeRental" IS_LOCATION_SIMULATION_ALLOWED="true" RUN_TARGET_PROJECT_NAME="BikeRental" RUN_TARGET_NAME="BikeRental" MAKE_ACTIVE="TRUE">
+    <configuration name="BikeRental" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="BikeRental" TARGET_NAME="BikeRental" CONFIG_NAME="Release" SCHEME_NAME="BikeRental" IS_LOCATION_SIMULATION_ALLOWED="true" RUN_TARGET_PROJECT_NAME="BikeRental" RUN_TARGET_NAME="BikeRental" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DZNEmptyDataSet" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="DZNEmptyDataSet" CONFIG_NAME="Debug" SCHEME_NAME="DZNEmptyDataSet" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="DZNEmptyDataSet" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="DZNEmptyDataSet" CONFIG_NAME="Debug" SCHEME_NAME="DZNEmptyDataSet" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DateTools" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="DateTools" CONFIG_NAME="Debug" SCHEME_NAME="DateTools" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="DateTools" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="DateTools" CONFIG_NAME="Debug" SCHEME_NAME="DateTools" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FDFullscreenPopGesture" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="FDFullscreenPopGesture" CONFIG_NAME="Debug" SCHEME_NAME="FDFullscreenPopGesture" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="FDFullscreenPopGesture" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="FDFullscreenPopGesture" CONFIG_NAME="Debug" SCHEME_NAME="FDFullscreenPopGesture" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FMDB" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="FMDB" CONFIG_NAME="Debug" SCHEME_NAME="FMDB" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="FMDB" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="FMDB" CONFIG_NAME="Debug" SCHEME_NAME="FMDB" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IQKeyboardManager" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="IQKeyboardManager" CONFIG_NAME="Debug" SCHEME_NAME="IQKeyboardManager" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="IQKeyboardManager" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="IQKeyboardManager" CONFIG_NAME="Debug" SCHEME_NAME="IQKeyboardManager" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LBXScan" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="LBXScan" CONFIG_NAME="Debug" SCHEME_NAME="LBXScan" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="LBXScan" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="LBXScan" CONFIG_NAME="Debug" SCHEME_NAME="LBXScan" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MJExtension" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="MJExtension" CONFIG_NAME="Debug" SCHEME_NAME="MJExtension" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="MJExtension" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="MJExtension" CONFIG_NAME="Debug" SCHEME_NAME="MJExtension" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MJRefresh" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="MJRefresh" CONFIG_NAME="Debug" SCHEME_NAME="MJRefresh" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="MJRefresh" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="MJRefresh" CONFIG_NAME="Debug" SCHEME_NAME="MJRefresh" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Masonry" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="Masonry" CONFIG_NAME="Debug" SCHEME_NAME="Masonry" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="Masonry" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="Masonry" CONFIG_NAME="Debug" SCHEME_NAME="Masonry" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Pods-BikeRental" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="Pods-BikeRental" CONFIG_NAME="Debug" SCHEME_NAME="Pods-BikeRental" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="Pods-BikeRental" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="Pods-BikeRental" CONFIG_NAME="Debug" SCHEME_NAME="Pods-BikeRental" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="QMUIKit" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="QMUIKit" CONFIG_NAME="Debug" SCHEME_NAME="QMUIKit" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="QMUIKit" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="QMUIKit" CONFIG_NAME="Debug" SCHEME_NAME="QMUIKit" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SDCycleScrollView" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SDCycleScrollView" CONFIG_NAME="Debug" SCHEME_NAME="SDCycleScrollView" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="SDCycleScrollView" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SDCycleScrollView" CONFIG_NAME="Debug" SCHEME_NAME="SDCycleScrollView" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SDWebImage" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SDWebImage" CONFIG_NAME="Debug" SCHEME_NAME="SDWebImage" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="SDWebImage" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SDWebImage" CONFIG_NAME="Debug" SCHEME_NAME="SDWebImage" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SVProgressHUD" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SVProgressHUD" CONFIG_NAME="Debug" SCHEME_NAME="SVProgressHUD" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="SVProgressHUD" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="SVProgressHUD" CONFIG_NAME="Debug" SCHEME_NAME="SVProgressHUD" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TOWebViewController-TOWebViewControllerLocalizable" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TOWebViewController-TOWebViewControllerLocalizable" CONFIG_NAME="Debug" SCHEME_NAME="TOWebViewController-TOWebViewControllerLocalizable" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="TOWebViewController-TOWebViewControllerLocalizable" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TOWebViewController-TOWebViewControllerLocalizable" CONFIG_NAME="Debug" SCHEME_NAME="TOWebViewController-TOWebViewControllerLocalizable" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TOWebViewController" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TOWebViewController" CONFIG_NAME="Debug" SCHEME_NAME="TOWebViewController" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="TOWebViewController" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TOWebViewController" CONFIG_NAME="Debug" SCHEME_NAME="TOWebViewController" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TZImagePickerController" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TZImagePickerController" CONFIG_NAME="Debug" SCHEME_NAME="TZImagePickerController" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="TZImagePickerController" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="TZImagePickerController" CONFIG_NAME="Debug" SCHEME_NAME="TZImagePickerController" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UITableView+FDTemplateLayoutCell" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="UITableView+FDTemplateLayoutCell" CONFIG_NAME="Debug" SCHEME_NAME="UITableView+FDTemplateLayoutCell" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="UITableView+FDTemplateLayoutCell" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="UITableView+FDTemplateLayoutCell" CONFIG_NAME="Debug" SCHEME_NAME="UITableView+FDTemplateLayoutCell" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WZLBadge" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="WZLBadge" CONFIG_NAME="Debug" SCHEME_NAME="WZLBadge" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="WZLBadge" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="WZLBadge" CONFIG_NAME="Debug" SCHEME_NAME="WZLBadge" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WebViewJavascriptBridge" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="WebViewJavascriptBridge" CONFIG_NAME="Debug" SCHEME_NAME="WebViewJavascriptBridge" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="WebViewJavascriptBridge" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="WebViewJavascriptBridge" CONFIG_NAME="Debug" SCHEME_NAME="WebViewJavascriptBridge" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ZBarSDK" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="ZBarSDK" CONFIG_NAME="Debug" SCHEME_NAME="ZBarSDK" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="ZBarSDK" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="ZBarSDK" CONFIG_NAME="Debug" SCHEME_NAME="ZBarSDK" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="pop" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="pop" CONFIG_NAME="Debug" SCHEME_NAME="pop" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE">
+    <configuration name="pop" type="AppleRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Pods" TARGET_NAME="pop" CONFIG_NAME="Debug" SCHEME_NAME="pop" IS_LOCATION_SIMULATION_ALLOWED="true" MAKE_ACTIVE="TRUE" SHOULD_DEBUG_EXTENSIONS="false">
       <EXTENSION ID="org.jetbrains.appcode.reveal.RevealRunConfigurationExtension">
         <REVEAL_SETTINGS autoInject="false" autoInstall="true" askToEnableAutoInstall="true" />
       </EXTENSION>
+      <embedded_app_extension_list />
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+    <configuration default="true" type="js.build_tools.gulp">
       <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
@@ -502,11 +439,17 @@
       <workItem from="1500080580485" duration="158000" />
       <workItem from="1500080774203" duration="218000" />
       <workItem from="1543297473812" duration="485000" />
+      <workItem from="1545721355960" duration="693000" />
+      <workItem from="1545722080373" duration="183000" />
+      <workItem from="1545722270673" duration="60000" />
+      <workItem from="1545722350685" duration="84000" />
+      <workItem from="1545722449051" duration="18000" />
+      <workItem from="1545722483322" duration="120000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1640000" />
+    <option name="totallyTimeSpent" value="2798000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -518,14 +461,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="23" width="2560" height="1417" extended-state="6" />
+    <frame x="1440" y="23" width="2560" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17700875" />
-      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1838761" />
+      <window_info id="Structure" order="1" weight="0.24980143" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32937685" />
@@ -537,19 +479,17 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3289977" />
-      <window_info anchor="right" id="1024 Tools" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="1024 Tools" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYFeedBackViewController.h">
@@ -579,27 +519,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYMapFindViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
+        <state>
           <caret line="75" column="54" selection-start-line="75" selection-start-column="54" selection-end-line="75" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BikeRental/Application/AppDelegate.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8" />
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/BikeRental/Application/AppDelegate.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
+        <state>
           <caret line="29" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/BikeRental/Classes/Main/Controller/YYNaviViewController.m">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="206" column="60" selection-start-line="206" selection-start-column="60" selection-end-line="206" selection-end-column="60" />
+        <state relative-caret-position="411">
+          <caret line="65" selection-start-line="65" selection-end-line="65" />
         </state>
       </provider>
     </entry>

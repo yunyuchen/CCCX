@@ -662,7 +662,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+//    [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
     self.flag = 0;
     //用户登录的情况下获取用户状态
     if ([YYUserManager isHaveLogin]) {
