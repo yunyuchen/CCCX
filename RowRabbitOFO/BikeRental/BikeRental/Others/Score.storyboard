@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -66,13 +65,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的积分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fT-xK-kDP">
-                                        <rect key="frame" x="153" y="30" width="69.666666666666686" height="21"/>
+                                        <rect key="frame" x="152.66666666666666" y="30" width="69.666666666666657" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gmr-Jw-Fl1">
-                                        <rect key="frame" x="17" y="30" width="52" height="20"/>
+                                        <rect key="frame" x="17" y="30.666666666666671" width="52" height="20"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="  返回" image="back"/>
                                         <connections>
@@ -80,7 +79,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKL-Rs-hle">
-                                        <rect key="frame" x="305" y="26.666666666666671" width="58" height="29"/>
+                                        <rect key="frame" x="305" y="26" width="58" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="积分说明">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -105,25 +104,43 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dye-86-DYK">
-                                        <rect key="frame" x="155" y="13.999999999999996" width="65" height="52.666666666666657"/>
+                                        <rect key="frame" x="30" y="13.666666666666668" width="65" height="52.666666666666657"/>
                                         <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="45"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUn-PX-eo6">
-                                        <rect key="frame" x="228" y="41.666666666666671" width="14.666666666666657" height="17"/>
+                                        <rect key="frame" x="103" y="41.333333333333329" width="14.666666666666671" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dB9-LA-fFr">
+                                        <rect key="frame" x="225" y="29" width="109" height="22"/>
+                                        <state key="normal" title="    积分抽奖" image="商城"/>
+                                        <connections>
+                                            <action selector="lotteryButtonClick:" destination="NYb-45-kKA" eventType="touchUpInside" id="6Pu-qb-XEG"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Q2-9H-Nrl">
+                                        <rect key="frame" x="354" y="31.666666666666671" width="9" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="9" id="0w3-cN-hHB"/>
+                                            <constraint firstAttribute="height" constant="17" id="P3c-ZL-M2F"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.51372549020000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="dye-86-DYK" firstAttribute="centerY" secondItem="kVP-CN-GY0" secondAttribute="centerY" id="760-1e-vJm"/>
                                     <constraint firstItem="MUn-PX-eo6" firstAttribute="bottom" secondItem="dye-86-DYK" secondAttribute="bottom" constant="-8" id="99R-Hh-G9t"/>
+                                    <constraint firstItem="7Q2-9H-Nrl" firstAttribute="centerY" secondItem="dye-86-DYK" secondAttribute="centerY" id="EGK-NE-yX1"/>
                                     <constraint firstAttribute="height" constant="80" id="FTk-Xu-NaE"/>
-                                    <constraint firstItem="dye-86-DYK" firstAttribute="centerX" secondItem="kVP-CN-GY0" secondAttribute="centerX" id="O9K-tF-ygq"/>
+                                    <constraint firstItem="7Q2-9H-Nrl" firstAttribute="leading" secondItem="dB9-LA-fFr" secondAttribute="trailing" constant="20" id="QB5-BP-P4k"/>
+                                    <constraint firstAttribute="trailing" secondItem="7Q2-9H-Nrl" secondAttribute="trailing" constant="12" id="S3p-F4-GAb"/>
+                                    <constraint firstItem="dye-86-DYK" firstAttribute="leading" secondItem="kVP-CN-GY0" secondAttribute="leading" constant="30" id="XSh-Gt-O2h"/>
                                     <constraint firstItem="MUn-PX-eo6" firstAttribute="leading" secondItem="dye-86-DYK" secondAttribute="trailing" constant="8" id="e6O-uT-Oe4"/>
+                                    <constraint firstItem="dB9-LA-fFr" firstAttribute="centerY" secondItem="dye-86-DYK" secondAttribute="centerY" id="fVG-lj-F5e"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0hr-LW-2SF" customClass="QMUITableView">
@@ -150,7 +167,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLx-Vu-yIi">
-                                                    <rect key="frame" x="351" y="21" width="9" height="18"/>
+                                                    <rect key="frame" x="351" y="21.333333333333332" width="9" height="17.999999999999996"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.25098039220000001" green="0.25098039220000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -213,13 +230,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="indicatorImageView" destination="7Q2-9H-Nrl" id="ofX-Vy-a0V"/>
                         <outlet property="scoreLabel" destination="dye-86-DYK" id="37t-ms-wMJ"/>
                         <outlet property="tableView" destination="0hr-LW-2SF" id="RM0-dr-xAi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zWu-gT-aHE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-458.39999999999998" y="79.610194902548727"/>
+            <point key="canvasLocation" x="-458.39999999999998" y="79.064039408867004"/>
         </scene>
         <!--Fault Warranty Controller-->
         <scene sceneID="YkZ-T5-dzc">
@@ -271,7 +289,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="398-D6-8VT" customClass="QMUITextView">
-                                                <rect key="frame" x="8" y="389" width="359" height="80"/>
+                                                <rect key="frame" x="8" y="388.66666666666669" width="359" height="80"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="80" id="sIM-Vm-7Zh"/>
@@ -298,20 +316,20 @@
                                                 </connections>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上传图片：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k2N-Vn-wUb">
-                                                <rect key="frame" x="8" y="494" width="81.666666666666671" height="19.666666666666629"/>
+                                                <rect key="frame" x="8" y="493.66666666666663" width="81.666666666666671" height="19.666666666666629"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.25098039220000001" green="0.25098039220000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CxE-iq-WDg">
-                                                <rect key="frame" x="8" y="513.66666666666663" width="359" height="100"/>
+                                                <rect key="frame" x="8" y="513.33333333333337" width="359" height="100"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="PUu-c8-SEf"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJl-At-2Cu" customClass="QMUIFillButton">
-                                                <rect key="frame" x="8" y="643.66666666666663" width="359" height="44"/>
+                                                <rect key="frame" x="8" y="643.33333333333337" width="359" height="44"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="WWX-J5-krQ"/>
                                                 </constraints>
@@ -326,13 +344,13 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="如果还有其他问题反馈请拨打" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hJ-6U-BoD">
-                                                <rect key="frame" x="94.666666666666671" y="767.66666666666663" width="185.66666666666663" height="17"/>
+                                                <rect key="frame" x="94.666666666666671" y="767.33333333333337" width="185.66666666666663" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WxV-Yj-7Po">
-                                                <rect key="frame" x="124.66666666666669" y="788.66666666666663" width="126" height="17"/>
+                                                <rect key="frame" x="124.66666666666669" y="788.33333333333337" width="126" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="   0596-2671066" image="电话实底">
                                                     <color key="titleColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -414,7 +432,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back" width="10" height="19"/>
+        <image name="back" width="10.666666984558105" height="19.333333969116211"/>
+        <image name="商城" width="17.666666030883789" height="17"/>
         <image name="电话实底" width="15" height="15"/>
     </resources>
 </document>

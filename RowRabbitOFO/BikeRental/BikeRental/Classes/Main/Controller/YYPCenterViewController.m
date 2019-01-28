@@ -14,6 +14,7 @@
 #import "YYGuideViewController.h"
 #import "YYSettingViewController.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
+#import "CCWebViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <DateTools/DateTools.h>
 #import "YYScoreViewController.h"
@@ -35,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buyButtonWidthCons;
 
 @property(nonatomic, assign) CGFloat score;
+@property (weak, nonatomic) IBOutlet QMUIButton *lotteryButton;
 
 @end
 
@@ -44,10 +46,25 @@
     [super viewDidLoad];
     
     self.fd_prefersNavigationBarHidden = YES;
-    
+    self.lotteryButton.imagePosition = QMUIButtonImagePositionRight;
+    self.lotteryButton.spacingBetweenImageAndTitle = 10;
     [self getUserInfoRequest];
 
 }
+- (IBAction)lotteryButtonClick:(id)sender {
+    CCWebViewController *vc = [[CCWebViewController alloc] init];
+    vc.url = @"http://api.cccx.ltd/award";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)gameButtonClick:(id)sender {
+    CCWebViewController *vc = [[CCWebViewController alloc] init];
+    vc.url = @"http://api.cccx.ltd/web-mobile/index.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+
 
 -(void)viewWillAppear:(BOOL)animated
 {

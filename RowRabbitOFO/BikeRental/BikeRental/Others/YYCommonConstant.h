@@ -132,4 +132,6 @@ UIKIT_EXTERN NSString *const kFindBikeAPI1;
 
 //上报客户端信息
 UIKIT_EXTERN NSString *const kClientInfoAPI;
+
+UIKIT_EXTERN NSString *const kUseAreaAPI;
 @end

@@ -249,6 +249,7 @@
 		0BA814881ED909AC00570BA3 /* YYDriveHisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA814871ED909AC00570BA3 /* YYDriveHisViewController.m */; };
 		0BA8148B1ED90B9600570BA3 /* YYDriveHisViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA8148A1ED90B9600570BA3 /* YYDriveHisViewCell.m */; };
 		0BA8148E1ED926B800570BA3 /* YYDriveHisModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA8148D1ED926B800570BA3 /* YYDriveHisModel.m */; };
+		0BAE813121F94AAA00C25844 /* YYUserAreaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BAE813021F94AAA00C25844 /* YYUserAreaRequest.m */; };
 		0BB090CD1F05EA94007049D3 /* YYRegisterHBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB090CC1F05EA94007049D3 /* YYRegisterHBView.m */; };
 		0BB090CF1F05EAA8007049D3 /* YYRegisterHBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB090CE1F05EAA8007049D3 /* YYRegisterHBView.xib */; };
 		0BB090D21F05EEFF007049D3 /* YYShareHBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB090D11F05EEFF007049D3 /* YYShareHBView.m */; };
@@ -801,6 +802,8 @@
 		0BA8148A1ED90B9600570BA3 /* YYDriveHisViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDriveHisViewCell.m; sourceTree = "<group>"; };
 		0BA8148C1ED926B800570BA3 /* YYDriveHisModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYDriveHisModel.h; sourceTree = "<group>"; };
 		0BA8148D1ED926B800570BA3 /* YYDriveHisModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDriveHisModel.m; sourceTree = "<group>"; };
+		0BAE812F21F94AAA00C25844 /* YYUserAreaRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYUserAreaRequest.h; sourceTree = "<group>"; };
+		0BAE813021F94AAA00C25844 /* YYUserAreaRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYUserAreaRequest.m; sourceTree = "<group>"; };
 		0BB090CB1F05EA94007049D3 /* YYRegisterHBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYRegisterHBView.h; sourceTree = "<group>"; };
 		0BB090CC1F05EA94007049D3 /* YYRegisterHBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYRegisterHBView.m; sourceTree = "<group>"; };
 		0BB090CE1F05EAA8007049D3 /* YYRegisterHBView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYRegisterHBView.xib; sourceTree = "<group>"; };
@@ -1066,6 +1069,8 @@
 				0B620B2321AE62290094E529 /* YYCancelAppointmentRequest.m */,
 				0B616A3D21B270C9005C032E /* YYFindBikeRequest.h */,
 				0B616A3E21B270C9005C032E /* YYFindBikeRequest.m */,
+				0BAE812F21F94AAA00C25844 /* YYUserAreaRequest.h */,
+				0BAE813021F94AAA00C25844 /* YYUserAreaRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -2739,6 +2744,7 @@
 				0B3232DD1FB29EFD00D3F951 /* XHLaunchAdView.m in Sources */,
 				0B3614651F0E036500E4DCCA /* UIView+MBProgressHUD.m in Sources */,
 				0B67282E1EC6993F00056F01 /* NSString+Addition.m in Sources */,
+				0BAE813121F94AAA00C25844 /* YYUserAreaRequest.m in Sources */,
 				0B4B402B1EFB920C004E1638 /* MImaLibTool.m in Sources */,
 				0B2263891ECD46B2008BEEB1 /* YYFinishedViewController.m in Sources */,
 				0B67283E1EC6993F00056F01 /* UIImage+TYLaunchImage.m in Sources */,

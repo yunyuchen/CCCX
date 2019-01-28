@@ -53,6 +53,7 @@
 #import "YYBuyMemberCardViewController.h"
 #import "YYFindBikeRequest.h"
 #import "YYReturnScheduleView.h"
+#import "YYUserAreaRequest.h"
 #import <DateTools/DateTools.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
@@ -152,7 +153,11 @@
 
 @property(nonatomic, strong) YYBikeInfoView *bikeInfoView;
 
+@property(nonatomic, strong) NSArray *polygonArray;
+
 @property(nonatomic, assign) BOOL Renting;
+
+@property (nonatomic, strong) NSArray<MAPolygon *> *userPolygons;
 
 @end
 
@@ -208,14 +213,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         [self loadMyAppoinmentBikes];
     });
     
-
+   
 }
 
 - (void) segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl
 {
     if (segmentedControl.selectedSegmentIndex == 0) {
         [self getAroundSiteRequest];
-        //[self loadUserArea];
+       
         if (self.siteView) {
             POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
             animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 184)];
@@ -230,6 +235,9 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         [self getArroundAreaData];
     }
 }
+
+
+
 
 - (void) getArroundAreaData
 {
@@ -1279,9 +1287,19 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         
         return polylineRenderer;
     }
-    
+    if ([overlay isKindOfClass:[MAPolygon class]])
+    {
+        MAPolygonRenderer *polygonRenderer = [[MAPolygonRenderer alloc] initWithPolygon:overlay];
+        polygonRenderer.lineWidth   = 4.f;
+        polygonRenderer.strokeColor = [UIColor qmui_colorWithHexString:@"#FF9317"];
+        if ([self.userPolygons containsObject:overlay]) {
+            polygonRenderer.strokeColor = [UIColor blackColor];
+        }
+        polygonRenderer.fillColor   = [[UIColor qmui_colorWithHexString:@"#38b148"] qmui_colorWithAlpha:0.2 backgroundColor:[UIColor clearColor]];
+        polygonRenderer.lineCapType =  kMALineCapSquare;
+        return polygonRenderer;
+    }
     return nil;
-    
 }
 
 -(void)mapView:(MAMapView *)mapView mapDidMoveByUser:(BOOL)wasUserAction

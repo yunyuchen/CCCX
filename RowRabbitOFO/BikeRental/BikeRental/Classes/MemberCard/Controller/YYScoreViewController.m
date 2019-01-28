@@ -11,6 +11,7 @@
 #import "YYScoreViewCell.h"
 #import "YYBaseRequest.h"
 #import "YYScoreModel.h"
+#import "CCWebViewController.h"
 
 @interface YYScoreViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,6 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
+@property (weak, nonatomic) IBOutlet UIImageView *indicatorImageView;
 
 @end
 
@@ -48,8 +50,14 @@
     
     self.fd_prefersNavigationBarHidden = YES;
     self.scoreLabel.text = [NSString stringWithFormat:@"%.1f",self.score];
-    
+    self.indicatorImageView.image =[UIImage qmui_imageWithShape:QMUIImageShapeDisclosureIndicator size:CGSizeMake(9, 17) tintColor:[UIColor whiteColor]];
     [self requestMyPoint];
+}
+
+- (IBAction)lotteryButtonClick:(id)sender {
+    CCWebViewController *vc = [[CCWebViewController alloc] init];
+    vc.url = @"http://api.cccx.ltd/award";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
