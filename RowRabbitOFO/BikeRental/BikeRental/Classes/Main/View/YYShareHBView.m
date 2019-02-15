@@ -7,6 +7,8 @@
 //
 
 #import "YYShareHBView.h"
+#import "YYFileCacheManager.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import <QMUIKit/QMUIKit.h>
 #import <UMSocialCore/UMSocialCore.h>
 
@@ -23,6 +25,12 @@
         [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx535feea77188fcab" appSecret:@"3baf1193c85774b3fd9d18447d76cab0" redirectURL:@"http://mobile.umeng.com/social"];
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,[YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"]]] placeholderImage: [UIImage imageNamed:@"分享红包"]];
 }
 
 - (IBAction)shareButtonClick:(id)sender {

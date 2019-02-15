@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="377" height="451"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分享红包" translatesAutoresizingMaskIntoConstraints="NO" id="9jD-0Q-6QG">
-                    <rect key="frame" x="26.5" y="9.5" width="324" height="432"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分享红包" translatesAutoresizingMaskIntoConstraints="NO" id="9jD-0Q-6QG">
+                    <rect key="frame" x="10" y="10" width="357" height="431"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBm-tp-HOa">
-                    <rect key="frame" x="276" y="28" width="84" height="30"/>
+                    <rect key="frame" x="301" y="-20" width="84" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="84" id="A6A-7w-gxJ"/>
                     </constraints>
@@ -54,17 +54,24 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="RBm-tp-HOa" secondAttribute="trailing" constant="17" id="38J-gz-vvb"/>
+                <constraint firstAttribute="trailing" secondItem="RBm-tp-HOa" secondAttribute="trailing" constant="-8" id="38J-gz-vvb"/>
                 <constraint firstItem="4Ib-hr-xfE" firstAttribute="top" secondItem="QUU-6d-MCu" secondAttribute="bottom" constant="9" id="QCa-K2-Y9x"/>
+                <constraint firstItem="9jD-0Q-6QG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="aoD-v3-b12"/>
+                <constraint firstAttribute="bottom" secondItem="9jD-0Q-6QG" secondAttribute="bottom" constant="10" id="cge-9u-JRy"/>
                 <constraint firstItem="QUU-6d-MCu" firstAttribute="centerX" secondItem="4Ib-hr-xfE" secondAttribute="centerX" id="lJC-iY-ZVY"/>
+                <constraint firstAttribute="trailing" secondItem="9jD-0Q-6QG" secondAttribute="trailing" constant="10" id="n21-h8-J9n"/>
                 <constraint firstAttribute="bottom" secondItem="4Ib-hr-xfE" secondAttribute="bottom" constant="20" id="ot8-SA-QIX"/>
                 <constraint firstItem="4Ib-hr-xfE" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="t2V-IF-gjf"/>
                 <constraint firstItem="9jD-0Q-6QG" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="u7w-U0-bHD"/>
                 <constraint firstItem="9jD-0Q-6QG" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xZf-sK-okt"/>
-                <constraint firstItem="RBm-tp-HOa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="28" id="zLA-zg-hyw"/>
+                <constraint firstItem="RBm-tp-HOa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-20" id="zLA-zg-hyw"/>
+                <constraint firstItem="9jD-0Q-6QG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="zix-ud-K8N"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imageView" destination="9jD-0Q-6QG" id="22e-H3-7Ll"/>
+            </connections>
             <point key="canvasLocation" x="-576.5" y="-206.5"/>
         </view>
     </objects>

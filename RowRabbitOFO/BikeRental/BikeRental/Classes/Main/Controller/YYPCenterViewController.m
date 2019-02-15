@@ -58,9 +58,11 @@
 }
 
 - (IBAction)gameButtonClick:(id)sender {
-    CCWebViewController *vc = [[CCWebViewController alloc] init];
-    vc.url = @"http://api.cccx.ltd/web-mobile/index.html";
-    [self.navigationController pushViewController:vc animated:YES];
+    //CCWebViewController *vc = [[CCWebViewController alloc] init];
+    //vc.url = @"http://api.cccx.ltd/web-mobile/index.html";
+    //[self.navigationController pushViewController:vc animated:YES];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://api.cccx.ltd/web-mobile/index.html"]];
+    
 }
 
 

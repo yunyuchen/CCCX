@@ -21,4 +21,7 @@
 
 @property (nonatomic,weak) id<ShareHBViewDelegate> delegate;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+
 @end
