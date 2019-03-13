@@ -26,6 +26,7 @@ PODS:
   - DateTools (2.0.0)
   - DZNEmptyDataSet (1.8.1)
   - FDFullscreenPopGesture (1.1)
+  - FSCalendar (2.8.0)
   - IQKeyboardManager (5.0.6)
   - JCore (1.1.6)
   - JDFTooltips (1.1)
@@ -237,7 +238,7 @@ PODS:
     - TOWebViewController/Core (= 2.2.6)
   - TOWebViewController/Core (2.2.6)
   - TZImagePickerController (1.9.3)
-  - UITableView+FDTemplateLayoutCell (1.6)
+  - "UITableView+FDTemplateLayoutCell (1.6)"
   - UMengUShare/Core (6.4.6):
     - UMengUShare/Network
   - UMengUShare/Network (6.4.6)
@@ -265,6 +266,7 @@ DEPENDENCIES:
   - DateTools
   - DZNEmptyDataSet
   - FDFullscreenPopGesture (= 1.1)
+  - FSCalendar
   - IQKeyboardManager
   - JDFTooltips
   - JPush
@@ -279,11 +281,45 @@ DEPENDENCIES:
   - SVProgressHUD
   - TOWebViewController
   - TZImagePickerController
-  - UITableView+FDTemplateLayoutCell
+  - "UITableView+FDTemplateLayoutCell"
   - UMengUShare/Social/QQ
   - UMengUShare/Social/WeChat
   - WebViewJavascriptBridge
   - WZLBadge
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - AMap3DMap
+    - AMapFoundation
+    - AMapLocation
+    - AMapSearch
+    - BEMCheckBox
+    - Bugly
+    - DateTools
+    - DZNEmptyDataSet
+    - FDFullscreenPopGesture
+    - FSCalendar
+    - IQKeyboardManager
+    - JCore
+    - JDFTooltips
+    - JPush
+    - LBXScan
+    - Masonry
+    - MJExtension
+    - MJRefresh
+    - pop
+    - QMUIKit
+    - SDCycleScrollView
+    - SDWebImage
+    - SVProgressHUD
+    - TOWebViewController
+    - TZImagePickerController
+    - "UITableView+FDTemplateLayoutCell"
+    - UMengUShare
+    - WebViewJavascriptBridge
+    - WZLBadge
+    - ZBarSDK
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -296,6 +332,7 @@ SPEC CHECKSUMS:
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
+  FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
   IQKeyboardManager: 077b7f691dfa9d69db9cff66f2bed68ebfc02d9b
   JCore: 18fc8725124f26e55625eaf224659b3a999dcf63
   JDFTooltips: 72a825bdd8a323fb035d5a57c13e1298f5a8e256
@@ -311,12 +348,12 @@ SPEC CHECKSUMS:
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   TOWebViewController: a29908019f7e0e0f8eccfab8a1ee8dcdf4fc5aac
   TZImagePickerController: 079ab986018c22793462e531045a75e366b18252
-  UITableView+FDTemplateLayoutCell: 5c949b4a5059c404b442926c0e80f81d10a2d66f
+  "UITableView+FDTemplateLayoutCell": 5c949b4a5059c404b442926c0e80f81d10a2d66f
   UMengUShare: fdbbf86353976727af26a66e9a84314ecb59c816
   WebViewJavascriptBridge: 791ee0e26d1bf15efe5fb7fb9666a71a19b89d77
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   ZBarSDK: 4c1b5daeb7d6cc67dc9355e690af0230a661f6ec
 
-PODFILE CHECKSUM: fec162a8dd6293098a27b1e36c9b0218785710a3
+PODFILE CHECKSUM: d394b7fba3a7f4cb25ca77c8aa06dcf830155899
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.6.0.beta.2

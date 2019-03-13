@@ -15,6 +15,7 @@
 #import "YYSettingViewController.h"
 #import "UINavigationController+FDFullscreenPopGesture.h"
 #import "CCWebViewController.h"
+#import "YYSignViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <DateTools/DateTools.h>
 #import "YYScoreViewController.h"
@@ -61,7 +62,7 @@
     //CCWebViewController *vc = [[CCWebViewController alloc] init];
     //vc.url = @"http://api.cccx.ltd/web-mobile/index.html";
     //[self.navigationController pushViewController:vc animated:YES];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://api.cccx.ltd/web-mobile/index.html"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.cccx.ltd/web-mobile/index.html?a=%f",[[NSDate date] timeIntervalSince1970]]]];
     
 }
 
@@ -103,7 +104,7 @@
         if (success) {
             QMUILog(@"%@",response);
             
-            [weakSelf.scoreButton setTitle:[NSString stringWithFormat:@"我的积分：%@",response[@"point"]] forState:UIControlStateNormal];
+            //[weakSelf.scoreButton setTitle:[NSString stringWithFormat:@"我的积分：%@",response[@"point"]] forState:UIControlStateNormal];
             weakSelf.score = [response[@"point"] floatValue];
             //是会员
             if ([response[@"vipstate"] boolValue] == YES) {
@@ -136,7 +137,7 @@
 }
 
 - (IBAction)scoreButtonClick:(id)sender {
-    YYScoreViewController *scoreViewController = [[UIStoryboard storyboardWithName:@"Score" bundle:nil] instantiateViewControllerWithIdentifier:@"score"];
+    YYSignViewController *scoreViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"sign"];
     scoreViewController.score = self.score;
     [self.navigationController pushViewController:scoreViewController animated:YES];
 }

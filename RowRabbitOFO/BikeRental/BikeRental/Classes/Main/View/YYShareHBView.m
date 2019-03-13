@@ -30,7 +30,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,[YYFileCacheManager readUserDataForKey:@"config"][@"tipImg"]]] placeholderImage: [UIImage imageNamed:@"分享红包"]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kBaseURL,[YYFileCacheManager readUserDataForKey:@"config"][@"returnImg"]]] placeholderImage: [UIImage imageNamed:@"分享红包"]];
 }
 
 - (IBAction)shareButtonClick:(id)sender {

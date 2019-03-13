@@ -134,4 +134,5 @@ UIKIT_EXTERN NSString *const kFindBikeAPI1;
 UIKIT_EXTERN NSString *const kClientInfoAPI;
 
 UIKIT_EXTERN NSString *const kUseAreaAPI;
+UIKIT_EXTERN NSString *const kCalendarAPI;
 @end

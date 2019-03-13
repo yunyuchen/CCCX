@@ -31,5 +31,6 @@ pod 'WebViewJavascriptBridge'
 pod 'LBXScan', '~> 2.2'
 pod 'JDFTooltips'
 pod 'JPush'
+pod 'FSCalendar'
 
 end

@@ -133,4 +133,6 @@ NSString *const kSignAPI = @"get?module=UserService.sign";
 NSString *const kClientInfoAPI = @"get?module=UserService.clientinfo";
 
 NSString *const kUseAreaAPI = @"open/get?module=SiteService.useArea";
+
+NSString *const kCalendarAPI = @"get?module=UserService.calendar";
 @end

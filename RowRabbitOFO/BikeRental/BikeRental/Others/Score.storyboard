@@ -8,16 +8,11 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="DINMittelschrift-Alternate.otf">
-            <string>DINMittelschrift-Alternate</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Score Intro View Controller-->
         <scene sceneID="4wv-ZG-hZX">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="pbZ-Mj-lNp" customClass="YYScoreIntroViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sss" automaticallyAdjustsScrollViewInsets="NO" id="pbZ-Mj-lNp" customClass="YYScoreIntroViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UNB-rD-0f9"/>
                         <viewControllerLayoutGuide type="bottom" id="TdZ-OS-CPD"/>
@@ -78,73 +73,18 @@
                                             <action selector="backButtonClick:" destination="NYb-45-kKA" eventType="touchUpInside" id="BhM-CA-ReZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LKL-Rs-hle">
-                                        <rect key="frame" x="305" y="26" width="58" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <state key="normal" title="积分说明">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <segue destination="pbZ-Mj-lNp" kind="show" id="Zzf-Be-gg6"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.51372549020000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Gmr-Jw-Fl1" firstAttribute="centerY" secondItem="7fT-xK-kDP" secondAttribute="centerY" id="2lx-XT-e5B"/>
                                     <constraint firstAttribute="bottom" secondItem="7fT-xK-kDP" secondAttribute="bottom" constant="13" id="3dd-Hr-zgm"/>
                                     <constraint firstItem="Gmr-Jw-Fl1" firstAttribute="leading" secondItem="mEw-oS-0Hf" secondAttribute="leading" constant="17" id="A81-Rn-A5o"/>
-                                    <constraint firstAttribute="trailing" secondItem="LKL-Rs-hle" secondAttribute="trailing" constant="12" id="URg-LC-Usi"/>
                                     <constraint firstItem="7fT-xK-kDP" firstAttribute="centerX" secondItem="mEw-oS-0Hf" secondAttribute="centerX" id="X8l-PI-hFO"/>
                                     <constraint firstAttribute="height" constant="64" id="XQY-fa-ieD"/>
-                                    <constraint firstItem="LKL-Rs-hle" firstAttribute="centerY" secondItem="7fT-xK-kDP" secondAttribute="centerY" id="YKl-3t-73U"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVP-CN-GY0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="80"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dye-86-DYK">
-                                        <rect key="frame" x="30" y="13.666666666666668" width="65" height="52.666666666666657"/>
-                                        <fontDescription key="fontDescription" name="DINMittelschrift-Alternate" family="DINSchrift" pointSize="45"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUn-PX-eo6">
-                                        <rect key="frame" x="103" y="41.333333333333329" width="14.666666666666671" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dB9-LA-fFr">
-                                        <rect key="frame" x="225" y="29" width="109" height="22"/>
-                                        <state key="normal" title="    积分抽奖" image="商城"/>
-                                        <connections>
-                                            <action selector="lotteryButtonClick:" destination="NYb-45-kKA" eventType="touchUpInside" id="6Pu-qb-XEG"/>
-                                        </connections>
-                                    </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Q2-9H-Nrl">
-                                        <rect key="frame" x="354" y="31.666666666666671" width="9" height="17"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="9" id="0w3-cN-hHB"/>
-                                            <constraint firstAttribute="height" constant="17" id="P3c-ZL-M2F"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.94117647059999998" green="0.51372549020000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="dye-86-DYK" firstAttribute="centerY" secondItem="kVP-CN-GY0" secondAttribute="centerY" id="760-1e-vJm"/>
-                                    <constraint firstItem="MUn-PX-eo6" firstAttribute="bottom" secondItem="dye-86-DYK" secondAttribute="bottom" constant="-8" id="99R-Hh-G9t"/>
-                                    <constraint firstItem="7Q2-9H-Nrl" firstAttribute="centerY" secondItem="dye-86-DYK" secondAttribute="centerY" id="EGK-NE-yX1"/>
-                                    <constraint firstAttribute="height" constant="80" id="FTk-Xu-NaE"/>
-                                    <constraint firstItem="7Q2-9H-Nrl" firstAttribute="leading" secondItem="dB9-LA-fFr" secondAttribute="trailing" constant="20" id="QB5-BP-P4k"/>
-                                    <constraint firstAttribute="trailing" secondItem="7Q2-9H-Nrl" secondAttribute="trailing" constant="12" id="S3p-F4-GAb"/>
-                                    <constraint firstItem="dye-86-DYK" firstAttribute="leading" secondItem="kVP-CN-GY0" secondAttribute="leading" constant="30" id="XSh-Gt-O2h"/>
-                                    <constraint firstItem="MUn-PX-eo6" firstAttribute="leading" secondItem="dye-86-DYK" secondAttribute="trailing" constant="8" id="e6O-uT-Oe4"/>
-                                    <constraint firstItem="dB9-LA-fFr" firstAttribute="centerY" secondItem="dye-86-DYK" secondAttribute="centerY" id="fVG-lj-F5e"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0hr-LW-2SF" customClass="QMUITableView">
-                                <rect key="frame" x="0.0" y="174" width="375" height="638"/>
+                                <rect key="frame" x="0.0" y="94" width="375" height="718"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="score" rowHeight="61" id="2Dv-2k-pPm" customClass="YYScoreViewCell">
@@ -195,10 +135,10 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9w-GU-a48">
-                                <rect key="frame" x="0.0" y="144" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="积分说明" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lov-G4-9Cc">
-                                        <rect key="frame" x="9.9999999999999964" y="6.6666666666666572" width="57.666666666666657" height="17"/>
+                                        <rect key="frame" x="9.9999999999999964" y="6.6666666666666714" width="57.666666666666657" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.63529411764705879" green="0.63529411764705879" blue="0.63529411764705879" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -216,22 +156,17 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="mEw-oS-0Hf" secondAttribute="trailing" id="0qV-kI-vTP"/>
                             <constraint firstItem="R9w-GU-a48" firstAttribute="leading" secondItem="gQG-0E-RRa" secondAttribute="leading" id="FGf-5H-JuX"/>
-                            <constraint firstAttribute="trailing" secondItem="kVP-CN-GY0" secondAttribute="trailing" id="K9B-lv-9Z4"/>
+                            <constraint firstItem="R9w-GU-a48" firstAttribute="top" secondItem="mEw-oS-0Hf" secondAttribute="bottom" id="KDc-6e-lAF"/>
                             <constraint firstAttribute="trailing" secondItem="R9w-GU-a48" secondAttribute="trailing" id="QF5-eO-UZa"/>
-                            <constraint firstItem="R9w-GU-a48" firstAttribute="top" secondItem="kVP-CN-GY0" secondAttribute="bottom" id="UPX-cV-9fJ"/>
-                            <constraint firstItem="kVP-CN-GY0" firstAttribute="leading" secondItem="gQG-0E-RRa" secondAttribute="leading" id="a01-I0-032"/>
                             <constraint firstItem="0hr-LW-2SF" firstAttribute="top" secondItem="R9w-GU-a48" secondAttribute="bottom" id="k9p-YI-ecA"/>
                             <constraint firstAttribute="trailing" secondItem="0hr-LW-2SF" secondAttribute="trailing" id="q9G-GY-KfT"/>
                             <constraint firstItem="mEw-oS-0Hf" firstAttribute="top" secondItem="gQG-0E-RRa" secondAttribute="top" id="rOO-QX-bas"/>
                             <constraint firstAttribute="bottom" secondItem="0hr-LW-2SF" secondAttribute="bottom" id="rjv-j4-T5a"/>
                             <constraint firstItem="0hr-LW-2SF" firstAttribute="leading" secondItem="gQG-0E-RRa" secondAttribute="leading" id="xfF-BL-bg4"/>
-                            <constraint firstItem="kVP-CN-GY0" firstAttribute="top" secondItem="mEw-oS-0Hf" secondAttribute="bottom" id="yfA-g9-Tuf"/>
                             <constraint firstItem="mEw-oS-0Hf" firstAttribute="leading" secondItem="gQG-0E-RRa" secondAttribute="leading" id="ysa-MS-QQW"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="indicatorImageView" destination="7Q2-9H-Nrl" id="ofX-Vy-a0V"/>
-                        <outlet property="scoreLabel" destination="dye-86-DYK" id="37t-ms-wMJ"/>
                         <outlet property="tableView" destination="0hr-LW-2SF" id="RM0-dr-xAi"/>
                     </connections>
                 </viewController>
@@ -433,7 +368,6 @@
     </scenes>
     <resources>
         <image name="back" width="10.666666984558105" height="19.333333969116211"/>
-        <image name="商城" width="17.666666030883789" height="17"/>
         <image name="电话实底" width="15" height="15"/>
     </resources>
 </document>

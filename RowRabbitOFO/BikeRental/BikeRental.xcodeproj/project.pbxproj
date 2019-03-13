@@ -255,6 +255,10 @@
 		0BB090D21F05EEFF007049D3 /* YYShareHBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB090D11F05EEFF007049D3 /* YYShareHBView.m */; };
 		0BB090D41F05EF81007049D3 /* YYShareHBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BB090D31F05EF81007049D3 /* YYShareHBView.xib */; };
 		0BBC54851FD7B98F001F6133 /* YYFeedCfgModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */; };
+		0BC538A2223230430088C487 /* YYSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC538A1223230430088C487 /* YYSignViewController.m */; };
+		0BC538A5223243730088C487 /* YYCalendarRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC538A4223243730088C487 /* YYCalendarRequest.m */; };
+		0BC538A82232513B0088C487 /* YYSignSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BC538A72232513B0088C487 /* YYSignSuccessView.m */; };
+		0BC538AA223251540088C487 /* YYSignSuccessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BC538A9223251540088C487 /* YYSignSuccessView.xib */; };
 		0BCB7C951ED67C3F000DA476 /* YYReturnResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C941ED67C3F000DA476 /* YYReturnResultModel.m */; };
 		0BCB7C981ED6802A000DA476 /* YYPayOrderRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C971ED6802A000DA476 /* YYPayOrderRequest.m */; };
 		0BCB7C9E1ED6AE08000DA476 /* YYCoreNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCB7C9B1ED6AE08000DA476 /* YYCoreNewFeatureViewController.m */; };
@@ -813,6 +817,13 @@
 		0BB32AEC1F9ED64300ADF79F /* BikeRental.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BikeRental.entitlements; sourceTree = "<group>"; };
 		0BBC54831FD7B98F001F6133 /* YYFeedCfgModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYFeedCfgModel.h; sourceTree = "<group>"; };
 		0BBC54841FD7B98F001F6133 /* YYFeedCfgModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYFeedCfgModel.m; sourceTree = "<group>"; };
+		0BC538A0223230430088C487 /* YYSignViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSignViewController.h; sourceTree = "<group>"; };
+		0BC538A1223230430088C487 /* YYSignViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSignViewController.m; sourceTree = "<group>"; };
+		0BC538A3223243730088C487 /* YYCalendarRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYCalendarRequest.h; sourceTree = "<group>"; };
+		0BC538A4223243730088C487 /* YYCalendarRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYCalendarRequest.m; sourceTree = "<group>"; };
+		0BC538A62232513B0088C487 /* YYSignSuccessView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSignSuccessView.h; sourceTree = "<group>"; };
+		0BC538A72232513B0088C487 /* YYSignSuccessView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSignSuccessView.m; sourceTree = "<group>"; };
+		0BC538A9223251540088C487 /* YYSignSuccessView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = YYSignSuccessView.xib; sourceTree = "<group>"; };
 		0BCB7C931ED67C3F000DA476 /* YYReturnResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYReturnResultModel.h; sourceTree = "<group>"; };
 		0BCB7C941ED67C3F000DA476 /* YYReturnResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYReturnResultModel.m; sourceTree = "<group>"; };
 		0BCB7C961ED6802A000DA476 /* YYPayOrderRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPayOrderRequest.h; sourceTree = "<group>"; };
@@ -1071,6 +1082,8 @@
 				0B616A3E21B270C9005C032E /* YYFindBikeRequest.m */,
 				0BAE812F21F94AAA00C25844 /* YYUserAreaRequest.h */,
 				0BAE813021F94AAA00C25844 /* YYUserAreaRequest.m */,
+				0BC538A3223243730088C487 /* YYCalendarRequest.h */,
+				0BC538A4223243730088C487 /* YYCalendarRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1662,81 +1675,83 @@
 			children = (
 				0B496BF521AF73E700380C73 /* CCWebViewController.h */,
 				0B496BF621AF73E800380C73 /* CCWebViewController.m */,
-				0B4B3FE61EFB9178004E1638 /* YYPublishBaseViewController.h */,
-				0B4B3FE71EFB9178004E1638 /* YYPublishBaseViewController.m */,
+				0BF505E11EC98A56003F24E2 /* YYAboutUSViewController.h */,
+				0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */,
+				0BF054A01F1C951A00638074 /* YYActChargeViewController.h */,
+				0BF054A11F1C951A00638074 /* YYActChargeViewController.m */,
+				0BF0549D1F1C5DEA00638074 /* YYActivityViewController.h */,
+				0BF0549E1F1C5DEA00638074 /* YYActivityViewController.m */,
+				0B3F37F21F21CCCA005FDCBB /* YYActListViewController.h */,
+				0B3F37F31F21CCCA005FDCBB /* YYActListViewController.m */,
+				0B1B7F111F725DA000EE28D7 /* YYCardDetailsViewController.h */,
+				0B1B7F121F725DA000EE28D7 /* YYCardDetailsViewController.m */,
+				0B1B7F011F72356600EE28D7 /* YYCardListViewController.h */,
+				0B1B7F021F72356600EE28D7 /* YYCardListViewController.m */,
+				0B2263841ECD2ED4008BEEB1 /* YYCertificationViewController.h */,
+				0B2263851ECD2ED4008BEEB1 /* YYCertificationViewController.m */,
+				0B4ED7891EEF728600A78F9F /* YYChargeViewController.h */,
+				0B4ED78A1EEF728600A78F9F /* YYChargeViewController.m */,
+				0B9704881EDFFDBA00B7DE90 /* YYContractUsViewController.h */,
+				0B9704891EDFFDBA00B7DE90 /* YYContractUsViewController.m */,
+				0B5188071EF0FA1100061C06 /* YYControlBikeViewController.h */,
+				0B5188081EF0FA1100061C06 /* YYControlBikeViewController.m */,
+				0BA814861ED909AC00570BA3 /* YYDriveHisViewController.h */,
+				0BA814871ED909AC00570BA3 /* YYDriveHisViewController.m */,
+				0BE839681FCBA1DC00159104 /* YYFaultWarrantyController.h */,
+				0BE839691FCBA1DC00159104 /* YYFaultWarrantyController.m */,
 				0B4B3FE11EFB916B004E1638 /* YYFeedBackController.h */,
 				0B4B3FE21EFB916B004E1638 /* YYFeedBackController.m */,
 				0B4B3FE31EFB916B004E1638 /* YYFeedBackController.xib */,
-				0B84E2DD1EE78B6E00917F71 /* YYWebViewController.h */,
-				0B84E2DE1EE78B6E00917F71 /* YYWebViewController.m */,
+				0B496BFE21AFC0E800380C73 /* YYFeedbackDetailViewController.h */,
+				0B496BFF21AFC0E800380C73 /* YYFeedbackDetailViewController.m */,
+				0BF505E41EC98A63003F24E2 /* YYFeedBackViewController.h */,
+				0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */,
+				0B2263871ECD46B2008BEEB1 /* YYFinishedViewController.h */,
+				0B2263881ECD46B2008BEEB1 /* YYFinishedViewController.m */,
+				0BF505DE1EC98A40003F24E2 /* YYFreightViewController.h */,
+				0BF505DF1EC98A40003F24E2 /* YYFreightViewController.m */,
+				0B4B40351EFB992C004E1638 /* YYGuideViewController.h */,
+				0B4B40361EFB992C004E1638 /* YYGuideViewController.m */,
+				0B620B2D21AE6BA40094E529 /* YYInformationController.h */,
+				0B620B2E21AE6BA40094E529 /* YYInformationController.m */,
+				0BD51E0321A7D20400791537 /* YYInformViewController.h */,
+				0BD51E0421A7D20400791537 /* YYInformViewController.m */,
+				0B4242871EF5053B00C76A32 /* YYMapFindViewController.h */,
+				0B4242881EF5053B00C76A32 /* YYMapFindViewController.m */,
+				0BEF22CC1F10AF1900F5F36E /* YYMessageViewController.h */,
+				0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */,
+				0B22638A1ECD4800008BEEB1 /* YYMyWalletViewController.h */,
+				0B22638B1ECD4800008BEEB1 /* YYMyWalletViewController.m */,
 				0B2263931ECD668D008BEEB1 /* YYNavigationController.h */,
 				0B2263941ECD668D008BEEB1 /* YYNavigationController.m */,
 				0B6728581EC6AE1F00056F01 /* YYNaviViewController.h */,
 				0B6728591EC6AE1F00056F01 /* YYNaviViewController.m */,
-				0BF505DB1EC98A1D003F24E2 /* YYUserNeedsViewController.h */,
-				0BF505DC1EC98A1D003F24E2 /* YYUserNeedsViewController.m */,
-				0BF505DE1EC98A40003F24E2 /* YYFreightViewController.h */,
-				0BF505DF1EC98A40003F24E2 /* YYFreightViewController.m */,
-				0BF505E11EC98A56003F24E2 /* YYAboutUSViewController.h */,
-				0BF505E21EC98A56003F24E2 /* YYAboutUSViewController.m */,
-				0BF505E41EC98A63003F24E2 /* YYFeedBackViewController.h */,
-				0BF505E51EC98A63003F24E2 /* YYFeedBackViewController.m */,
-				0B1079F41ECC38F5003A0914 /* YYPayDepositViewController.h */,
-				0B1079F51ECC38F5003A0914 /* YYPayDepositViewController.m */,
-				0B2263841ECD2ED4008BEEB1 /* YYCertificationViewController.h */,
-				0B2263851ECD2ED4008BEEB1 /* YYCertificationViewController.m */,
-				0B2263871ECD46B2008BEEB1 /* YYFinishedViewController.h */,
-				0B2263881ECD46B2008BEEB1 /* YYFinishedViewController.m */,
-				0B22638A1ECD4800008BEEB1 /* YYMyWalletViewController.h */,
-				0B22638B1ECD4800008BEEB1 /* YYMyWalletViewController.m */,
-				0B4137F11ED00B640086D569 /* YYReturnBikeViewController.h */,
-				0B4137F21ED00B640086D569 /* YYReturnBikeViewController.m */,
-				0BA814861ED909AC00570BA3 /* YYDriveHisViewController.h */,
-				0BA814871ED909AC00570BA3 /* YYDriveHisViewController.m */,
-				0B9704881EDFFDBA00B7DE90 /* YYContractUsViewController.h */,
-				0B9704891EDFFDBA00B7DE90 /* YYContractUsViewController.m */,
-				0B4ED7891EEF728600A78F9F /* YYChargeViewController.h */,
-				0B4ED78A1EEF728600A78F9F /* YYChargeViewController.m */,
-				0B4ED78C1EEFC09100A78F9F /* YYPCenterViewController.h */,
-				0B4ED78D1EEFC09100A78F9F /* YYPCenterViewController.m */,
-				0B5188071EF0FA1100061C06 /* YYControlBikeViewController.h */,
-				0B5188081EF0FA1100061C06 /* YYControlBikeViewController.m */,
-				0B9911471EF36707000A0723 /* YYReturnViewController.h */,
-				0B9911481EF36707000A0723 /* YYReturnViewController.m */,
-				0B4242871EF5053B00C76A32 /* YYMapFindViewController.h */,
-				0B4242881EF5053B00C76A32 /* YYMapFindViewController.m */,
-				0B4B40351EFB992C004E1638 /* YYGuideViewController.h */,
-				0B4B40361EFB992C004E1638 /* YYGuideViewController.m */,
-				0BEF22CC1F10AF1900F5F36E /* YYMessageViewController.h */,
-				0BEF22CD1F10AF1900F5F36E /* YYMessageViewController.m */,
-				0BF0549D1F1C5DEA00638074 /* YYActivityViewController.h */,
-				0BF0549E1F1C5DEA00638074 /* YYActivityViewController.m */,
-				0BF054A01F1C951A00638074 /* YYActChargeViewController.h */,
-				0BF054A11F1C951A00638074 /* YYActChargeViewController.m */,
-				0B3F37EF1F21A414005FDCBB /* YYSettingViewController.h */,
-				0B3F37F01F21A414005FDCBB /* YYSettingViewController.m */,
-				0B3F37F21F21CCCA005FDCBB /* YYActListViewController.h */,
-				0B3F37F31F21CCCA005FDCBB /* YYActListViewController.m */,
-				0B1B7F011F72356600EE28D7 /* YYCardListViewController.h */,
-				0B1B7F021F72356600EE28D7 /* YYCardListViewController.m */,
-				0B1B7F071F724CEC00EE28D7 /* YYPayViewController.h */,
-				0B1B7F081F724CEC00EE28D7 /* YYPayViewController.m */,
-				0B1B7F111F725DA000EE28D7 /* YYCardDetailsViewController.h */,
-				0B1B7F121F725DA000EE28D7 /* YYCardDetailsViewController.m */,
-				0B3232F21FB2E1AD00D3F951 /* YYReAuthViewController.h */,
-				0B3232F31FB2E1AD00D3F951 /* YYReAuthViewController.m */,
-				0BE839681FCBA1DC00159104 /* YYFaultWarrantyController.h */,
-				0BE839691FCBA1DC00159104 /* YYFaultWarrantyController.m */,
 				0B3654751FCD3088008FC7AC /* YYOtherAuthViewController.h */,
 				0B3654761FCD3088008FC7AC /* YYOtherAuthViewController.m */,
+				0B1079F41ECC38F5003A0914 /* YYPayDepositViewController.h */,
+				0B1079F51ECC38F5003A0914 /* YYPayDepositViewController.m */,
+				0B1B7F071F724CEC00EE28D7 /* YYPayViewController.h */,
+				0B1B7F081F724CEC00EE28D7 /* YYPayViewController.m */,
+				0B4ED78C1EEFC09100A78F9F /* YYPCenterViewController.h */,
+				0B4ED78D1EEFC09100A78F9F /* YYPCenterViewController.m */,
+				0B4B3FE61EFB9178004E1638 /* YYPublishBaseViewController.h */,
+				0B4B3FE71EFB9178004E1638 /* YYPublishBaseViewController.m */,
+				0B3232F21FB2E1AD00D3F951 /* YYReAuthViewController.h */,
+				0B3232F31FB2E1AD00D3F951 /* YYReAuthViewController.m */,
 				0B3654781FCD356A008FC7AC /* YYReAuthViewController1.h */,
 				0B3654791FCD356A008FC7AC /* YYReAuthViewController1.m */,
-				0BD51E0321A7D20400791537 /* YYInformViewController.h */,
-				0BD51E0421A7D20400791537 /* YYInformViewController.m */,
-				0B620B2D21AE6BA40094E529 /* YYInformationController.h */,
-				0B620B2E21AE6BA40094E529 /* YYInformationController.m */,
-				0B496BFE21AFC0E800380C73 /* YYFeedbackDetailViewController.h */,
-				0B496BFF21AFC0E800380C73 /* YYFeedbackDetailViewController.m */,
+				0B4137F11ED00B640086D569 /* YYReturnBikeViewController.h */,
+				0B4137F21ED00B640086D569 /* YYReturnBikeViewController.m */,
+				0B9911471EF36707000A0723 /* YYReturnViewController.h */,
+				0B9911481EF36707000A0723 /* YYReturnViewController.m */,
+				0B3F37EF1F21A414005FDCBB /* YYSettingViewController.h */,
+				0B3F37F01F21A414005FDCBB /* YYSettingViewController.m */,
+				0BC538A0223230430088C487 /* YYSignViewController.h */,
+				0BC538A1223230430088C487 /* YYSignViewController.m */,
+				0BF505DB1EC98A1D003F24E2 /* YYUserNeedsViewController.h */,
+				0BF505DC1EC98A1D003F24E2 /* YYUserNeedsViewController.m */,
+				0B84E2DD1EE78B6E00917F71 /* YYWebViewController.h */,
+				0B84E2DE1EE78B6E00917F71 /* YYWebViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1872,6 +1887,9 @@
 				0BF5EF4121B4F97B00E5F742 /* YYReturnScheduleView.h */,
 				0BF5EF4221B4F97B00E5F742 /* YYReturnScheduleView.m */,
 				0BF5EF4421B4F99100E5F742 /* YYReturnScheduleView.xib */,
+				0BC538A62232513B0088C487 /* YYSignSuccessView.h */,
+				0BC538A72232513B0088C487 /* YYSignSuccessView.m */,
+				0BC538A9223251540088C487 /* YYSignSuccessView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2457,6 +2475,7 @@
 				0B4B40281EFB920C004E1638 /* MGroupCell.xib in Resources */,
 				0B4B3FED1EFB918F004E1638 /* YYPhotoCell.xib in Resources */,
 				0B4137D91ECFE48F0086D569 /* AlipaySDK.bundle in Resources */,
+				0BC538AA223251540088C487 /* YYSignSuccessView.xib in Resources */,
 				0BCF1AD01EC19CF2001550DC /* Main.storyboard in Resources */,
 				0B7C11F91EF3B0B600F99E1F /* YYTips2View.xib in Resources */,
 			);
@@ -2485,13 +2504,60 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BikeRental/Pods-BikeRental-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/BEMCheckBox/BEMCheckBox.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
+				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
+				"${BUILT_PRODUCTS_DIR}/FDFullscreenPopGesture/FDFullscreenPopGesture.framework",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
+				"${BUILT_PRODUCTS_DIR}/JDFTooltips/JDFTooltips.framework",
+				"${BUILT_PRODUCTS_DIR}/LBXScan/LBXScan.framework",
+				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/QMUIKit/QMUIKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SDCycleScrollView/SDCycleScrollView.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/TOWebViewController/TOWebViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/UITableView+FDTemplateLayoutCell/UITableView_FDTemplateLayoutCell.framework",
+				"${BUILT_PRODUCTS_DIR}/WZLBadge/WZLBadge.framework",
+				"${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework",
+				"${BUILT_PRODUCTS_DIR}/ZBarSDK/ZBarSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BEMCheckBox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FDFullscreenPopGesture.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JDFTooltips.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LBXScan.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QMUIKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDCycleScrollView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOWebViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITableView_FDTemplateLayoutCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WZLBadge.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebViewJavascriptBridge.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZBarSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BikeRental/Pods-BikeRental-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3AFFD38378C59275F7719293 /* [CP] Copy Pods Resources */ = {
@@ -2500,13 +2566,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BikeRental/Pods-BikeRental-resources.sh",
+				"${PODS_ROOT}/AMap3DMap/MAMapKit.framework/AMap.bundle",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
+				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKPromptResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TencentOpenApi_IOS_Bundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BikeRental/Pods-BikeRental-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BikeRental/Pods-BikeRental-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8D21711BFD9BCD3C1612DA8F /* [CP] Check Pods Manifest.lock */ = {
@@ -2515,13 +2588,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BikeRental-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2558,6 +2634,7 @@
 				0B620B2121AE5A310094E529 /* YYAppointmentRequest.m in Sources */,
 				0BD51E0E21A7DC6E00791537 /* YYArroundAreaRequest.m in Sources */,
 				0BE253A71F04E9BB00CCD752 /* YYGetBikeRequest1.m in Sources */,
+				0BC538A5223243730088C487 /* YYCalendarRequest.m in Sources */,
 				0B7685C01ED584AB00BEDD1B /* YYReturnBikeRequest.m in Sources */,
 				0B4B40291EFB920C004E1638 /* MImaCell.m in Sources */,
 				0BEF22CE1F10AF1900F5F36E /* YYMessageViewController.m in Sources */,
@@ -2630,6 +2707,7 @@
 				0BBC54851FD7B98F001F6133 /* YYFeedCfgModel.m in Sources */,
 				0B4B3FE81EFB9178004E1638 /* YYPublishBaseViewController.m in Sources */,
 				0BF054A21F1C951A00638074 /* YYActChargeViewController.m in Sources */,
+				0BC538A2223230430088C487 /* YYSignViewController.m in Sources */,
 				0B4B40221EFB920C004E1638 /* JJMainScrollView.m in Sources */,
 				0BCB7CFC1ED6B05F000DA476 /* XWMagicMoveAnimator.m in Sources */,
 				0B493E921ED425CE00C5C913 /* YYUserAuthRequest.m in Sources */,
@@ -2696,6 +2774,7 @@
 				0B67283B1EC6993F00056F01 /* UIImage+Color.m in Sources */,
 				0B4B402C1EFB920C004E1638 /* MShowAllGroup.m in Sources */,
 				0B3654771FCD3088008FC7AC /* YYOtherAuthViewController.m in Sources */,
+				0BC538A82232513B0088C487 /* YYSignSuccessView.m in Sources */,
 				0B3E61AE1ED81B79008B28B6 /* CommonUtility.m in Sources */,
 				0B3063D51F8DB7330075372A /* YYCollegeAuthRequest.m in Sources */,
 				0BCB7CF91ED6B05F000DA476 /* XWFilterAnimator+XWSwipe.m in Sources */,
