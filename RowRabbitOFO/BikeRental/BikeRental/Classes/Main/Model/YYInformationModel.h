@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, copy) NSString *timg;
 
+@property(nonatomic, copy) NSString *url;
 
 @end
 

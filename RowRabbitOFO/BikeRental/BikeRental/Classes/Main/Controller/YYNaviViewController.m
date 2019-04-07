@@ -54,6 +54,10 @@
 #import "YYFindBikeRequest.h"
 #import "YYReturnScheduleView.h"
 #import "YYUserAreaRequest.h"
+#import "YYControlView.h"
+#import "YYScanResult.h"
+#import "NSString+YYExtension.h"
+#import "YYOprateBikeRequest.h"
 #import <DateTools/DateTools.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import <JDFTooltips/JDFTooltips.h>
@@ -64,12 +68,15 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <Masonry/Masonry.h>
 #import <QMUIKit/QMUIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <zlib.h>
 
 #define ButtonXMargin 20
 #define ButtonHeight 44
 //static const NSInteger RoutePlanningPaddingEdge  = 20;
 
-@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,YYBikeInfoViewDelegate,MZTimerLabelDelegate>
+@interface YYNaviViewController ()<MAMapViewDelegate,AMapSearchDelegate,RecomendListViewDelegate,ShareHBViewDelegate,QMUIMoreOperationDelegate,RegisterHBViewDelegate,YYBikeInfoViewDelegate,MZTimerLabelDelegate,YYWarmPromptViewDelegate,YYControlViewDelegate>
+@property (weak, nonatomic) IBOutlet QMUIFillButton *returnBikeButton;
 
 @property (nonatomic, strong) MAAnnotationView *userLocationAnnotationView;
 
@@ -156,8 +163,19 @@
 @property(nonatomic, strong) NSArray *polygonArray;
 
 @property(nonatomic, assign) BOOL Renting;
-
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
 @property (nonatomic, strong) NSArray<MAPolygon *> *userPolygons;
+@property(nonatomic, strong) YYControlView *controlView;
+@property(nonatomic, copy) NSString *bleID;
+@property(nonatomic, assign) NSInteger days;
+@property(nonatomic, assign) CGFloat last_mileage;
+@property(nonatomic, copy) NSString *deviceId;
+//系统蓝牙管理对象
+@property (nonatomic,strong) CBCentralManager *manager;
+//当前连接的蓝牙设备
+@property (strong,nonatomic) CBPeripheral *currPeripheral;
+//当前的服务
+@property (nonatomic,strong) CBCharacteristic *currCharacteristic;
 
 @end
 
@@ -186,6 +204,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     [NSNotificationCenter addObserver:self action:@selector(dirctAction:) name:kDirectNotifaction];
     [NSNotificationCenter addObserver:self action:@selector(returnSuccessAction:) name:kReturnSuccessNotification];
     [NSNotificationCenter addObserver:self action:@selector(loginSuccessAction:) name:kLoginSuccessNotification];
+    [NSNotificationCenter addObserver:self action:@selector(scanResultAction:) name:@"scanResult"];
     // 状态栏(statusbar)
     CGRect StatusRect=[[UIApplication sharedApplication] statusBarFrame];
     //标题
@@ -215,6 +234,141 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
    
 }
+
+- (IBAction)operationButtonClick:(QMUIFillButton *)sender {
+    if (self.controlView.bluetoothState == 1) {
+        NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"02"];
+        sendStr = [self getStrByData:sendStr];
+        sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
+        sender.selected = !sender.selected;
+        [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+    }else{
+        YYOprateBikeRequest *request = [[YYOprateBikeRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOpratebikeAPI];
+        request.op = @"10";
+        __weak __typeof(self)weakSelf = self;
+        [QMUITips showLoadingInView:self.view];
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+            if (success) {
+                //[[XSPopoverView sharedInstance] dismiss];
+                [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:2];
+                sender.selected = !sender.selected;
+            }else{
+                [QMUITips showError:message inView:weakSelf.view hideAfterDelay:2];
+                //[XSPopoverView showText:@"操作失败 请连接蓝牙" inView:self.controlView relateView:self.controlView.bluetoothButton];
+            }
+        } error:^(NSError *error) {
+             [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+            //[XSPopoverView showText:@"操作失败 请连接蓝牙" inView:self.controlView relateView:self.controlView.bluetoothButton];
+        }];
+        
+    }
+    //[YYFileCacheManager saveUserData:@"0" forKey:kSwitchState];
+}
+
+- (IBAction)startButtonClick:(QMUIFillButton *)sender {
+    self.controlView.tipStateLabel.text = @"临时停车期间持续收费";
+    if (self.controlView.bluetoothState == 1) {
+        NSString *sendStr = [NSString stringWithFormat:@"%@%@000000",@"A1",@"05"];
+        sendStr = [self getStrByData:sendStr];
+        sendStr = [NSString stringWithFormat:@"%@%@",@"06",sendStr];
+        sender.selected = !sender.selected;
+        [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+    }else{
+        YYOprateBikeRequest *request = [[YYOprateBikeRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOpratebikeAPI];
+        request.op = @"11";
+        __weak __typeof(self)weakSelf = self;
+        [QMUITips showLoadingInView:self.view];
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+            if (success) {
+                [QMUITips showSucceed:message inView:weakSelf.view hideAfterDelay:2];
+                sender.selected = !sender.selected;
+                //[[XSPopoverView sharedInstance] dismiss];
+            }else{
+                [QMUITips showError:message inView:weakSelf.view hideAfterDelay:2];
+                //                JDFTooltipView *tooltip = [[JDFTooltipView alloc] initWithTargetView:self.controlView.bluetoothButton hostView:self.controlView tooltipText:@"操作失败 请连接蓝牙" arrowDirection:JDFTooltipViewArrowDirectionDown width:200.0f];
+                //                [tooltip show];
+                //[XSPopoverView showText:@"操作失败 请连接蓝牙" inView:self.controlView relateView:self.controlView.bluetoothButton];
+            }
+        } error:^(NSError *error) {
+            [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+            //            JDFTooltipView *tooltip = [[JDFTooltipView alloc] initWithTargetView:self.controlView.bluetoothButton hostView:self.controlView tooltipText:@"操作失败 请连接蓝牙" arrowDirection:JDFTooltipViewArrowDirectionDown width:200.0f];
+            //            [tooltip show];
+            //[XSPopoverView showText:@"操作失败 请连接蓝牙" inView:self.controlView relateView:self.controlView.bluetoothButton];
+        }];
+    }
+    //[YYFileCacheManager saveUserData:@"1" forKey:kSwitchState];
+    
+}
+
+- (IBAction)returnButtonClick:(id)sender {
+    [self performSegueWithIdentifier:@"returnBike" sender:self];
+}
+
+
+
+- (void) scanResultAction:(NSNotification *)noti
+{
+    YYScanResult *reuslt = noti.object;
+    YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreateOrderAPI];
+    request.bid = reuslt.ID;
+    request.sid = reuslt.sid;
+    request.deviceid = reuslt.deviceid;
+    [QMUITips showLoadingInView:self.view];
+    __weak __typeof(self)weakSelf = self;
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+        [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+        if (success) {
+            //weakSelf.bikeView.hidden = YES;
+           
+            [weakSelf getAroundSiteRequest];
+            weakSelf.title = [NSString stringWithFormat:@"ID:%ld",(long)reuslt.deviceid];
+            NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"启动成功" withExtension:@".wav"];
+            weakSelf.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+            weakSelf.audioPlayer.numberOfLoops = 0;
+            [weakSelf.audioPlayer play];
+            
+            YYBaseRequest *orderRequest = [[YYBaseRequest alloc] init];
+            orderRequest.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderInfoAPI];
+            [orderRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+                weakSelf.rentalModel = [YYRentalModel modelWithDictionary:response];
+                weakSelf.bleID = response[@"bleid"];
+                weakSelf.days = [response[@"days"] integerValue];
+                weakSelf.last_mileage = [response[@"last_mileage"] floatValue];
+                weakSelf.title = [NSString stringWithFormat:@"ID:%ld",(long)weakSelf.rentalModel.did];
+                weakSelf.deviceId = [NSString stringWithFormat:@"%ld",(long)weakSelf.rentalModel.did];
+                weakSelf.manager = [[CBCentralManager alloc] initWithDelegate:weakSelf queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
+                if (weakSelf.controlView == nil ) {
+                    YYControlView *controlView = [[YYControlView alloc] init];
+                    controlView.model = weakSelf.rentalModel;
+                    controlView.delegate = weakSelf;
+                    controlView.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height + weakSelf.navigationController.navigationBar.frame.size.height + 1, SCREEN_WIDTH, controlView.qmui_height);
+                    [weakSelf.view insertSubview:controlView belowSubview:self.topView];
+                    
+                    weakSelf.controlView = controlView;
+                }else{
+                    weakSelf.controlView.model = weakSelf.rentalModel;
+                }
+                weakSelf.rentalButton.hidden = YES;
+                weakSelf.returnBikeButton.hidden = NO;
+                weakSelf.segmentedControl.hidden = YES;
+                weakSelf.stackView.hidden = NO;
+             
+            } error:^(NSError *error) {
+                
+            }];
+        }else{
+            [QMUITips showError:message inView:weakSelf.view hideAfterDelay:2];
+        }
+    } error:^(NSError *error) {
+         [QMUITips hideAllToastInView:weakSelf.view animated:YES];
+    }];
+}
+
 
 - (void) segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl
 {
@@ -493,7 +647,12 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
     self.audioPlayer.numberOfLoops = 0;
     [self.audioPlayer play];
-    
+    [self.controlView removeFromSuperview];
+    self.controlView = nil;
+    self.rentalButton.hidden = NO;
+    self.returnBikeButton.hidden = YES;
+    self.stackView.hidden = YES;
+    self.segmentedControl.hidden = NO;
     YYShareHBView *shareHBView = [[YYShareHBView alloc] init];
     shareHBView.delegate = self;
     QMUIModalPresentationViewController *modalViewController = [[QMUIModalPresentationViewController alloc] init];
@@ -621,11 +780,14 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             //未交押金
             if (weak_self.userModel.authtype == 0 && weak_self.userModel.zmstate == 0 && (weak_self.userModel.dstate == 0 || weak_self.userModel.dstate == 3)) {
                 //payDeposit
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
-                [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
-                //[weak_self.navigationController pushViewController:payDepositViewController animated:YES];
-                return;
+                if (self.userModel.cardstate == NO) {
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                    [weak_self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
+                    //[weak_self.navigationController pushViewController:payDepositViewController animated:YES];
+                    return;
+                }
+               
             }
             
             if (weak_self.userModel.money <= 0) {
@@ -644,19 +806,38 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 orderRequest.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderInfoAPI];
                 [orderRequest nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
                     weak_self.rentalModel = [YYRentalModel modelWithDictionary:response];
-                    YYControlBikeViewController *useBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
-                    useBikeViewController.last_mileage = weak_self.rentalModel.last_mileage;
-                    useBikeViewController.deviceid = weak_self.rentalModel.deviceid;
-                    useBikeViewController.ctime = weak_self.rentalModel.ctime;
-                    useBikeViewController.ID = weak_self.rentalModel.ID;
-                    useBikeViewController.name = weak_self.rentalModel.name;
-                    [weak_self.navigationController pushViewController:useBikeViewController animated:YES];
-                    
-                    
+                    weak_self.bleID = response[@"bleid"];
+                    weak_self.days = [response[@"days"] integerValue];
+                    weak_self.last_mileage = [response[@"last_mileage"] floatValue];
+                    weak_self.title = [NSString stringWithFormat:@"ID:%ld",(long)weak_self.rentalModel.did];
+                    weak_self.deviceId = [NSString stringWithFormat:@"%ld",(long)weak_self.rentalModel.did];
+                    weak_self.manager = [[CBCentralManager alloc] initWithDelegate:weak_self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
+                    if (weak_self.controlView == nil ) {
+                        YYControlView *controlView = [[YYControlView alloc] init];
+                        controlView.model = weak_self.rentalModel;
+                        controlView.delegate = weak_self;
+                        controlView.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height + weak_self.navigationController.navigationBar.frame.size.height + 1, SCREEN_WIDTH, controlView.qmui_height);
+                        [weak_self.view insertSubview:controlView belowSubview:self.topView];
+                        
+                        weak_self.controlView = controlView;
+                    }else{
+                        weak_self.controlView.model = weak_self.rentalModel;
+                    }
+                    weak_self.rentalButton.hidden = YES;
+                    weak_self.returnBikeButton.hidden = NO;
+                    weak_self.stackView.hidden = NO;
+                    weak_self.segmentedControl.hidden = YES;
                 } error:^(NSError *error) {
                     
                 }];
                 
+            }else{
+                [weak_self.controlView removeFromSuperview];
+                weak_self.controlView = nil;
+                weak_self.rentalButton.hidden = NO;
+                weak_self.returnBikeButton.hidden = YES;
+                weak_self.stackView.hidden = YES;
+                 weak_self.segmentedControl.hidden = NO;
             }
             
             
@@ -788,6 +969,8 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             return NO;
         }
         
+   
+        
         //学生证认证(审核失败)
         if (self.userModel.authtype == 1 && self.userModel.xstate == 2 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -822,15 +1005,18 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
             return NO;
         }
         
+    
         
         //未交押金
         if (self.userModel.authtype == 0 && self.userModel.zmstate == 0 && (self.userModel.dstate == 0 || self.userModel.dstate == 3)) {
-            //payDeposit
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
-            [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
-            //[self.navigationController pushViewController:payDepositViewController animated:YES];
-            return NO;
+            if (self.userModel.cardstate == NO) {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                YYPayDepositViewController *payDepositViewController = [storyboard instantiateViewControllerWithIdentifier:@"payDeposit"];
+                [self presentViewController:[[YYNavigationController alloc] initWithRootViewController:payDepositViewController] animated:YES completion:nil];
+                //[self.navigationController pushViewController:payDepositViewController animated:YES];
+                return NO;
+            }
+           
         }
         
         if (self.userModel.money <= 0) {
@@ -1114,7 +1300,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         // 设置为NO，用以调用自定义的calloutView
         annotationView.canShowCallout = NO;
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
-        annotationView.centerOffset = CGPointMake(0, -18);
+        //annotationView.centerOffset = CGPointMake(0, -18);
         //annotationView.selected = YES;
         return annotationView;
     }
@@ -1291,6 +1477,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     {
         MAPolygonRenderer *polygonRenderer = [[MAPolygonRenderer alloc] initWithPolygon:overlay];
         polygonRenderer.lineWidth   = 4.f;
+        polygonRenderer.lineDash = YES;
         polygonRenderer.strokeColor = [UIColor qmui_colorWithHexString:@"#FF9317"];
         if ([self.userPolygons containsObject:overlay]) {
             polygonRenderer.strokeColor = [UIColor blackColor];
@@ -1479,16 +1666,37 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                     [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
                         [tips hideAnimated:YES];
                         if (success) {
-                            YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
-                            controlBikeViewController.last_mileage =recomendListView.selectedModel.last_mileage;
-                            controlBikeViewController.deviceid = recomendListView.selectedModel.deviceid;
-                            controlBikeViewController.ctime = recomendListView.selectedModel.ctime;
-                            controlBikeViewController.ID = recomendListView.selectedModel.ID;
-                            controlBikeViewController.name = recomendListView.selectedModel.name;
-                            [YYFileCacheManager saveUserData:recomendListView.selectedModel.bleid forKey:KBLEIDKey];
-                            [weak_self.listView removeFromSuperview];
-                            weak_self.listView = nil;
-                            [self.navigationController pushViewController:controlBikeViewController animated:YES];
+                            weak_self.rentalModel = [YYRentalModel modelWithDictionary:response];
+                            weak_self.bleID = response[@"bleid"];
+                            weak_self.days = [response[@"days"] integerValue];
+                            weak_self.last_mileage = [response[@"last_mileage"] floatValue];
+                            weak_self.title = [NSString stringWithFormat:@"ID:%ld",(long)weak_self.rentalModel.did];
+                            weak_self.deviceId = [NSString stringWithFormat:@"%ld",(long)weak_self.rentalModel.did];
+                            weak_self.manager = [[CBCentralManager alloc] initWithDelegate:weak_self queue:dispatch_get_main_queue() options:@{CBCentralManagerOptionShowPowerAlertKey:@NO}];
+                            if (weak_self.controlView == nil ) {
+                                YYControlView *controlView = [[YYControlView alloc] init];
+                                controlView.model = weak_self.rentalModel;
+                                controlView.delegate = weak_self;
+                                controlView.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height + weak_self.navigationController.navigationBar.frame.size.height + 1, SCREEN_WIDTH, controlView.qmui_height);
+                                [weak_self.view insertSubview:controlView belowSubview:self.topView];
+                                
+                                weak_self.controlView = controlView;
+                            }else{
+                                weak_self.controlView.model = weak_self.rentalModel;
+                            }
+                            weak_self.rentalButton.hidden = YES;
+
+                 
+//                            YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
+//                            controlBikeViewController.last_mileage =recomendListView.selectedModel.last_mileage;
+//                            controlBikeViewController.deviceid = recomendListView.selectedModel.deviceid;
+//                            controlBikeViewController.ctime = recomendListView.selectedModel.ctime;
+//                            controlBikeViewController.ID = recomendListView.selectedModel.ID;
+//                            controlBikeViewController.name = recomendListView.selectedModel.name;
+//                            [YYFileCacheManager saveUserData:recomendListView.selectedModel.bleid forKey:KBLEIDKey];
+//                            [weak_self.listView removeFromSuperview];
+//                            weak_self.listView = nil;
+//                            [self.navigationController pushViewController:controlBikeViewController animated:YES];
                         }else{
                             QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
                             QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
@@ -1514,6 +1722,48 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     }];
 
 }
+
+-(void)YYControlView:(YYControlView *)controlView didClickStartButton:(UIButton *)sender
+{
+    if (self.controlView.top < 0) {
+        [sender setImage:[UIImage imageNamed:@"隐藏"] forState:UIControlStateNormal];
+        self.controlView.top = [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height + 1;
+    }else{
+        [sender setImage:[UIImage imageNamed:@"pull_down"] forState:UIControlStateNormal];
+        self.controlView.top = -self.controlView.qmui_height + [UIApplication sharedApplication].statusBarFrame.size.height + self.navigationController.navigationBar.frame.size.height + 30;
+    }
+    
+}
+
+-(void)YYControlView:(YYControlView *)controlView didClickSoundButton:(UIButton *)sender
+{
+    YYBaseRequest *request = [[YYBaseRequest alloc] init];
+    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kFindBikeAPI];
+    
+    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message){
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];//必须写opacity才行。
+        animation.fromValue = [NSNumber numberWithFloat:1.0f];
+        animation.toValue = [NSNumber numberWithFloat:0.5f];//这是透明度。
+        animation.autoreverses = YES;
+        animation.duration = 0.5;
+        animation.repeatCount = 5;
+        animation.removedOnCompletion = NO;
+        animation.fillMode = kCAFillModeForwards;
+        animation.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+        [controlView.soundFindButton.layer addAnimation:animation forKey:nil];
+        
+    } error:^(NSError *error) {
+        
+    }];
+}
+
+-(void)YYControlView:(YYControlView *)controlView didClickMapButton:(UIButton *)sender
+{
+    [self performSegueWithIdentifier:@"find" sender:self];
+}
+
+
+
 
 -(void)YYShareHBView:(YYShareHBView *)shareHBView didClickCloseButton:(UIButton *)closeButton
 {
@@ -1677,6 +1927,392 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     self.bikeInfoView.countDownHeightCons.constant = 0;
     self.Renting = NO;
 }
+
+-(void)YYWarmPromptView:(YYWarmPromptView *)view didClickShowButton:(UIButton *)btn
+{
+    YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
+    [self.navigationController pushViewController:memberCardViewController animated:YES];
+}
+
+//****************************************************************************************
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central{
+    switch (central.state) {
+        case CBCentralManagerStateUnknown:
+            break;
+        case CBCentralManagerStateResetting:
+            break;
+        case CBCentralManagerStateUnsupported:
+            break;
+        case CBCentralManagerStateUnauthorized:
+            break;
+        case CBCentralManagerStatePoweredOff:
+            [self.controlView.bluetoothButton setImage:[UIImage imageNamed:@"bluetooth_off"] forState:UIControlStateNormal];
+            self.controlView.bluetoothState = 0;
+            [self.controlView.bluetoothButton setTitle:@"蓝牙未连接" forState:UIControlStateNormal];
+            break;
+        case CBCentralManagerStatePoweredOn:
+            [self.manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"FF00"]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(YES)}];
+            break;
+    }
+}
+
+//扫描到设备会进入方法
+-(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI{
+    if (self.bleID == nil || self.bleID.length <= 0) {
+        return;
+    }
+    
+    NSData *data =[self.bleID dataUsingEncoding:NSUTF8StringEncoding];
+    
+    uLong crc = crc32(0L, Z_NULL, 0);
+    
+    crc = crc32(crc, data.bytes, data.length);
+    
+    //防盗器加密后四字节
+    NSData *resultData = [self little_intToByteWithData5:crc andLength:4];
+    
+    if ([peripheral.name hasPrefix:@"XYT"] && advertisementData[@"kCBAdvDataManufacturerData"] && [[NSString convertDataToHexStr:advertisementData[@"kCBAdvDataManufacturerData"]] rangeOfString:[NSString convertDataToHexStr:resultData]].length > 0){
+        
+        NSString *str = [NSString stringWithFormat:@"Did discover peripheral. peripheral: %@ rssi: %@, UUID:  advertisementData: %@ ", peripheral, RSSI, advertisementData];
+        NSLog(@"%@",str);
+        
+        NSLog(@"%@",peripheral.services);
+        //找到设备后停止扫描
+        [self.manager stopScan];
+        //找到的设备必须持有它，否则CBCentralManager中也不会保存peripheral，那么CBPeripheralDelegate中的方法也不会被调用！！
+        self.currPeripheral = peripheral;
+        //连接设备
+        [self.manager connectPeripheral:peripheral options:nil];
+    }
+    
+}
+
+//连接到Peripherals-成功
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    //蓝牙连接
+    NSLog(@">>>连接到名称为（%@）的设备-成功",peripheral.name);
+    [peripheral setDelegate:self];
+    //扫描外设Services，成功后会进入方法：-(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+    [peripheral discoverServices:nil];
+    
+}
+
+//连接到Peripherals-失败
+-(void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    NSLog(@">>>连接到名称为（%@）的设备-失败,原因:%@",[peripheral name],[error localizedDescription]);
+}
+
+//Peripherals断开连接
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    //蓝牙断开
+    NSLog(@">>>外设连接断开连接 %@: %@\n", [peripheral name], [error localizedDescription]);
+    [self.controlView.bluetoothButton setImage:[UIImage imageNamed:@"bluetooth_off"] forState:UIControlStateNormal];
+    self.controlView.bluetoothState = 0;
+    [self.controlView.bluetoothButton setTitle:@"蓝牙未连接" forState:UIControlStateNormal];
+}
+
+//扫描到Services
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error{
+    if (error)
+    {
+        NSLog(@">>>Discovered services for %@ with error: %@", peripheral.name, [error localizedDescription]);
+        return;
+    }
+    
+    for (CBService *service in peripheral.services) {
+        NSLog(@"Services : %@",service.UUID.UUIDString);
+        [peripheral discoverCharacteristics:nil forService:service];
+    }
+    
+}
+
+//扫描到Characteristics
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error{
+    if (error)
+    {
+        NSLog(@"error Discovered characteristics for %@ with error: %@", service.UUID, [error localizedDescription]);
+        return;
+    }
+    
+    for (CBCharacteristic *characteristic in service.characteristics)
+    {
+        NSLog(@"service:%@ 的 Characteristic: %@",service.UUID,characteristic.UUID);
+    }
+    for (CBCharacteristic *characteristic in service.characteristics){
+        {
+            [peripheral readValueForCharacteristic:characteristic];
+        }
+    }
+    for (CBCharacteristic *characteristic in service.characteristics){
+        [peripheral discoverDescriptorsForCharacteristic:characteristic];
+    }
+    
+    
+}
+
+//获取的charateristic的值
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    //QMUILog(@"characteristic uuid:%@  value:%@",characteristic.UUID,characteristic.value);
+    
+    if ([characteristic.UUID.UUIDString isEqualToString:@"FF01"]) {
+        NSString *hexStr =  [NSString convertDataToHexStr:characteristic.value];
+        if (hexStr.length >= 40) {
+            self.currCharacteristic = characteristic;
+            [self.currPeripheral setNotifyValue:YES forCharacteristic:self.currCharacteristic];
+            //首次发送握手请求
+            [self.currPeripheral writeValue:[NSString convertHexStrToData:@"03810283"] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+        }
+        if ([hexStr isEqualToString:@"03910191"] || [hexStr isEqualToString:@"03920193"] || [hexStr isEqualToString:@"03910192"]) {//已注册 | 注册成功
+            //YYUserModel *model = [YYUserManager fetchUser];
+            //发送认证请求
+            NSString *sendStr = [NSString stringWithFormat:@"83%@000000000000",[[NSString stringWithFormat:@"%@",[YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tel"]] changeToHexFromString]];
+            sendStr = [self getStrByData:sendStr];
+            sendStr = [NSString stringWithFormat:@"%@%@",@"13",sendStr];
+            [self.currPeripheral writeValue:[NSString convertHexStrToData:sendStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+        }
+        if ([hexStr isEqualToString:@"03910293"]) {//未注册
+            //YYUserModel *model = [YYUserManager fetchUser];
+            NSData *data =[self.bleID dataUsingEncoding:NSUTF8StringEncoding];
+            uLong crc = crc32(0L, Z_NULL, 0);
+            crc = crc32(crc, data.bytes, data.length);
+            NSData *resultData = [self little_intToByteWithData:crc andLength:4];
+            NSString *resultStr = [NSString stringWithFormat:@"%@%@%@0000",@"82",[[NSString stringWithFormat:@"%@",[YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tel"]] changeToHexFromString],[NSString convertDataToHexStr:resultData]];
+            
+            resultStr = [self getStrByData:resultStr];
+            resultStr = [NSString stringWithFormat:@"%@%@",@"13",resultStr];
+            [self.currPeripheral writeValue:[NSString convertHexStrToData:resultStr] forCharacteristic:self.currCharacteristic type:CBCharacteristicWriteWithResponse];
+            
+        }
+        if ([hexStr isEqualToString:@"03930194"]) {//认证成功
+            //更改按钮状态
+            //[[XSPopoverView sharedInstance] dismiss];
+            [NSNotificationCenter postNotification:@"connectSuccess"];
+            [self.controlView.bluetoothButton setImage:[UIImage imageNamed:@"bluetooth_on"] forState:UIControlStateNormal];
+            self.controlView.bluetoothState = 1;
+            [self.controlView.bluetoothButton setTitle:@"" forState:UIControlStateNormal];
+        }else if ([hexStr hasPrefix:@"06b1"] /*命令返回*/){
+            [NSNotificationCenter postNotification:@"shutdownSuccess"];
+        }
+    }
+    
+}
+
+//搜索到Characteristic的Descriptors
+-(void)peripheral:(CBPeripheral *)peripheral didDiscoverDescriptorsForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    //打印出Characteristic和他的Descriptors
+    NSLog(@"characteristic uuid:%@",characteristic.UUID);
+    for (CBDescriptor *d in characteristic.descriptors) {
+        NSLog(@"Descriptor uuid:%@",d.UUID);
+    }
+    
+    if ([characteristic.UUID.UUIDString isEqualToString:@"FFC0"]) {
+        self.currCharacteristic = characteristic;
+    }
+}
+
+//获取到Descriptors的值
+-(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error{
+    //打印出DescriptorsUUID 和value
+    //这个descriptor都是对于characteristic的描述，一般都是字符串，所以这里我们转换成字符串去解析
+    NSLog(@"characteristic uuid:%@  value:%@",[NSString stringWithFormat:@"%@",descriptor.UUID],descriptor.value);
+}
+
+//设置通知
+-(void)notifyCharacteristic:(CBPeripheral *)peripheral
+             characteristic:(CBCharacteristic *)characteristic{
+    //设置通知，数据通知会进入：didUpdateValueForCharacteristic方法
+    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+    
+}
+
+//取消通知
+-(void)cancelNotifyCharacteristic:(CBPeripheral *)peripheral
+                   characteristic:(CBCharacteristic *)characteristic{
+    
+    [peripheral setNotifyValue:NO forCharacteristic:characteristic];
+}
+
+
+//写数据
+-(void)writeCharacteristic:(CBPeripheral *)peripheral
+            characteristic:(CBCharacteristic *)characteristic
+                     value:(NSData *)value{
+    NSLog(@"%lu", (unsigned long)characteristic.properties);
+    
+    //只有 characteristic.properties 有write的权限才可以写
+    if(characteristic.properties & CBCharacteristicPropertyWrite){
+        /*
+         最好一个type参数可以为CBCharacteristicWriteWithResponse或type:CBCharacteristicWriteWithResponse,区别是是否会有反馈
+         */
+        [peripheral writeValue:value forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+    }else{
+        NSLog(@"该字段不可写！");
+    }
+    
+    
+}
+
+
+- (NSData *)little_intToByteWithData1:(int)i andLength:(int)len{
+    
+    Byte abyte[len];
+    
+    if (len == 1) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+    }else if (len ==2) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+        abyte[1] = (Byte) ((0xff00 & i) >> 8);
+        
+    }else {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+        abyte[1] = (Byte) ((0xff00 & i) >> 8);
+        
+        abyte[2] = (Byte) ((0xff0000 & i) >> 16);
+        
+        abyte[3] = (Byte) ((0xff000000 & i) >> 24);
+        
+    }
+    
+    NSData *adata = [NSData dataWithBytes:abyte length:len];
+    
+    return adata;
+    
+}
+
+- (NSData *)little_intToByteWithData5:(int)i andLength:(int)len{
+    
+    Byte abyte[len];
+    
+    if (len == 1) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+    }else if (len ==2) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+        abyte[1] = (Byte) ((0xff00 & i) >> 8);
+        
+    }else {
+        
+        abyte[0] = (Byte) ((0xff000000 & i) >> 24);;
+        
+        abyte[1] = (Byte) ((0xff0000 & i) >> 16);
+        
+        abyte[2] = (Byte) ((0xff00 & i) >> 8);
+        
+        abyte[3] = (Byte) (0xff & i);
+        
+    }
+    
+    NSData *adata = [NSData dataWithBytes:abyte length:len];
+    
+    return adata;
+    
+}
+
+
+- (NSData *)little_intToByteWithData:(int)i andLength:(int)len{
+    
+    Byte abyte[len];
+    
+    if (len == 1) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+    }else if (len ==2) {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+        abyte[1] = (Byte) ((0xff00 & i) >>8);
+        
+    }else {
+        
+        abyte[0] = (Byte) (0xff & i);
+        
+        abyte[1] = (Byte) ((0xff00 & i) >>8);
+        
+        abyte[2] = (Byte) ((0xff0000 & i) >>16);
+        
+        abyte[3] = (Byte) ((0xff000000 & i) >>24);
+        
+    }
+    
+    Byte nByte[len];
+    
+    nByte[0] = abyte[0] ^ abyte[3];
+    
+    nByte[1] = abyte[1] ^ abyte[2];
+    
+    nByte[2] = 0;
+    
+    nByte[3] = 0;
+    
+    NSData *adata = [NSData dataWithBytes:nByte length:len];
+    
+    return adata;
+    
+}
+
+-(NSString *) getStrByData:(NSString *)orginalStr
+{
+    ///// 将16进制数据转化成Byte 数组
+    NSString *hexString = orginalStr; //16进制字符串
+    
+    int sumResult = 0;
+    
+    int j = 0;
+    
+    NSUInteger length = [hexString length];
+    Byte bytes[128];  ///3ds key的Byte 数组， 128位
+    for(int i = 0;i < length; i++)
+    {
+        int int_ch;  /// 两位16进制数转化后的10进制数
+        
+        unichar hex_char1 = [hexString characterAtIndex:i]; ////两位16进制数中的第一位(高位*16)
+        int int_ch1;
+        if(hex_char1 >= '0' && hex_char1 <='9')
+            int_ch1 = (hex_char1-48)*16;   //// 0 的Ascll - 48
+        else if(hex_char1 >= 'A' && hex_char1 <='F')
+            int_ch1 = (hex_char1-55)*16; //// A 的Ascll - 65
+        else
+            int_ch1 = (hex_char1-87)*16; //// a 的Ascll - 97
+        i++;
+        
+        unichar hex_char2 = [hexString characterAtIndex:i]; ///两位16进制数中的第二位(低位)
+        int int_ch2;
+        if(hex_char2 >= '0' && hex_char2 <='9')
+            int_ch2 = (hex_char2-48); //// 0 的Ascll - 48
+        else if(hex_char1 >= 'A' && hex_char1 <='F')
+            int_ch2 = hex_char2-55; //// A 的Ascll - 65
+        else
+            int_ch2 = hex_char2-87; //// a 的Ascll - 97
+        
+        int_ch = int_ch1+int_ch2;
+        //NSLog(@"int_ch=%d",int_ch);
+        sumResult += int_ch;
+        bytes[j] = int_ch;  ///将转化后的数放入Byte数组里
+        j++;
+    }
+    NSData *sum = [self little_intToByteWithData1:sumResult andLength:1];
+    
+    NSLog(@"sum = %@",sum);
+    
+    orginalStr = [orginalStr stringByAppendingString:[NSString convertDataToHexStr:sum]];
+    
+    NSLog(@"sendStr = %@",orginalStr);
+    
+    return orginalStr;
+}
+
 
 
 @end

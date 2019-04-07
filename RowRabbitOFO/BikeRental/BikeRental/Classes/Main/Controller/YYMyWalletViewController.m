@@ -11,6 +11,7 @@
 #import "YYBaseRequest.h"
 #import "YYRecordModel.h"
 #import "YYFileCacheManager.h"
+#import "YYBuyMemberCardViewController.h"
 #import <QMUIKit/QMUIKit.h>
 #import <DateTools/DateTools.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
@@ -36,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *vipLabel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeightCons;
+@property (weak, nonatomic) IBOutlet UIButton *tansformButton;
 
 @end
 
@@ -80,6 +82,7 @@
 //            }else{
 //                weak_self.vipLabel.hidden = NO;
 //            }
+            weak_self.tansformButton.hidden = weak_self.model.deposit >= 0;
             NSString *vipType = @"";
             switch (weak_self.model.vip) {
                 case 1:
@@ -103,6 +106,7 @@
                 }else{
                     [weak_self.sesameStateLabel setTitle:[NSString stringWithFormat:@"未通过芝麻信用（＜%@分)",zmscore] forState:UIControlStateNormal];
                     [weak_self.sesameStateLabel setImage:nil forState:UIControlStateNormal];
+                    weak_self.sesameStateLabel.hidden = YES;
                 }
             }else if (weak_self.model.authtype == 1){
                 if (weak_self.model.xstate == 1) {
@@ -166,10 +170,37 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)transformButtonClick:(id)sender {
+    QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+    
+    }];
+    QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+        YYBaseRequest *request = [[YYBaseRequest alloc] init];
+        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kDepositToCardAPI];
+        WEAK_REF(self);
+        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+            if (success) {
+                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+                contentView.minimumSize = CGSizeMake(300, 100);
+                [tips showSucceed:message hideAfterDelay:2];
+                [weak_self getUserInfoRequest];
+            }else{
+                QMUITips *tips = [QMUITips createTipsToView:[UIApplication sharedApplication].keyWindow];
+                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+                contentView.minimumSize = CGSizeMake(300, 100);
+                [tips showError:message hideAfterDelay:2];
+            }
+        } error:^(NSError *error) {
+            
+        }];
+    }];
+    QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"温馨提示" message:@"是否确认押金转月卡" preferredStyle:QMUIAlertControllerStyleAlert];
+    [alertController addAction:action1];
+    [alertController addAction:action2];
+    [alertController showWithAnimated:YES];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -189,9 +220,11 @@
 }
 
 - (IBAction)refundButtonClick:(id)sender {
-    QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"取消" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+    QMUIAlertAction *action1 = [QMUIAlertAction actionWithTitle:@"了解详情" style:QMUIAlertActionStyleCancel handler:^(QMUIAlertAction *action) {
+        YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
+        [self.navigationController pushViewController:memberCardViewController animated:YES];
     }];
-    QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"确定" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
+    QMUIAlertAction *action2 = [QMUIAlertAction actionWithTitle:@"退押金" style:QMUIAlertActionStyleDestructive handler:^(QMUIAlertAction *action) {
         YYBaseRequest *request = [[YYBaseRequest alloc] init];
         request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kRefundAPI];
         WEAK_REF(self);
@@ -212,7 +245,7 @@
             
         }];
     }];
-    QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"提示" message:@"确定申请退款么" preferredStyle:QMUIAlertControllerStyleAlert];
+    QMUIAlertController *alertController = [QMUIAlertController alertControllerWithTitle:@"退押金提示" message:@"退还押金后，VIP自动取消" preferredStyle:QMUIAlertControllerStyleAlert];
     [alertController addAction:action1];
     [alertController addAction:action2];
     [alertController showWithAnimated:YES];

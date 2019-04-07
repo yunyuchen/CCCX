@@ -59,10 +59,10 @@
 }
 
 - (IBAction)gameButtonClick:(id)sender {
-    //CCWebViewController *vc = [[CCWebViewController alloc] init];
-    //vc.url = @"http://api.cccx.ltd/web-mobile/index.html";
-    //[self.navigationController pushViewController:vc animated:YES];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.cccx.ltd/web-mobile/index.html?a=%f",[[NSDate date] timeIntervalSince1970]]]];
+    CCWebViewController *vc = [[CCWebViewController alloc] init];
+    vc.url = [NSString stringWithFormat:@"http://api.cccx.ltd/web-mobile/index.html?a=%f",[[NSDate date] timeIntervalSince1970]];
+    [self.navigationController pushViewController:vc animated:YES];
+    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://api.cccx.ltd/web-mobile/index.html?a=%f",[[NSDate date] timeIntervalSince1970]]]];
     
 }
 

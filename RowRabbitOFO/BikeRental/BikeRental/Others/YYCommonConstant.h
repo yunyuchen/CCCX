@@ -135,4 +135,8 @@ UIKIT_EXTERN NSString *const kClientInfoAPI;
 
 UIKIT_EXTERN NSString *const kUseAreaAPI;
 UIKIT_EXTERN NSString *const kCalendarAPI;
+UIKIT_EXTERN NSString *const kVipLogAPI;
+UIKIT_EXTERN NSString *const kCardListAPI;
+UIKIT_EXTERN NSString *const kCreatePayCardAPI;
+UIKIT_EXTERN NSString *const kDepositToCardAPI;
 @end

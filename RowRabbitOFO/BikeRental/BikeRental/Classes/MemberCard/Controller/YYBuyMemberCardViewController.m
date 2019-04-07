@@ -164,7 +164,7 @@
     YYMemberCardViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberCard"];
     cell.model = self.models[indexPath.row];
     cell.priceClickBlock = ^{
-        YYPayView *payView = [[YYPayView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 278)];
+        YYPayView *payView = [[YYPayView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 343)];
         payView.delegate = self;
         payView.price = self.models[indexPath.row].price;
         payView.vipId = self.models[indexPath.row].ID;
@@ -182,7 +182,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    YYPayView *payView = [[YYPayView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 278)];
+    YYPayView *payView = [[YYPayView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 343)];
     payView.delegate = self;
     payView.price = self.models[indexPath.row].price;
     payView.vipId = self.models[indexPath.row].ID;

@@ -136,7 +136,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"目的站点查询";
+    self.title = @"目的站点";
     [self initMap];
     
     
@@ -178,6 +178,10 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     self.bleFlag = 0;
     [self.orderInfoView.confirmButton setFillColor:[UIColor colorWithHexString:@"#000000"]];
     self.orderInfoView.confirmButton.userInteractionEnabled = YES;
+}
+
+- (IBAction)returnButtonClick:(id)sender {
+    [self getAroundSiteRequest];
 }
 
 - (void)dealloc
@@ -389,7 +393,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
                 weakSelf.audioPlayer.numberOfLoops = 0;
                 [weakSelf.audioPlayer play];
                 weakSelf.tipsView.hidden = NO;
-                weakSelf.siteInfoView.hidden = NO;
+                //weakSelf.siteInfoView.hidden = NO;
                 [self showWarmView];
                 weakSelf.tipsView.movebikeLabel.text = [NSString stringWithFormat:@"(%.2f元)",model.movebike];
                 [weakSelf.view bringSubviewToFront:weakSelf.tipsView];
@@ -401,49 +405,49 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     
 }
 
-- (IBAction)returnButtonClick:(id)sender {
-    YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
-    orderInfoView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 473);
-    orderInfoView.delegate = self;
-    self.orderInfoView = orderInfoView;
-    YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
-    request.lat = self.mapView.userLocation.coordinate.latitude;
-    request.lng = self.mapView.userLocation.coordinate.longitude;
-    request.rsid = self.rsid;
-    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderPriceAPI];
-    __weak __typeof(self)weakSelf = self;
-    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-        if (success) {
-            YYReturnResultModel *model = [YYReturnResultModel modelWithDictionary:response];
-            if (model.movebike <= 0) {
-                UIView *shadeView = [[UIView alloc] initWithFrame:weakSelf.view.bounds];
-                shadeView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-                [weakSelf.view addSubview:shadeView];
-                weakSelf.shadeView = shadeView;
-                orderInfoView.resultModel = model;
-                orderInfoView.siteName = weakSelf.siteNameLabel.text;
-                [weakSelf.view addSubview:orderInfoView];
-                POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
-                animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight - 473, kScreenWidth, 473)];
-                animation.beginTime = CACurrentMediaTime();
-                animation.duration = 0.5;
-                weakSelf.tipsView.hidden = YES;
-                [orderInfoView pop_addAnimation:animation forKey:kPOPViewFrame];
-            }else{
-                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"还车失败" withExtension:@".mp3"];
-                weakSelf.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
-                weakSelf.audioPlayer.numberOfLoops = 0;
-                [weakSelf.audioPlayer play];
-                weakSelf.tipsView.hidden = NO;
-                [self showWarmView];
-                weakSelf.tipsView.movebikeLabel.text = [NSString stringWithFormat:@"(%.2f元)",model.movebike];
-                [weakSelf.view bringSubviewToFront:weakSelf.tipsView];
-            }
-            
-        }else{
-            [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
-        }}];
-}
+//- (IBAction)returnButtonClick:(id)sender {
+//    YYOrderInfoView *orderInfoView = [[YYOrderInfoView alloc] init];
+//    orderInfoView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 473);
+//    orderInfoView.delegate = self;
+//    self.orderInfoView = orderInfoView;
+//    YYOrderInfoRequest *request = [[YYOrderInfoRequest alloc] init];
+//    request.lat = self.mapView.userLocation.coordinate.latitude;
+//    request.lng = self.mapView.userLocation.coordinate.longitude;
+//    request.rsid = self.rsid;
+//    request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kOrderPriceAPI];
+//    __weak __typeof(self)weakSelf = self;
+//    [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//        if (success) {
+//            YYReturnResultModel *model = [YYReturnResultModel modelWithDictionary:response];
+//            if (model.movebike <= 0) {
+//                UIView *shadeView = [[UIView alloc] initWithFrame:weakSelf.view.bounds];
+//                shadeView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+//                [weakSelf.view addSubview:shadeView];
+//                weakSelf.shadeView = shadeView;
+//                orderInfoView.resultModel = model;
+//                orderInfoView.siteName = weakSelf.siteNameLabel.text;
+//                [weakSelf.view addSubview:orderInfoView];
+//                POPBasicAnimation *animation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewFrame];
+//                animation.toValue = [NSValue valueWithCGRect:CGRectMake(0, kScreenHeight - 473, kScreenWidth, 473)];
+//                animation.beginTime = CACurrentMediaTime();
+//                animation.duration = 0.5;
+//                weakSelf.tipsView.hidden = YES;
+//                [orderInfoView pop_addAnimation:animation forKey:kPOPViewFrame];
+//            }else{
+//                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"还车失败" withExtension:@".mp3"];
+//                weakSelf.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+//                weakSelf.audioPlayer.numberOfLoops = 0;
+//                [weakSelf.audioPlayer play];
+//                weakSelf.tipsView.hidden = NO;
+//                [self showWarmView];
+//                weakSelf.tipsView.movebikeLabel.text = [NSString stringWithFormat:@"(%.2f元)",model.movebike];
+//                [weakSelf.view bringSubviewToFront:weakSelf.tipsView];
+//            }
+//            
+//        }else{
+//            [QMUITips showWithText:message inView:weakSelf.view hideAfterDelay:2];
+//        }}];
+//}
 
 
 
@@ -547,7 +551,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
         [view.layer addAnimation:animation forKey:@"kViewShakerAnimationKey"];
     }
     if ([view.annotation.subtitle isEqualToString:@"2"]){
-        self.siteInfoView.hidden = NO;
+        //self.siteInfoView.hidden = NO;
         //self.rentalButton.hidden = self.gpsButton.hidden = self.refreshButton.hidden = self.alarmButton.hidden = self.serviceButton.hidden = !self.siteInfoView.hidden;
         YYSiteModel *model = self.models[[view.annotation.title integerValue]];
         self.discountView.hidden = model.red == 0;
@@ -645,6 +649,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
     {
         MAPolygonRenderer *polygonRenderer = [[MAPolygonRenderer alloc] initWithPolygon:overlay];
         polygonRenderer.lineWidth   = 4.f;
+        polygonRenderer.lineDash = YES;
         polygonRenderer.strokeColor = [UIColor qmui_colorWithHexString:@"#FF9317"];
         polygonRenderer.fillColor   = [UIColor clearColor];
         polygonRenderer.lineCapType =  kMALineCapSquare;
@@ -691,7 +696,7 @@ static NSString *reuseIndetifier = @"annotationReuseIndetifier";
 
 - (void)mapView:(MAMapView *)mapView didSingleTappedAtCoordinate:(CLLocationCoordinate2D)coordinate {
     //self.tipsView.hidden = YES;
-    self.siteInfoView.hidden = YES;
+    //self.siteInfoView.hidden = YES;
 }
 
 -(void)addressView:(YYAddressView *)addressView didClickReturnButton:(UIButton *)returnButton

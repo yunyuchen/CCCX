@@ -67,7 +67,11 @@
     [tableView qmui_clearsSelection];
     
     CCWebViewController *vc = [[CCWebViewController alloc] init];
-    vc.url = [NSString stringWithFormat:@"%@%@",kBaseURL,self.models[indexPath.row].cimg];
+    if (self.models[indexPath.row].url.length <= 0) {
+        vc.url = [NSString stringWithFormat:@"%@%@",kBaseURL,self.models[indexPath.row].cimg];
+    }else{
+        vc.url = [NSString stringWithFormat:@"%@%@",kBaseURL,self.models[indexPath.row].url];
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 

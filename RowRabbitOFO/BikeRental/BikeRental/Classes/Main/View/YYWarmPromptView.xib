@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,18 +29,28 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="提示" translatesAutoresizingMaskIntoConstraints="NO" id="ZtY-My-8Zv">
                     <rect key="frame" x="0.0" y="0.0" width="350" height="352"/>
                 </imageView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g6f-av-4uy">
+                    <rect key="frame" x="52" y="313" width="246" height="48"/>
+                    <state key="normal" image="按钮"/>
+                    <connections>
+                        <action selector="showButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="sjM-ts-dO1"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="Ptb-tX-xbk" firstAttribute="top" secondItem="ZtY-My-8Zv" secondAttribute="bottom" constant="20" id="9St-JX-f6t"/>
                 <constraint firstAttribute="trailing" secondItem="ZtY-My-8Zv" secondAttribute="trailing" id="AsU-nI-KX0"/>
                 <constraint firstAttribute="bottom" secondItem="Ptb-tX-xbk" secondAttribute="bottom" constant="5" id="MeJ-aJ-a72"/>
+                <constraint firstItem="Ptb-tX-xbk" firstAttribute="top" secondItem="g6f-av-4uy" secondAttribute="bottom" constant="11" id="MxX-bg-xwv"/>
                 <constraint firstItem="ZtY-My-8Zv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UnG-M1-pvb"/>
                 <constraint firstItem="ZtY-My-8Zv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="WWe-m5-nli"/>
                 <constraint firstItem="Ptb-tX-xbk" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="vie-al-vvl"/>
+                <constraint firstItem="g6f-av-4uy" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="z4p-OL-zfF"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="moreButton" destination="g6f-av-4uy" id="Tv0-VX-TEA"/>
                 <outlet property="tipsLabel" destination="ZtY-My-8Zv" id="OtY-Md-63I"/>
             </connections>
             <point key="canvasLocation" x="-387" y="3.5"/>
@@ -48,6 +58,7 @@
     </objects>
     <resources>
         <image name="关闭1" width="30" height="30"/>
+        <image name="按钮" width="246" height="48"/>
         <image name="提示" width="540" height="540"/>
     </resources>
 </document>

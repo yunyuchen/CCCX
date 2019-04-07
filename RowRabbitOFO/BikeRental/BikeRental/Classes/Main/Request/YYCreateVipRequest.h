@@ -14,4 +14,6 @@
 
 @property(nonatomic, assign) NSInteger vipid;
 
+@property(nonatomic, assign) NSInteger cardid;
+
 @end

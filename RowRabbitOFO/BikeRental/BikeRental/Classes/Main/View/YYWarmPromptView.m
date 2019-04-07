@@ -9,6 +9,7 @@
 #import "YYWarmPromptView.h"
 #import "YYFileCacheManager.h"
 #import "UIImageView+WebCache.h"
+#import "YYBuyMemberCardViewController.h"
 #import <QMUIKit/QMUIKit.h>
 
 @interface YYWarmPromptView()
@@ -35,6 +36,12 @@
 
 - (IBAction)closeButtonClick:(id)sender {
     [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+}
+
+- (IBAction)showButtonClick:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(YYWarmPromptView:didClickShowButton:)]) {
+        [self.delegate YYWarmPromptView:self didClickShowButton:sender];
+    }
 }
 
 

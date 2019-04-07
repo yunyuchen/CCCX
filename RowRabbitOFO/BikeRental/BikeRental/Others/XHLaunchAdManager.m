@@ -15,6 +15,9 @@
 #import "UIViewController+Nav.h"
 #import "WebViewController.h"
 #import "YYWarmPromptView.h"
+#import "YYBuyMemberCardViewController.h"
+#import "CCWebViewController.h"
+#import "YYFileCacheManager.h"
 #import <QMUIKit/QMUIKit.h>
 #import <MAMapKit/MAMapKit.h>
 /** 以下连接供测试使用 */
@@ -33,7 +36,7 @@
 #define videoURL2  @"http://120.25.226.186:32812/resources/videos/minion_01.mp4"
 #define videoURL3 @"http://ohnzw6ag6.bkt.clouddn.com/video1.mp4"
 
-@interface XHLaunchAdManager()<XHLaunchAdDelegate>
+@interface XHLaunchAdManager()<XHLaunchAdDelegate,YYWarmPromptViewDelegate>
 
 @end
 
@@ -524,6 +527,8 @@
  */
 -(void)xhLaunchAdShowFinish:(XHLaunchAd *)launchAd{
     YYWarmPromptView *contentView = [[YYWarmPromptView alloc] init];
+    contentView.moreButton.hidden = NO;
+    contentView.delegate = self;
     contentView.layer.cornerRadius = 4;
     contentView.layer.masksToBounds = YES;
     
@@ -537,6 +542,25 @@
     [self checkLBSAuth];
     
     [self checkUpdate];
+}
+
+-(void)YYWarmPromptView:(YYWarmPromptView *)view didClickShowButton:(UIButton *)btn
+{
+    if ([YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tipUrl"] == nil) {
+        [QMUIModalPresentationViewController hideAllVisibleModalPresentationViewControllerIfCan];
+        YYBuyMemberCardViewController *memberCardViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"memberCard"];
+        UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+        [rootVC.myNavigationController pushViewController:memberCardViewController animated:YES];
+    }else{
+        CCWebViewController *vc = [[CCWebViewController alloc] init];
+        vc.url = [YYFileCacheManager readUserDataForKey:kUserInfoKey][@"tipUrl"];
+        UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+        [rootVC.myNavigationController pushViewController:vc animated:YES];
+    }
+//    CCWebViewController *vc = [[CCWebViewController alloc] init];
+//    vc.url = @"weixin://%7b%22appid%22%3a%22wx535feea77188fcab%22%2c%22noncestr%22%3a%225c948221e4b047b47249ec05%22%2c%22package%22%3a%22Sign%3dWXPay%22%2c%22partnerid%22%3a%221488645662%22%2c%22prepayid%22%3a%22wx22143513947247678a74843a2593767339%22%2c%22sign%22%3a%224DCD3E960EEEC72C6532A5B6E8E56EAE%22%2c%22timestamp%22%3a%221553236513%22%7d";
+//    UIViewController* rootVC = [[UIApplication sharedApplication].delegate window].rootViewController;
+//    [rootVC.myNavigationController pushViewController:vc animated:YES];
 }
 
 - (void) checkLBSAuth

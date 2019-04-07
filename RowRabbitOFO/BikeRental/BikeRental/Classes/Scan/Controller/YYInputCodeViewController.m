@@ -103,55 +103,70 @@
     }];
 }
 
-
 -(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickOKButton:(UIButton *)okButton
 {
     [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-        YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
-        request.sid = showBikeView.result.sid;
-        request.bid = showBikeView.result.ID;
-        request.deviceid = showBikeView.result.deviceid;
-        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreateOrderAPI];
-        WEAK_REF(self);
-        QMUITips *tips = [QMUITips createTipsToView:self.view];
-        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-        contentView.minimumSize = CGSizeMake(100, 100);
-        [tips showLoading];
-        
-        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
-            [tips hideAnimated:YES];
-            if (success) {
-                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"启动成功" withExtension:@".wav"];
-                weak_self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
-                weak_self.audioPlayer.numberOfLoops = 0;
-                weak_self.audioPlayer.delegate = weak_self;
-                [weak_self.audioPlayer play];
-                YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
-                controlBikeViewController.last_mileage = showBikeView.result.last_mileage;
-                controlBikeViewController.deviceid = showBikeView.result.deviceid;
-                controlBikeViewController.ID = showBikeView.result.ID;
-                controlBikeViewController.name = showBikeView.result.name;
-                [YYFileCacheManager saveUserData:showBikeView.result.bleid forKey:KBLEIDKey];
-                [weak_self.navigationController pushViewController:controlBikeViewController animated:YES];
-                
-            }else{
-                QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
-                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
-                contentView.minimumSize = CGSizeMake(100, 100);
-                [tips showError:message hideAfterDelay:2];
-            }
-        } error:^(NSError *error) {
-            [tips hideAnimated:YES];
-        }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"scanResult" object:showBikeView.result];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
 
 -(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickCancelButton:(UIButton *)cancelButton
 {
     [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
-        
+        //[self reStartDevice];
     }];
 }
+
+
+//-(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickOKButton:(UIButton *)okButton
+//{
+//    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
+//        YYCreateOrderReuquest *request = [[YYCreateOrderReuquest alloc] init];
+//        request.sid = showBikeView.result.sid;
+//        request.bid = showBikeView.result.ID;
+//        request.deviceid = showBikeView.result.deviceid;
+//        request.nh_url = [NSString stringWithFormat:@"%@%@",kBaseURL,kCreateOrderAPI];
+//        WEAK_REF(self);
+//        QMUITips *tips = [QMUITips createTipsToView:self.view];
+//        QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+//        contentView.minimumSize = CGSizeMake(100, 100);
+//        [tips showLoading];
+//
+//        [request nh_sendRequestWithCompletion:^(id response, BOOL success, NSString *message) {
+//            [tips hideAnimated:YES];
+//            if (success) {
+//                NSURL *fileURL = [[NSBundle mainBundle]URLForResource:@"启动成功" withExtension:@".wav"];
+//                weak_self.audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:fileURL error:nil];
+//                weak_self.audioPlayer.numberOfLoops = 0;
+//                weak_self.audioPlayer.delegate = weak_self;
+//                [weak_self.audioPlayer play];
+//                YYControlBikeViewController *controlBikeViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"controlBike"];
+//                controlBikeViewController.last_mileage = showBikeView.result.last_mileage;
+//                controlBikeViewController.deviceid = showBikeView.result.deviceid;
+//                controlBikeViewController.ID = showBikeView.result.ID;
+//                controlBikeViewController.name = showBikeView.result.name;
+//                [YYFileCacheManager saveUserData:showBikeView.result.bleid forKey:KBLEIDKey];
+//                [weak_self.navigationController pushViewController:controlBikeViewController animated:YES];
+//
+//            }else{
+//                QMUITips *tips = [QMUITips createTipsToView:weak_self.view];
+//                QMUIToastContentView *contentView = (QMUIToastContentView *)tips.contentView;
+//                contentView.minimumSize = CGSizeMake(100, 100);
+//                [tips showError:message hideAfterDelay:2];
+//            }
+//        } error:^(NSError *error) {
+//            [tips hideAnimated:YES];
+//        }];
+//    }];
+//}
+//
+//-(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickCancelButton:(UIButton *)cancelButton
+//{
+//    [self.modalPrentViewController hideWithAnimated:YES completion:^(BOOL finished) {
+//
+//    }];
+//}
 
 -(void)YYShowBikeView:(YYShowBikeView *)showBikeView didClickFeeButton:(UIButton *)okButton
 {

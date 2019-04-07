@@ -135,4 +135,11 @@ NSString *const kClientInfoAPI = @"get?module=UserService.clientinfo";
 NSString *const kUseAreaAPI = @"open/get?module=SiteService.useArea";
 
 NSString *const kCalendarAPI = @"get?module=UserService.calendar";
+
+NSString *const kVipLogAPI = @"get?module=UserService.cardlog";
+
+NSString *const kCardListAPI = @"get?module=UserService.cardList";
+
+NSString *const kCreatePayCardAPI = @"get?module=PayService.createPayCard";
+NSString *const kDepositToCardAPI = @"get?module=UserService.depositToCard";
 @end

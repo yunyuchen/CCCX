@@ -2,8 +2,8 @@
 //  YYCardModel.m
 //  BikeRental
 //
-//  Created by yunyuchen on 2017/9/20.
-//  Copyright © 2017年 xinghu. All rights reserved.
+//  Created by yunyuchen on 2019/3/30.
+//  Copyright © 2019 xinghu. All rights reserved.
 //
 
 #import "YYCardModel.h"

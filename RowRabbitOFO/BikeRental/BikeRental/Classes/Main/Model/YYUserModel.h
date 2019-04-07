@@ -50,4 +50,8 @@
 
 @property(nonatomic, copy) NSString *aouttime;
 
+@property(nonatomic, assign) NSInteger cardstate;
+
+@property(nonatomic, copy) NSString *cardouttime;
+
 @end

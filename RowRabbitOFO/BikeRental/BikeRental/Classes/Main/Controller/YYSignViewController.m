@@ -53,6 +53,14 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)mallButtonClick:(id)sender {
+    CCWebViewController *vc = [[CCWebViewController alloc] init];
+    vc.url = @"http://cccx.ltd/mall/index.html";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+
 
 - (void)initSubviews {
     [super initSubviews];

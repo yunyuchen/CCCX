@@ -7,8 +7,12 @@
 //
 
 #import "CCWebViewController.h"
+#import "WeiXinPayModel.h"
+#import <WXApi.h>
+#import <MJExtension/MJExtension.h>
 #import <Masonry/Masonry.h>
 #import <WebKit/WebKit.h>
+#import <AlipaySDK/AlipaySDK.h>
 #import "YYFileCacheManager.h"
 
 @interface CCWebViewController ()<WKNavigationDelegate,WKUIDelegate>
@@ -173,7 +177,40 @@
     [self.webView removeObserver:self forKeyPath:@"title"];
 }
 
-
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
+    NSString *url = [navigationAction.request.URL.absoluteString stringByRemovingPercentEncoding];
+//    NSString* reUrl=[[webView URL] absoluteString];
+//    if ([url containsString:kBaseURL]) {
+//        reUrl=url;
+//
+//    }
+    
+    if ([url containsString:@"alipay://"]) {
+        NSString* dataStr=[url substringFromIndex:9];
+        NSLog(@"%@",dataStr);
+        [[AlipaySDK defaultService] payOrder:dataStr fromScheme:@"chengchePay" callback:^(NSDictionary *resultDic) {
+            NSLog(@"reslut = %@",resultDic);
+        }];
+        decisionHandler(WKNavigationActionPolicyAllow);
+        return;
+    }
+    if ([url containsString:@"weixin://"]) {
+        NSString* dataStr=[url substringFromIndex:9];
+        NSLog(@"%@",dataStr);
+        WeiXinPayModel *model = [WeiXinPayModel mj_objectWithKeyValues:dataStr];
+        PayReq* req  = [[PayReq alloc] init];
+        req.partnerId  = model.partnerid;
+        req.prepayId   = model.prepayid;
+        req.nonceStr   = model.noncestr;
+        req.timeStamp  = [model.timestamp intValue];
+        req.package    = model.package;
+        req.sign        = model.sign;
+        [WXApi sendReq:req];
+        decisionHandler(WKNavigationActionPolicyAllow);
+        return;
+    }
+    decisionHandler(WKNavigationActionPolicyAllow);
+}
 
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
     
